@@ -1,7 +1,7 @@
 from typing import Optional
 
 from pydantic import PostgresDsn
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class ConfigDataBase(BaseSettings):
@@ -18,6 +18,8 @@ class ConfigDataBase(BaseSettings):
             f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
             f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         )
+
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
 settings_db = ConfigDataBase()
