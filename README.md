@@ -1,3 +1,5 @@
+![GithubCI](https://github.com/ARK-KIAS/ARK-Backend/actions/workflows/deploy.yml/badge.svg)
+
 # FastAPI application support #2
 
 Проект демонстрация организации проекта FastAPI с использованием паттерна Repository.
