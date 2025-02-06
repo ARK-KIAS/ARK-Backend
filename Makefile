@@ -11,21 +11,22 @@ build:
 	echo "[Make]: Running 'build' target in Makefile..." && \
     cd docker-deploy && \
     docker compose --env-file ../.env --progress=plain build --no-cache
+migrate:
+	echo "[Make]: Running 'migrate' target in Makefile..." && \
+	cd docker-deploy && \
+	docker exec -it ${APP_CONTAINER_NAME} alembic upgrade head
 run:
 	echo "[Make]: Running 'run' target in Makefile..." && \
     cd docker-deploy && \
     docker compose --env-file ../.env down && \
     docker compose --env-file ../.env up -d && \
+    cd .. && \
     make migrate
 down:
 	echo "[Make]: Running 'down' target in Makefile..." && \
     cd docker-deploy && \
     docker compose --env-file ../.env down
 
-migrate:
-	echo "[Make]: Running 'migrate' target in Makefile..." && \
-    cd docker-deploy && \
-    docker exec -it ${APP_CONTAINER_NAME} alembic upgrade head
 
 update:
 	echo "[Make]: Running 'update' target in Makefile..." && \
