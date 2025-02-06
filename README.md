@@ -1,14 +1,14 @@
 ![GithubCI](https://github.com/ARK-KIAS/ARK-Backend/actions/workflows/deploy.yml/badge.svg)
 
-# FastAPI application support #2
+# ARK Backend
 
-Проект демонстрация организации проекта FastAPI с использованием паттерна Repository.
+Используемые технологии:
 
-- FastAPI
-- SqlAlchemy
-- Postgres
-- Alembic
-- Docker
+> - FastAPI
+> - SqlAlchemy
+> - Postgres
+> - Alembic
+> - Docker
 
 ---
 
