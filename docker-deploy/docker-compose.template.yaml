@@ -22,7 +22,7 @@ services:
       - POSTGRES_DB
     restart: unless-stopped
     volumes:
-      - ../.env:./.env:r
+      - ../.env:/app/.env:r
     depends_on:
       db:
         condition: service_healthy

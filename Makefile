@@ -14,7 +14,8 @@ build:
 migrate:
 	echo "[Make]: Running 'migrate' target in Makefile..." && \
 	cd docker-deploy && \
-	docker exec -it ${APP_CONTAINER_NAME} alembic upgrade head
+	docker exec -it ${APP_CONTAINER_NAME} alembic upgrade head && \
+	echo "Migrator runs successfully"
 run:
 	echo "[Make]: Running 'run' target in Makefile..." && \
     cd docker-deploy && \
