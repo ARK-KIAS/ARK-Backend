@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "support"
+name = "ARK_Backend"
 version = "0.1.0"
 description = ""
-authors = ["Omelchenko Michael <socanime@gmail.com>"]
+authors = ["Pavlenko Anton <___@___.___>", "Tyapkin Sergey <tyapkin2002@mail.ru>", "Vyacheslav Muha <___@___.___>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
