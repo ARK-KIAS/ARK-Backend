@@ -4,5 +4,5 @@ echo "Deploying last commit:"
 git log --oneline -1
 cd docker-deploy || exit
 docker compose --env-file ../.env down
-docker compose --env-file ../.env up -d nginx --build
+docker compose --env-file ../.env up -d --build
 echo "Sources updated successfully"
