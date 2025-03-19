@@ -1,0 +1,27 @@
+name: ${BACKEND_COMPOSE_NAME}
+services:
+  db:
+    container_name: ${DB_CONTAINER_NAME}
+    image: postgres:${POSTGRES_RELEASE:-15.3-alpine}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+      - POSTGRES_DB
+    healthcheck:
+      test: pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+#    volumes:
+#      - ./pg_data:/var/lib/postgresql/data:rwo
+    networks:
+       - backend-internal
+
+networks:
+  backend-internal:
+  front-back:

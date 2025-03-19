@@ -6,5 +6,6 @@ from .base_model import Base
 
 class CategoryModel(Base):
     __tablename__ = "categories"
-
     name: Mapped[str] = mapped_column(String(50), unique=True)
+    cringe: Mapped[str] = mapped_column(String(50), unique=False)
+    faust: Mapped[str] = mapped_column(String(50), unique=False)
