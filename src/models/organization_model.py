@@ -10,7 +10,7 @@ class OrganizationModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     # organiztion_type #Organization type #?
-    admin_id: Mapped[int] = mapped_column(ForeignKey("user.id")) #User id
+    admin_id: Mapped[int] = mapped_column(ForeignKey("users.id")) #User id
     name: Mapped[String] = mapped_column(String(50), unique=False)
     short_name: Mapped[String] = mapped_column(String(50), unique=False)
     address: Mapped[String] = mapped_column(String(50), unique=False)
