@@ -6,7 +6,7 @@ from .base_model import Base
 
 
 class UserModel(Base):
-    __tablename__ = "user"
+    __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     email: Mapped[String] = mapped_column(String(50), unique=True) #User email
