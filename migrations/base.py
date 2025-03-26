@@ -22,3 +22,4 @@ from src.models.specialist_docs_model import SpecialistDocsModel
 from src.models.race_days_model import RaceDaysModel
 from src.models.race_categories_model import RaceCategoriesModel
 from src.models.races_model import RacesModel
+from src.models.horses_races_model import HorsesRacesModel
