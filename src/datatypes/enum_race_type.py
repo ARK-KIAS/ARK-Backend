@@ -1,7 +1,6 @@
 import enum
 
-class OrganizationStatus(enum.Enum):
-    not_activated = 1
-    active = 2
-    deleted = 3
+class RaceType(enum.Enum):
+    race = 1
+    gallop = 2
 # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum

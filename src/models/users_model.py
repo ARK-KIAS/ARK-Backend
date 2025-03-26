@@ -11,7 +11,7 @@ class UserModel(Base):
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     email: Mapped[str] = mapped_column(String(50), unique=True) #User email
     permission_id: Mapped[int] = mapped_column(ForeignKey("permissions.id")) #Permission id
-    organization_type: Mapped[OrganizationType] = mapped_column(Enum(OrganizationType))
+    organization_type: Mapped[OrganizationType] = mapped_column(Enum(OrganizationType)) # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
     given_name: Mapped[str] = mapped_column(String(50), unique=False)
     family_name: Mapped[str] = mapped_column(String(50), unique=False)
     middle_name: Mapped[str] = mapped_column(String(50), unique=False)

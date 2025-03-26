@@ -1,7 +1,7 @@
 import enum
 
-class OrganizationStatus(enum.Enum):
-    not_activated = 1
-    active = 2
-    deleted = 3
+class Sex(enum.Enum):
+    male = 1
+    female = 2
+    none = 3
 # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
