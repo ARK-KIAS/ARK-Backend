@@ -10,3 +10,4 @@ from src.models.regions_model import RegionsModel
 from src.models.breeds_model import BreedsModel
 from src.models.media_files_model import MediaFilesModel
 from src.models.organization_model import OrganizationModel
+from src.models.horse_model import HorseModel

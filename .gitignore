@@ -9,7 +9,6 @@ docker-deploy/docker-compose.yaml
 
 # Poetry lock file
 poetry.lock
-
 # C extensions
 *.so
 
