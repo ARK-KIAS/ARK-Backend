@@ -1,7 +1,7 @@
 import enum
 
 class OrganizationStatus(enum.Enum):
-    not_activated = 1
-    active = 2
-    deleted = 3
+    not_activated = "not_activated"
+    active = "active"
+    deleted = "deleted"
 # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum

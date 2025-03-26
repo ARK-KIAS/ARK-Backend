@@ -16,7 +16,7 @@ class HorseModel(Base):
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     birth_region_id: Mapped[int] = mapped_column(ForeignKey("regions.id"))
     chip_num: Mapped[int] = mapped_column(Integer, unique=False, default=0)
-    sex: Mapped[Sex] = mapped_column(Enum(Sex), unique=False, default="None") # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
+    sex: Mapped[Sex] = mapped_column(Enum(Sex), unique=False, default=Sex.none) # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
     passport_series: Mapped[String] = mapped_column(Pgtext, unique=False, default="")
     passport_number: Mapped[String] = mapped_column(Pgtext, unique=False, default="")
     passport_issuer: Mapped[String] = mapped_column(Pgtext, unique=False, default="")
@@ -29,7 +29,7 @@ class HorseModel(Base):
     breed_id: Mapped[int] = mapped_column(ForeignKey("breeds.id"))
     born_at: Mapped[DateTime] = mapped_column(DateTime, unique=False, nullable=True)
     dead_at: Mapped[DateTime] = mapped_column(DateTime, unique=False, nullable=True)
-    life_status: Mapped[LifeStatus] = mapped_column(Enum(LifeStatus), unique=False, default="None") # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
+    life_status: Mapped[LifeStatus] = mapped_column(Enum(LifeStatus), unique=False, default=LifeStatus.none) # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
     rating: Mapped[float] = mapped_column(Float, default=0.0, unique=False)
 
     height: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)

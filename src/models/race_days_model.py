@@ -12,6 +12,6 @@ class RaceDaysModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     name: Mapped[str] = mapped_column(String(50), unique=False)
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
-    date: Mapped[date] = mapped_column(Date)
-    start_time: Mapped[time] = mapped_column(Time)
+    date: Mapped[date] = mapped_column(Date, nullable=True, unique=False)
+    start_time: Mapped[time] = mapped_column(Time, nullable=True, unique=False)
 

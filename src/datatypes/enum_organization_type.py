@@ -1,8 +1,8 @@
 import enum
 
 class OrganizationType(enum.Enum):
-    hippodrome = 1
-    breeder = 2
-    reproducer = 3
-    entity = 4
+    hippodrome = "hippodrome"
+    breeder = "breeder"
+    reproducer = "reproducer"
+    entity = "entity"
 # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
