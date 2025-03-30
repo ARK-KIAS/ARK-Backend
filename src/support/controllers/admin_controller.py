@@ -9,7 +9,7 @@ from ..schemas.category_schema import (
     CategoryListResponse
 )
 from ..services.category_service import category_service
-from ...schemas.user_schema import User
+from ...schemas.users_schema import User
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 

@@ -1,6 +1,6 @@
 import enum
 
-class SpecialistQualification(enum.Enum):
+class SpecialistQualification(str, enum.Enum):
     trainer = "trainer"
     trainer_assistant = "trainer_assistant"
     jockey = "jockey"

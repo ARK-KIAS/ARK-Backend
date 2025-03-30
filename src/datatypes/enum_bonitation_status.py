@@ -1,6 +1,6 @@
 import enum
 
-class BonitationStatus(enum.Enum):
+class BonitationStatus(str, enum.Enum):
     pending = "pending"
     approved = "approved"
     rejected = "rejected"

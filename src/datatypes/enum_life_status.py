@@ -1,6 +1,6 @@
 import enum
 
-class LifeStatus(enum.Enum):
+class LifeStatus(str, enum.Enum):
     born = "born"
     foal = "foal"
     active = "active"

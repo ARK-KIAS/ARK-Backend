@@ -1,6 +1,6 @@
 import enum
 
-class UsageDirection(enum.Enum):
+class UsageDirection(str, enum.Enum):
     riding = "riding"
     productive = "productive"
     decorative = "decorative"

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from .base_model import Base
 from src.datatypes.enum_organization_type import OrganizationType
 
-class UserModel(Base):
+class UsersModel(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation

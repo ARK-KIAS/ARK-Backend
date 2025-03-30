@@ -1,6 +1,6 @@
 import enum
 
-class OrganizationType(enum.Enum):
+class OrganizationType(str, enum.Enum):
     hippodrome = "hippodrome"
     breeder = "breeder"
     reproducer = "reproducer"

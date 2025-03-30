@@ -1,6 +1,6 @@
 import enum
 
-class TrackCover(enum.Enum):
+class TrackCover(str, enum.Enum):
     sand = "sand"
     grass = "grass"
     other = "other"

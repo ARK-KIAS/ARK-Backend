@@ -4,7 +4,7 @@ from src.models.support_model import SupportModel
 from src.models.category_model import CategoryModel
 from src.models.notifications_model import NotificationsModel
 from src.models.permissions_model import PermissionsModel
-from src.models.users_model import UserModel
+from src.models.users_model import UsersModel
 from src.models.redis_sessions_model import RedisSessionsModel
 from src.models.regions_model import RegionsModel
 from src.models.breeds_model import BreedsModel

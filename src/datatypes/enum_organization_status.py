@@ -1,6 +1,6 @@
 import enum
 
-class OrganizationStatus(enum.Enum):
+class OrganizationStatus(str, enum.Enum):
     not_activated = "not_activated"
     active = "active"
     deleted = "deleted"

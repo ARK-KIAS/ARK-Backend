@@ -1,6 +1,6 @@
 import enum
 
-class CurrencyType(enum.Enum):
+class CurrencyType(str, enum.Enum):
     rur = "rur"
     usd = "usd"
     eur = "eur"

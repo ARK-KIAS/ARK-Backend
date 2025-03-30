@@ -1,6 +1,6 @@
 import enum
 
-class NotificationType(enum.Enum):
+class NotificationType(str, enum.Enum):
     general = "general"
     task = "task"
     none = "none"

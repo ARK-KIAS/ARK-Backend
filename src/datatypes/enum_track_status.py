@@ -1,6 +1,6 @@
 import enum
 
-class TrackStatus(enum.Enum):
+class TrackStatus(str, enum.Enum):
     dry = "dry"
     wet = "wet"
     other = "other"
