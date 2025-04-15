@@ -9,9 +9,9 @@ from src.models.redis_sessions_model import RedisSessionsModel
 from src.models.regions_model import RegionsModel
 from src.models.breeds_model import BreedsModel
 from src.models.media_files_model import MediaFilesModel
-from src.models.organizations_model import OrganizationModel
+from src.models.organizations_model import OrganizationsModel
 from src.models.organizations_docs_model import OrganizationsDocsModel
-from src.models.horses_model import HorseModel
+from src.models.horses_model import HorsesModel
 from src.models.horse_history_model import HorseHistoryModel
 from src.models.horse_owners_model import HorseOwnersModel
 from src.models.horses_photos_model import HorsesPhotosModel

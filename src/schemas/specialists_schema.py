@@ -4,7 +4,7 @@ from typing import Optional
 from src.datatypes.enum_specialist_qualification import SpecialistQualification
 
 
-class SpecialistBase(BaseModel):
+class SpecialistsBase(BaseModel):
     given_name: str = Field(..., max_length=50, description="Имя специалиста")
     family_name: str = Field(..., max_length=50, description="Фамилия специалиста")
     middle_name: str = Field(..., max_length=50, description="Отчество специалиста")
@@ -18,11 +18,16 @@ class SpecialistBase(BaseModel):
     created_by_id: int = Field(..., description="ID организации, создавшей запись")
 
 
-class SpecialistCreate(SpecialistBase):
+class SpecialistsCreate(SpecialistsBase):
     pass
 
 
-class SpecialistResponse(SpecialistBase):
+class SpecialistsUpdate(SpecialistsBase):
+    id: int = Field(..., description="Уникальный ID специалиста")
+    created_at: datetime = Field(..., description="Дата создания записи")
+
+
+class SpecialistsResponse(SpecialistsBase):
     id: int = Field(..., description="Уникальный ID специалиста")
     created_at: datetime = Field(..., description="Дата создания записи")
 

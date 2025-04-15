@@ -5,7 +5,7 @@ from src.datatypes.enum_organization_type import OrganizationType
 from src.datatypes.enum_organization_status import OrganizationStatus
 
 
-class OrganizationBase(BaseModel):
+class OrganizationsBase(BaseModel):
     organization_type: OrganizationType = Field(..., description="Тип организации")
     admin_id: int = Field(..., description="ID администратора организации")
     name: str = Field(..., max_length=50, description="Полное название организации")
@@ -33,11 +33,16 @@ class OrganizationBase(BaseModel):
     land_status_ok: bool = Field(..., description="Статус земельного участка")
 
 
-class OrganizationCreate(OrganizationBase):
+class OrganizationsCreate(OrganizationsBase):
     pass
 
 
-class OrganizationResponse(OrganizationBase):
+class OrganizationsUpdate(OrganizationsBase):
+    id: int = Field(..., description="Уникальный ID организации")
+    created_at: datetime = Field(..., description="Дата создания записи")
+
+
+class OrganizationsResponse(OrganizationsBase):
     id: int = Field(..., description="Уникальный ID организации")
     created_at: datetime = Field(..., description="Дата создания записи")
 

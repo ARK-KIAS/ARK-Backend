@@ -1,16 +1,10 @@
 from fastapi import APIRouter
 
 #from .support.controllers import support_controller, admin_controller
-from .config.database.db_helper import db_helper
 
-from .repositories.sqlalchemy_repository import SqlAlchemyRepository
+from src.schemas.permissions_schema import PermissionsCreate
 
-from .models.permissions_model import PermissionsModel
-
-from .schemas.permissions_schema import PermissionCreate, PermissionUpdate, PermissionResponse
-
-class PermissionRepository(SqlAlchemyRepository[PermissionsModel, PermissionCreate, PermissionUpdate]):
-    pass
+from src.repositories.permissions_repository import permissions_repository
 
 
 def get_apps_router():
@@ -22,15 +16,13 @@ def get_apps_router():
 router = get_apps_router()
 
 @router.post('/')
-def add_permission(payload: PermissionCreate):
-    perm_repository = PermissionRepository(PermissionsModel, db_session=db_helper.get_db_session)
-    perm_repository.create(payload)
+def add_permission(payload: PermissionsCreate):
+    permissions_repository.create(payload)
 
     return {'status': 'success'}
 
 @router.get('/')
 def get_permission():
-    perm_repository = PermissionRepository(PermissionsModel, db_session=db_helper.get_db_session)
-    perm = perm_repository.get_multi()
+    perm = permissions_repository.get_multi()
 
     return {'status': 'success', 'results': len(perm), 'notes': perm}

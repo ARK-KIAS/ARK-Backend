@@ -1,16 +1,20 @@
 from pydantic import BaseModel, Field, ConfigDict
 
 
-class SpecialistDocBase(BaseModel):
+class SpecialistDocsBase(BaseModel):
     specialist_id: int = Field(..., description="ID специалиста, к которому относится документ")
     file_id: int = Field(..., description="ID файла документа в медиа-хранилище")
 
 
-class SpecialistDocCreate(SpecialistDocBase):
+class SpecialistDocsCreate(SpecialistDocsBase):
     pass
 
 
-class SpecialistDocResponse(SpecialistDocBase):
+class SpecialistDocsUpdate(SpecialistDocsBase):
+    id: int = Field(..., description="Уникальный ID записи документа специалиста")
+
+
+class SpecialistDocsResponse(SpecialistDocsBase):
     id: int = Field(..., description="Уникальный ID записи документа специалиста")
 
     model_config = ConfigDict(

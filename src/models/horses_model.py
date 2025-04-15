@@ -10,7 +10,7 @@ from src.datatypes.enum_life_status import LifeStatus
 from .base_model import Base
 
 
-class HorseModel(Base):
+class HorsesModel(Base):
     __tablename__ = "horses"
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
@@ -48,4 +48,3 @@ class HorseModel(Base):
     rating_adaptability: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
     coolness: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
     insemination_percent: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
-

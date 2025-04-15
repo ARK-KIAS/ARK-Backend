@@ -3,17 +3,23 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 
-class MediaFileBase(BaseModel):
+class MediaFilesBase(BaseModel):
     bucket_name: str = Field(..., max_length=50, description="Name of the storage bucket")
     file_name: str = Field(..., max_length=50, description="Original file name", unique=True)
     extension: str = Field(..., max_length=50, description="File extension")
 
 
-class MediaFileCreate(MediaFileBase):
+class MediaFilesCreate(MediaFilesBase):
     pass
 
 
-class MediaFileResponse(MediaFileBase):
+class MediaFilesUpdate(MediaFilesBase):
+    id: int = Field(..., description="Unique file ID")
+    created_at: datetime = Field(..., description="File creation timestamp")
+    deleted_at: Optional[datetime] = Field(None, description="File deletion timestamp (if deleted)")
+
+
+class MediaFilesResponse(MediaFilesBase):
     id: int = Field(..., description="Unique file ID")
     created_at: datetime = Field(..., description="File creation timestamp")
     deleted_at: Optional[datetime] = Field(None, description="File deletion timestamp (if deleted)")

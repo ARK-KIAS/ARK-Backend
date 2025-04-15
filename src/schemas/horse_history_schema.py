@@ -13,6 +13,11 @@ class HorseHistoryCreate(HorseHistoryBase):
     updated_at: Optional[datetime] = Field(None, description="Дата и время изменения")
 
 
+class HorseHistoryUpdate(HorseHistoryBase):
+    id: int = Field(..., description="Уникальный идентификатор записи истории")
+    updated_at: datetime = Field(..., description="Дата и время изменения")
+
+
 class HorseHistoryResponse(HorseHistoryBase):
     id: int = Field(..., description="Уникальный идентификатор записи истории")
     updated_at: datetime = Field(..., description="Дата и время изменения")

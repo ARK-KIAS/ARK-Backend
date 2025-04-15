@@ -17,6 +17,11 @@ class UsersCreate(UsersBase):
     pass
 
 
+class UsersUpdate(UsersBase):
+    id: int = Field(..., description="Уникальный идентификатор пользователя в системе")
+    created_at: datetime = Field(..., description="Дата и время создания пользователя")
+
+
 class UsersResponse(UsersBase):
     id: int = Field(..., description="Уникальный идентификатор пользователя в системе")
     created_at: datetime = Field(..., description="Дата и время создания пользователя")

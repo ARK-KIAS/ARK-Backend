@@ -7,7 +7,7 @@ from src.datatypes.enum_track_status import TrackStatus
 from src.datatypes.enum_race_type import RaceType
 
 
-class RaceBase(BaseModel):
+class RacesBase(BaseModel):
     organization_id: int = Field(..., description="ID организации-организатора")
     start_time: Optional[time] = Field(None, description="Время начала забега")
     name: Optional[str] = Field(None, max_length=100, description="Название забега")
@@ -24,11 +24,16 @@ class RaceBase(BaseModel):
     with_obstacles: bool = Field(False, description="Есть ли препятствия")
 
 
-class RaceCreate(RaceBase):
+class RacesCreate(RacesBase):
     pass
 
 
-class RaceResponse(RaceBase):
+class RacesUpdate(RacesBase):
+    id: int = Field(..., description="Уникальный ID забега")
+    created_at: datetime = Field(..., description="Дата создания записи")
+
+
+class RacesResponse(RacesBase):
     id: int = Field(..., description="Уникальный ID забега")
     created_at: datetime = Field(..., description="Дата создания записи")
 

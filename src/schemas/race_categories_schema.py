@@ -4,7 +4,7 @@ from typing import Optional
 from src.datatypes.enum_race_category_type import RaceCategoryType
 
 
-class RaceCategoryBase(BaseModel):
+class RaceCategoriesBase(BaseModel):
     name: str = Field(..., max_length=50, description="Название категории скачек")
     type: Optional[RaceCategoryType] = Field(None, description="Тип категории скачек")
     male_allowed: bool = Field(..., description="Разрешено участие жеребцов")
@@ -17,11 +17,16 @@ class RaceCategoryBase(BaseModel):
     jockey_weight_max: Optional[int] = Field(None, ge=0, description="Максимальный вес жокея (кг)")
 
 
-class RaceCategoryCreate(RaceCategoryBase):
+class RaceCategoriesCreate(RaceCategoriesBase):
     pass
 
 
-class RaceCategoryResponse(RaceCategoryBase):
+class RaceCategoriesUpdate(RaceCategoriesBase):
+    id: int = Field(..., description="Уникальный ID категории скачек")
+    created_at: datetime = Field(..., description="Дата создания записи")
+
+
+class RaceCategoriesResponse(RaceCategoriesBase):
     id: int = Field(..., description="Уникальный ID категории скачек")
     created_at: datetime = Field(..., description="Дата создания записи")
 

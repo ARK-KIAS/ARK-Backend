@@ -5,7 +5,7 @@ from src.datatypes.enum_sex import Sex
 from src.datatypes.enum_life_status import LifeStatus
 
 
-class HorseBase(BaseModel):
+class HorsesBase(BaseModel):
     birth_region_id: int = Field(..., description="ID региона рождения")
     chip_num: int = Field(default=0, description="Номер чипа")
     sex: Sex = Field(default=Sex.none, description="Пол лошади")
@@ -45,11 +45,16 @@ class HorseBase(BaseModel):
     insemination_percent: Optional[int] = Field(None, ge=0, le=100, description="Процент успешных осеменений")
 
 
-class HorseCreate(HorseBase):
+class HorsesCreate(HorsesBase):
     pass
 
 
-class HorseResponse(HorseBase):
+class HorsesUpdate(HorsesBase):
+    id: int = Field(..., description="Уникальный ID лошади")
+    created_at: datetime = Field(..., description="Дата создания записи")
+
+
+class HorsesResponse(HorsesBase):
     id: int = Field(..., description="Уникальный ID лошади")
     created_at: datetime = Field(..., description="Дата создания записи")
 

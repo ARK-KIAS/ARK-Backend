@@ -1,16 +1,20 @@
 from pydantic import BaseModel, Field, ConfigDict
 
 
-class OrganizationDocBase(BaseModel):
+class OrganizationsDocsBase(BaseModel):
     organization_id: int = Field(..., description="ID организации, к которой относится документ")
     file_id: int = Field(..., description="ID файла документа в медиа-хранилище")
 
 
-class OrganizationDocCreate(OrganizationDocBase):
+class OrganizationsDocsCreate(OrganizationsDocsBase):
     pass
 
 
-class OrganizationDocResponse(OrganizationDocBase):
+class OrganizationsDocsUpdate(OrganizationsDocsBase):
+    id: int = Field(..., description="Уникальный ID связи документа с организацией")
+
+
+class OrganizationsDocsResponse(OrganizationsDocsBase):
     id: int = Field(..., description="Уникальный ID связи документа с организацией")
 
     model_config = ConfigDict(
