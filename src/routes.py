@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from .support.controllers import support_controller, admin_controller
+#from .support.controllers import support_controller, admin_controller
 from .config.database.db_helper import db_helper
 
 from .repositories.sqlalchemy_repository import SqlAlchemyRepository
@@ -15,8 +15,8 @@ class PermissionRepository(SqlAlchemyRepository[PermissionsModel, PermissionCrea
 
 def get_apps_router():
     router = APIRouter()
-    router.include_router(admin_controller.router)
-    router.include_router(support_controller.router)
+    #router.include_router(admin_controller.router)
+    #router.include_router(support_controller.router)
     return router
 
 router = get_apps_router()
