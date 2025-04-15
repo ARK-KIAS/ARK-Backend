@@ -18,6 +18,10 @@ class PermissionCreate(PermissionBase):
     pass
 
 
+class PermissionUpdate(PermissionBase):
+    pass
+
+
 class PermissionResponse(PermissionBase):
     id: int = Field(..., description="Unique identifier of the permission")
     created_at: datetime = Field(..., description="Date and time when permission was created")
