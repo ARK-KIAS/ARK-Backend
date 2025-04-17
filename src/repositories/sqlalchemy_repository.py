@@ -22,7 +22,7 @@ class SqlAlchemyRepository(AbstractRepository, Generic[ModelType, CreateSchemaTy
 
     async def create(self, data: CreateSchemaType) -> ModelType:
         async with self._session_factory() as session:
-            instance = self.model(**data)
+            instance = self.model(**data.__dict__)
             session.add(instance)
             await session.commit()
             await session.refresh(instance)
@@ -52,6 +52,6 @@ class SqlAlchemyRepository(AbstractRepository, Generic[ModelType, CreateSchemaTy
             offset: int = 0
     ) -> list[ModelType]:
         async with self._session_factory() as session:
-            stmt = select(self.model).order_by(*order).limit(limit).offset(offset)
+            stmt = select(self.model).order_by(order).limit(limit).offset(offset)
             row = await session.execute(stmt)
             return row.scalars().all()

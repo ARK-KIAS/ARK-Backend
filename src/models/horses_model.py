@@ -25,7 +25,7 @@ class HorsesModel(Base):
     suit: Mapped[String] = mapped_column(Pgtext, unique=False, default="")
     father_id: Mapped[int] = mapped_column(ForeignKey("horses.id"))
     mother_id: Mapped[int] = mapped_column(ForeignKey("horses.id"))
-    organization_id: Mapped[int] = mapped_column(ForeignKey("organization.id"))
+    organization_id: Mapped[int] = mapped_column(ForeignKey("organizations.id"))
     breed_id: Mapped[int] = mapped_column(ForeignKey("breeds.id"))
     born_at: Mapped[DateTime] = mapped_column(DateTime, unique=False, nullable=True)
     dead_at: Mapped[DateTime] = mapped_column(DateTime, unique=False, nullable=True)

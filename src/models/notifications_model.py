@@ -14,4 +14,4 @@ class NotificationsModel(Base):
     title: Mapped[str] = mapped_column(String(50), unique=True) #User email
     description: Mapped[str] = mapped_column(String(50), unique=False) #Text of the notification
     type: Mapped[NotificationType] = mapped_column(Enum(NotificationType), unique=False) # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
