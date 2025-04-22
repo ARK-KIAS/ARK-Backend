@@ -11,6 +11,10 @@ class SupportCreate(SupportBase):
     pass
 
 
+class SupportUpdate(SupportBase):
+    id: int = Field(..., description="Уникальный ID обращения")
+
+
 class SupportResponse(SupportBase):
     id: int = Field(..., description="Уникальный ID обращения")
 

@@ -1,15 +1,19 @@
 from pydantic import BaseModel, Field, ConfigDict
 
 
-class RegionBase(BaseModel):
+class RegionsBase(BaseModel):
     name: str = Field(..., max_length=50, description="Название региона")
 
 
-class RegionCreate(RegionBase):
+class RegionsCreate(RegionsBase):
     pass
 
 
-class RegionResponse(RegionBase):
+class RegionsUpdate(RegionsBase):
+    id: int = Field(..., description="Уникальный идентификатор региона")
+
+
+class RegionsResponse(RegionsBase):
     id: int = Field(..., description="Уникальный идентификатор региона")
 
     model_config = ConfigDict(

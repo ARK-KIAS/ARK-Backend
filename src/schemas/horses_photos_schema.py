@@ -1,16 +1,20 @@
 from pydantic import BaseModel, Field, ConfigDict
 
 
-class HorsePhotoBase(BaseModel):
+class HorsesPhotosBase(BaseModel):
     organization_id: int = Field(..., description="ID организации, загрузившей фото")
     file_id: int = Field(..., description="ID файла в медиа-хранилище")
 
 
-class HorsePhotoCreate(HorsePhotoBase):
+class HorsesPhotosCreate(HorsesPhotosBase):
     pass
 
 
-class HorsePhotoResponse(HorsePhotoBase):
+class HorsesPhotosUpdate(HorsesPhotosBase):
+    id: int = Field(..., description="Уникальный ID записи о фото лошади")
+
+
+class HorsesPhotosResponse(HorsesPhotosBase):
     id: int = Field(..., description="Уникальный ID записи о фото лошади")
 
     model_config = ConfigDict(

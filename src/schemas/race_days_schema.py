@@ -3,17 +3,22 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 
-class RaceDayBase(BaseModel):
+class RaceDaysBase(BaseModel):
     name: str = Field(..., max_length=50, description="Название гоночного дня")
     date: Optional[date] = Field(None, description="Дата проведения")
     start_time: Optional[time] = Field(None, description="Время начала")
 
 
-class RaceDayCreate(RaceDayBase):
+class RaceDaysCreate(RaceDaysBase):
     pass
 
 
-class RaceDayResponse(RaceDayBase):
+class RaceDaysUpdate(RaceDaysBase):
+    id: int = Field(..., description="Уникальный ID гоночного дня")
+    created_at: datetime = Field(..., description="Дата создания записи")
+
+
+class RaceDaysResponse(RaceDaysBase):
     id: int = Field(..., description="Уникальный ID гоночного дня")
     created_at: datetime = Field(..., description="Дата создания записи")
 

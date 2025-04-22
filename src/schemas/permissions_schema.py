@@ -2,7 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
 
 
-class PermissionBase(BaseModel):
+class PermissionsBase(BaseModel):
     name: str = Field(..., max_length=50, description="Name of the permission", example="Admin")
     accounts_all: bool = Field(..., description="Full access to accounts", example=True)
     races_full: bool = Field(..., description="Full access to races data", example=False)
@@ -14,11 +14,15 @@ class PermissionBase(BaseModel):
     create_races: bool = Field(..., description="Can send race results", example=False)
 
 
-class PermissionCreate(PermissionBase):
+class PermissionsCreate(PermissionsBase):
     pass
 
 
-class PermissionResponse(PermissionBase):
+class PermissionsUpdate(PermissionsBase):
+    id: int = Field(..., description="Unique identifier of the permission")
+    created_at: datetime = Field(..., description="Date and time when permission was created")
+
+class PermissionsResponse(PermissionsBase):
     id: int = Field(..., description="Unique identifier of the permission")
     created_at: datetime = Field(..., description="Date and time when permission was created")
 

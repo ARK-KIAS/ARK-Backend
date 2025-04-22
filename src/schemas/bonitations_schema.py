@@ -5,7 +5,7 @@ from src.datatypes.enum_bonitation_status import BonitationStatus
 from src.datatypes.enum_bonitation_type import BonitationType
 
 
-class BonitationBase(BaseModel):
+class BonitationsBase(BaseModel):
     organization_id: int = Field(..., description="ID организации-заказчика")
     inspector_id: int = Field(..., description="ID инспектора, взявшего бонитировку")
     prefers_time_min: Optional[datetime] = Field(None, description="Предпочитаемое время начала (от)")
@@ -18,11 +18,17 @@ class BonitationBase(BaseModel):
     type: Optional[BonitationType] = Field(None, description="Тип бонитировки")
 
 
-class BonitationCreate(BonitationBase):
+class BonitationsCreate(BonitationsBase):
     approved_time: Optional[datetime] = Field(None, description="Утверждённое время проведения")
 
 
-class BonitationResponse(BonitationBase):
+class BonitationsUpdate(BonitationsBase):
+    id: int = Field(..., description="Уникальный ID бонитировки")
+    created_at: datetime = Field(..., description="Дата создания записи")
+    approved_time: Optional[datetime] = Field(None, description="Утверждённое время проведения")
+
+
+class BonitationsResponse(BonitationsBase):
     id: int = Field(..., description="Уникальный ID бонитировки")
     created_at: datetime = Field(..., description="Дата создания записи")
     approved_time: Optional[datetime] = Field(None, description="Утверждённое время проведения")

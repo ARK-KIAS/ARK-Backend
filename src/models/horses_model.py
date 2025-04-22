@@ -10,7 +10,7 @@ from src.datatypes.enum_life_status import LifeStatus
 from .base_model import Base
 
 
-class HorseModel(Base):
+class HorsesModel(Base):
     __tablename__ = "horses"
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
@@ -25,7 +25,7 @@ class HorseModel(Base):
     suit: Mapped[String] = mapped_column(Pgtext, unique=False, default="")
     father_id: Mapped[int] = mapped_column(ForeignKey("horses.id"))
     mother_id: Mapped[int] = mapped_column(ForeignKey("horses.id"))
-    organization_id: Mapped[int] = mapped_column(ForeignKey("organization.id"))
+    organization_id: Mapped[int] = mapped_column(ForeignKey("organizations.id"))
     breed_id: Mapped[int] = mapped_column(ForeignKey("breeds.id"))
     born_at: Mapped[DateTime] = mapped_column(DateTime, unique=False, nullable=True)
     dead_at: Mapped[DateTime] = mapped_column(DateTime, unique=False, nullable=True)
@@ -48,4 +48,3 @@ class HorseModel(Base):
     rating_adaptability: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
     coolness: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
     insemination_percent: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
-

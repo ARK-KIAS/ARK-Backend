@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from src.config.project_config import settings
-from src.routes import get_apps_router
+from src.routes import perm_router
 
 
 def get_application() -> FastAPI:
@@ -10,7 +10,7 @@ def get_application() -> FastAPI:
         debug=settings.DEBUG,
         version=settings.VERSION
     )
-    application.include_router(get_apps_router())
+    application.include_router(perm_router)
     return application
 
 

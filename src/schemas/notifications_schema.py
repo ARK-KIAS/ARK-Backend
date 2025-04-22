@@ -3,18 +3,23 @@ from pydantic import BaseModel, Field, ConfigDict
 from src.datatypes.enum_notification_type import NotificationType
 
 
-class NotificationBase(BaseModel):
+class NotificationsBase(BaseModel):
     title: str = Field(..., max_length=50, description="Заголовок уведомления")
     description: str = Field(..., max_length=50, description="Текст уведомления")
     type: NotificationType = Field(..., description="Тип уведомления")
     user_id: int = Field(..., description="ID пользователя-получателя")
 
 
-class NotificationCreate(NotificationBase):
+class NotificationsCreate(NotificationsBase):
     pass
 
 
-class NotificationResponse(NotificationBase):
+class NotificationsUpdate(NotificationsBase):
+    id: int = Field(..., description="Уникальный ID уведомления")
+    created_at: datetime = Field(..., description="Дата создания уведомления")
+
+
+class NotificationsResponse(NotificationsBase):
     id: int = Field(..., description="Уникальный ID уведомления")
     created_at: datetime = Field(..., description="Дата создания уведомления")
 

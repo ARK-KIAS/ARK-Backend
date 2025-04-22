@@ -10,6 +10,10 @@ class BonitationHorsesCreate(BonitationHorsesBase):
     pass
 
 
+class BonitationHorsesUpdate(BonitationHorsesBase):
+    id: int = Field(..., description="Уникальный идентификатор связи")
+
+
 class BonitationHorsesResponse(BonitationHorsesBase):
     id: int = Field(..., description="Уникальный идентификатор связи")
 

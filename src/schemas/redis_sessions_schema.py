@@ -4,7 +4,7 @@ from uuid import UUID
 from typing import Optional
 
 
-class RedisSessionBase(BaseModel):
+class RedisSessionsBase(BaseModel):
     user_id: int = Field(..., description="ID пользователя")
     access_token: UUID = Field(..., description="Уникальный токен доступа")
     ip: str = Field(..., max_length=24, description="IP адрес запроса")
@@ -13,11 +13,17 @@ class RedisSessionBase(BaseModel):
     geolocation: str = Field(..., max_length=50, description="Геолокация")
 
 
-class RedisSessionCreate(RedisSessionBase):
+class RedisSessionsCreate(RedisSessionsBase):
     pass
 
 
-class RedisSessionResponse(RedisSessionBase):
+class RedisSessionsUpdate(RedisSessionsBase):
+    id: int = Field(..., description="Уникальный ID сессии")
+    created_at: datetime = Field(..., description="Дата создания сессии")
+    expired_at: datetime = Field(..., description="Дата истечения сессии")
+
+
+class RedisSessionsResponse(RedisSessionsBase):
     id: int = Field(..., description="Уникальный ID сессии")
     created_at: datetime = Field(..., description="Дата создания сессии")
     expired_at: datetime = Field(..., description="Дата истечения сессии")

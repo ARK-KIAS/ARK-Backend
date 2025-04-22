@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 
-class HorseRaceBase(BaseModel):
+class HorsesRacesBase(BaseModel):
     race_id: int = Field(..., description="ID забега/соревнования")
     horse_id: int = Field(..., description="ID лошади-участницы")
     rider_id: int = Field(..., description="ID жокея/наездника")
@@ -16,11 +16,16 @@ class HorseRaceBase(BaseModel):
     doping_control_ok: bool = Field(..., description="Прошел ли допинг-контроль")
 
 
-class HorseRaceCreate(HorseRaceBase):
+class HorsesRacesCreate(HorsesRacesBase):
     pass
 
 
-class HorseRaceResponse(HorseRaceBase):
+class HorsesRacesUpdate(HorsesRacesBase):
+    id: int = Field(..., description="Уникальный ID записи о забеге")
+    created_at: datetime = Field(..., description="Дата создания записи")
+
+
+class HorsesRacesResponse(HorsesRacesBase):
     id: int = Field(..., description="Уникальный ID записи о забеге")
     created_at: datetime = Field(..., description="Дата создания записи")
 

@@ -6,7 +6,7 @@ from .base_model import Base
 from src.datatypes.enum_organization_type import OrganizationType
 from src.datatypes.enum_organization_status import OrganizationStatus
 
-class OrganizationModel(Base):
+class OrganizationsModel(Base):
     __tablename__ = "organizations"
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
