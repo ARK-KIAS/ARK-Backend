@@ -16,7 +16,6 @@ class NotificationsCreate(NotificationsBase):
 
 class NotificationsUpdate(NotificationsBase):
     id: int = Field(..., description="Уникальный ID уведомления")
-    created_at: datetime = Field(..., description="Дата создания уведомления")
 
 
 class NotificationsResponse(NotificationsBase):

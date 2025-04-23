@@ -15,7 +15,6 @@ class RaceDaysCreate(RaceDaysBase):
 
 class RaceDaysUpdate(RaceDaysBase):
     id: int = Field(..., description="Уникальный ID гоночного дня")
-    created_at: datetime = Field(..., description="Дата создания записи")
 
 
 class RaceDaysResponse(RaceDaysBase):

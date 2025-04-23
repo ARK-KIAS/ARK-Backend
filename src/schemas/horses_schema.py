@@ -51,7 +51,6 @@ class HorsesCreate(HorsesBase):
 
 class HorsesUpdate(HorsesBase):
     id: int = Field(..., description="Уникальный ID лошади")
-    created_at: datetime = Field(..., description="Дата создания записи")
 
 
 class HorsesResponse(HorsesBase):

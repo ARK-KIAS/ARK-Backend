@@ -19,7 +19,6 @@ class RedisSessionsCreate(RedisSessionsBase):
 
 class RedisSessionsUpdate(RedisSessionsBase):
     id: int = Field(..., description="Уникальный ID сессии")
-    created_at: datetime = Field(..., description="Дата создания сессии")
     expired_at: datetime = Field(..., description="Дата истечения сессии")
 
 

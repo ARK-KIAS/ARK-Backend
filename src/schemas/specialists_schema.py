@@ -24,7 +24,6 @@ class SpecialistsCreate(SpecialistsBase):
 
 class SpecialistsUpdate(SpecialistsBase):
     id: int = Field(..., description="Уникальный ID специалиста")
-    created_at: datetime = Field(..., description="Дата создания записи")
 
 
 class SpecialistsResponse(SpecialistsBase):

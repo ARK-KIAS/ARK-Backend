@@ -13,4 +13,4 @@ class MediaFilesModel(Base):
     file_name: Mapped[str] = mapped_column(String(50), unique=True) #File name
     extension: Mapped[str] = mapped_column(String(50), unique=False) #File extension
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
-    deleted_at: Mapped[datetime] = mapped_column(DateTime) #Date of deletion
+    deleted_at: Mapped[datetime] = mapped_column(DateTime, nullable=True) #Date of deletion

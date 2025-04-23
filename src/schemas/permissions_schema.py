@@ -20,7 +20,6 @@ class PermissionsCreate(PermissionsBase):
 
 class PermissionsUpdate(PermissionsBase):
     id: int = Field(..., description="Unique identifier of the permission")
-    created_at: datetime = Field(..., description="Date and time when permission was created")
 
 class PermissionsResponse(PermissionsBase):
     id: int = Field(..., description="Unique identifier of the permission")

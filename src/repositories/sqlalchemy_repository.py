@@ -30,7 +30,7 @@ class SqlAlchemyRepository(AbstractRepository, Generic[ModelType, CreateSchemaTy
 
     async def update(self, data: UpdateSchemaType, **filters) -> ModelType:
         async with self._session_factory() as session:
-            stmt = update(self.model).values(**data).filter_by(**filters).returning(self.model)
+            stmt = update(self.model).values(**data.__dict__).filter_by(**filters).returning(self.model)
             res = await session.execute(stmt)
             await session.commit()
             return res.scalar_one()
@@ -42,7 +42,7 @@ class SqlAlchemyRepository(AbstractRepository, Generic[ModelType, CreateSchemaTy
 
     async def get_single(self, **filters) -> Optional[ModelType] | None:
         async with self._session_factory() as session:
-            row = await session.execute(select(self.model).filter_by(**filters))
+            row = await session.execute(select(self.model).filter_by(**filters.__dict__))
             return row.scalar_one_or_none()
 
     async def get_multi(

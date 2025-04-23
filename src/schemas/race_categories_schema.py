@@ -23,7 +23,6 @@ class RaceCategoriesCreate(RaceCategoriesBase):
 
 class RaceCategoriesUpdate(RaceCategoriesBase):
     id: int = Field(..., description="Уникальный ID категории скачек")
-    created_at: datetime = Field(..., description="Дата создания записи")
 
 
 class RaceCategoriesResponse(RaceCategoriesBase):

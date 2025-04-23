@@ -22,7 +22,6 @@ class HorsesRacesCreate(HorsesRacesBase):
 
 class HorsesRacesUpdate(HorsesRacesBase):
     id: int = Field(..., description="Уникальный ID записи о забеге")
-    created_at: datetime = Field(..., description="Дата создания записи")
 
 
 class HorsesRacesResponse(HorsesRacesBase):
