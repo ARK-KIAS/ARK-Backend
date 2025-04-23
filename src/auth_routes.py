@@ -46,7 +46,7 @@ async def delete_user(payload:UsersUpdate):
 
     return {'status': 'success'}
 
-# Organization Repos ##########################################################################################################
+# Organization Repos ###################################################################################################
 @auth_router.post('/org')
 async def add_org(payload: OrganizationsCreate):
     await organizations_repository.create(payload)
@@ -71,7 +71,7 @@ async def delete_org(payload:OrganizationsUpdate):
 
     return {'status': 'success'}
 
-# Organization Media Repos ##########################################################################################################
+# Organization Media Repos #############################################################################################
 @auth_router.post('/org/media')
 async def add_org(payload: MediaFilesCreate):
     await media_files_repository.create(payload)
@@ -96,7 +96,7 @@ async def delete_org(payload:MediaFilesUpdate):
 
     return {'status': 'success'}
 
-# Organization Region Repos ##########################################################################################################
+# Organization Region Repos ############################################################################################
 @auth_router.post('/org/region')
 async def add_org(payload: RegionsCreate):
     await regions_repository.create(payload)
