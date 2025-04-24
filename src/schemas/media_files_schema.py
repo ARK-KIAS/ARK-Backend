@@ -15,7 +15,6 @@ class MediaFilesCreate(MediaFilesBase):
 
 class MediaFilesUpdate(MediaFilesBase):
     id: int = Field(..., description="Unique file ID")
-    created_at: datetime = Field(..., description="File creation timestamp")
     deleted_at: Optional[datetime] = Field(None, description="File deletion timestamp (if deleted)")
 
 

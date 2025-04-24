@@ -30,7 +30,6 @@ class RacesCreate(RacesBase):
 
 class RacesUpdate(RacesBase):
     id: int = Field(..., description="Уникальный ID забега")
-    created_at: datetime = Field(..., description="Дата создания записи")
 
 
 class RacesResponse(RacesBase):

@@ -24,7 +24,6 @@ class BonitationsCreate(BonitationsBase):
 
 class BonitationsUpdate(BonitationsBase):
     id: int = Field(..., description="Уникальный ID бонитировки")
-    created_at: datetime = Field(..., description="Дата создания записи")
     approved_time: Optional[datetime] = Field(None, description="Утверждённое время проведения")
 
 

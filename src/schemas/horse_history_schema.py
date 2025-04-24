@@ -15,7 +15,6 @@ class HorseHistoryCreate(HorseHistoryBase):
 
 class HorseHistoryUpdate(HorseHistoryBase):
     id: int = Field(..., description="Уникальный идентификатор записи истории")
-    updated_at: datetime = Field(..., description="Дата и время изменения")
 
 
 class HorseHistoryResponse(HorseHistoryBase):

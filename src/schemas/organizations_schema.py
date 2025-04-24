@@ -27,7 +27,7 @@ class OrganizationsBase(BaseModel):
     logo_id: Optional[int] = Field(None, description="ID логотипа в медиа-хранилище")
     region_id: int = Field(..., description="ID региона")
     status: OrganizationStatus = Field(..., description="Статус организации")
-    site_link: Optional[HttpUrl] = Field(None, max_length=100, description="Ссылка на сайт")
+    site_link: Optional[str] = Field(None, max_length=100, description="Ссылка на сайт")
     okved_approved: bool = Field(..., description="Подтверждены ли коды ОКВЭД")
     land_hectares: float = Field(..., description="Площадь земель в гектарах")
     land_status_ok: bool = Field(..., description="Статус земельного участка")
@@ -39,7 +39,6 @@ class OrganizationsCreate(OrganizationsBase):
 
 class OrganizationsUpdate(OrganizationsBase):
     id: int = Field(..., description="Уникальный ID организации")
-    created_at: datetime = Field(..., description="Дата создания записи")
 
 
 class OrganizationsResponse(OrganizationsBase):
