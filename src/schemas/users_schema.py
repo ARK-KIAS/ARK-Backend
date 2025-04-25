@@ -14,7 +14,8 @@ class UsersBase(BaseModel):
 
 
 class UsersCreate(UsersBase):
-    pass
+    username: str = Field(..., max_length=50, description="Username")
+    password: str = Field(..., max_length=50, description="Password")
 
 
 class UsersUpdate(UsersBase):

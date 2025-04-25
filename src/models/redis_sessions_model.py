@@ -17,3 +17,4 @@ class RedisSessionsModel(Base):
     browser: Mapped[str] = mapped_column(String(50), unique=False) #Broweser from request
     os: Mapped[str] = mapped_column(String(50), unique=False) #os of request
     geolocation: Mapped[str] = mapped_column(String(50), unique=False) #geolocation of request
+    cookie_id: Mapped[str] = mapped_column(String(50), unique=True) #cookie

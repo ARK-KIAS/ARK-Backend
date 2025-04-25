@@ -5,7 +5,6 @@ from typing import Optional
 
 
 class RedisSessionsBase(BaseModel):
-    user_id: int = Field(..., description="ID пользователя")
     access_token: UUID = Field(..., description="Уникальный токен доступа")
     ip: str = Field(..., max_length=24, description="IP адрес запроса")
     browser: str = Field(..., max_length=50, description="Браузер пользователя")
@@ -13,17 +12,21 @@ class RedisSessionsBase(BaseModel):
     geolocation: str = Field(..., max_length=50, description="Геолокация")
 
 
+class RedisSessionsAuth(RedisSessionsBase):
+    username: str = Field(..., max_length=50, description="Username")
+    password: str = Field(..., max_length=50, description="Password")
+
 class RedisSessionsCreate(RedisSessionsBase):
-    pass
+    user_id: int = Field(..., description="ID пользователя")
+    cookie_id: str = Field(..., max_length=50, description="Cookie id")
 
 
 class RedisSessionsUpdate(RedisSessionsBase):
     id: int = Field(..., description="Уникальный ID сессии")
-    expired_at: datetime = Field(..., description="Дата истечения сессии")
-
 
 class RedisSessionsResponse(RedisSessionsBase):
     id: int = Field(..., description="Уникальный ID сессии")
+    user_id: int = Field(..., description="ID пользователя")
     created_at: datetime = Field(..., description="Дата создания сессии")
     expired_at: datetime = Field(..., description="Дата истечения сессии")
 
@@ -39,7 +42,9 @@ class RedisSessionsResponse(RedisSessionsBase):
                 "os": "Windows 10",
                 "geolocation": "Moscow, Russia",
                 "created_at": "2023-12-01T12:00:00",
-                "expired_at": "2023-12-31T12:00:00"
+                "expired_at": "2023-12-31T12:00:00",
+                "username": "loshadka",
+                "password": "saodnoand"
             }
         }
     )
