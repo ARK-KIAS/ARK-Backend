@@ -15,3 +15,5 @@ class UsersModel(Base):
     given_name: Mapped[str] = mapped_column(String(50), unique=False)
     family_name: Mapped[str] = mapped_column(String(50), unique=False)
     middle_name: Mapped[str] = mapped_column(String(50), unique=False)
+    username: Mapped[str] = mapped_column(String(50), unique=True)
+    password: Mapped[str] = mapped_column(String(50), unique=False)
