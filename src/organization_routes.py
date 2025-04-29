@@ -1,0 +1,53 @@
+from fastapi import APIRouter, HTTPException, Request, Depends
+from fastapi.responses import JSONResponse, RedirectResponse, Response
+from src.schemas.organizations_schema import OrganizationsCreate, OrganizationsUpdate
+from src.repositories.organizations_repository import organizations_repository
+from src.repositories.redis_sessions_repository import redis_sessions_repository
+
+
+organization_router = APIRouter(prefix="/organization", tags=["organizations"])
+
+async def is_authorized(request: Request):
+    """verify that user has a valid session"""
+    session_id = request.cookies.get("session_cookie")
+    if not session_id:
+        raise HTTPException(status_code=401)
+
+    auth = await redis_sessions_repository.get_single(access_token=session_id)
+
+    if auth is None:
+        raise HTTPException(status_code=403)
+    return True
+
+# Organization Repos ###################################################################################################
+@organization_router.post('/', dependencies=[Depends(is_authorized)])
+async def add_org(payload: OrganizationsCreate):
+    await organizations_repository.create(payload)
+
+    return JSONResponse(content={'status': 'success'}, status_code=201)
+
+@organization_router.get('/', dependencies=[Depends(is_authorized)])
+async def get_orgs():
+    perm = await organizations_repository.get_multi()
+
+    return {'status': 'success', 'results': len(perm), 'out': perm}
+
+@organization_router.get('/{id}', dependencies=[Depends(is_authorized)])
+async def get_orgs(id: int):
+    perm = await organizations_repository.get_single(id=id)
+
+    return {'status': 'success', 'results': len(perm), 'out': perm}
+
+
+@organization_router.put('/', dependencies=[Depends(is_authorized)])
+async def update_org(payload:OrganizationsUpdate):
+    perm = await organizations_repository.update(payload, id=payload.id)
+
+    return {'status': 'success', 'perm': perm}
+
+@organization_router.delete('/{id}', dependencies=[Depends(is_authorized)])
+async def delete_org(id: int):
+    perm = await organizations_repository.delete(id=id)
+
+    return JSONResponse(content={'status': 'success'})
+

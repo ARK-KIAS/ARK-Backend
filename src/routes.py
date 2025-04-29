@@ -1,13 +1,12 @@
 from fastapi import APIRouter
 
-# from .support.controllers import support_controller, admin_controller
 from .auth_routes import auth_router
+from .notification_router import notification_router
+from .organization_routes import organization_router
 from .perm_routes import perm_router
+from .region_routes import region_router
 from .users_routes import user_routes
 from .admin_routes import admin_router
-from src.schemas.permissions_schema import PermissionsCreate, PermissionsUpdate
-
-from src.repositories.permissions_repository import permissions_repository
 
 
 def get_apps_router():
@@ -16,6 +15,9 @@ def get_apps_router():
     router.include_router(perm_router)
     router.include_router(user_routes)
     router.include_router(admin_router)
+    router.include_router(organization_router)
+    router.include_router(region_router)
+    router.include_router(notification_router)
 
 
     return router

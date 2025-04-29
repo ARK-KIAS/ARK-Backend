@@ -6,6 +6,7 @@ from src.datatypes.enum_notification_type import NotificationType
 class NotificationsBase(BaseModel):
     title: str = Field(..., max_length=50, description="Заголовок уведомления")
     description: str = Field(..., max_length=50, description="Текст уведомления")
+    status: str = Field(..., max_length=50, description="status уведомления")
     type: NotificationType = Field(..., description="Тип уведомления")
     user_id: int = Field(..., description="ID пользователя-получателя")
 

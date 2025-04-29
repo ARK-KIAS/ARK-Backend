@@ -13,5 +13,6 @@ class NotificationsModel(Base):
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     title: Mapped[str] = mapped_column(String(50), unique=True) #User email
     description: Mapped[str] = mapped_column(String(50), unique=False) #Text of the notification
+    status: Mapped[str] = mapped_column(String(50), unique=False) #status of the notification
     type: Mapped[NotificationType] = mapped_column(Enum(NotificationType), unique=False) # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
