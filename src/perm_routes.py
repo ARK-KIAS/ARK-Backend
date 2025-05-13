@@ -8,9 +8,6 @@ from src.schemas.permissions_schema import PermissionsCreate, PermissionsUpdate
 
 from src.repositories.permissions_repository import permissions_repository
 
-
-RANDOM_COOKIE_ID = "isaugdiuadushadoisahn"
-
 perm_router = APIRouter(prefix="/permission", tags=["permission"])
 
 

@@ -7,6 +7,8 @@ from .perm_routes import perm_router
 from .region_routes import region_router
 from .users_routes import user_routes
 from .admin_routes import admin_router
+from .horses_routes import horses_router
+from .breeds_routes import breeds_router
 
 
 def get_apps_router():
@@ -18,6 +20,8 @@ def get_apps_router():
     router.include_router(organization_router)
     router.include_router(region_router)
     router.include_router(notification_router)
+    router.include_router(horses_router)
+    router.include_router(breeds_router)
 
 
     return router

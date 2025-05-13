@@ -12,7 +12,7 @@ from src.repositories.organizations_repository import organizations_repository
 from src.repositories.users_repository import users_repository
 from src.repositories.redis_sessions_repository import redis_sessions_repository
 
-from src.organization_routes import is_authorized
+from .misc_functions import is_authorized
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 

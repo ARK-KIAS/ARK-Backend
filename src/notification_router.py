@@ -8,20 +8,9 @@ from src.schemas.organizations_schema import OrganizationsCreate, OrganizationsU
 from src.repositories.organizations_repository import organizations_repository
 from src.repositories.redis_sessions_repository import redis_sessions_repository
 
+from .misc_functions import is_authorized
 
 notification_router = APIRouter(prefix="/notification", tags=["notifications"])
-
-async def is_authorized(request: Request):
-    """verify that user has a valid session"""
-    session_id = request.cookies.get("session_cookie")
-    if not session_id:
-        raise HTTPException(status_code=401)
-
-    auth = await redis_sessions_repository.get_single(access_token=session_id)
-
-    if auth is None:
-        raise HTTPException(status_code=403)
-    return True
 
 async def get_authorized_user_id(id):
     auth = await users_repository.get_single(id=id)
