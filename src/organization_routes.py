@@ -1,3 +1,5 @@
+from fastapi.encoders import jsonable_encoder
+
 from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
 from src.schemas.organizations_schema import OrganizationsCreate, OrganizationsUpdate
@@ -28,26 +30,26 @@ async def add_org(payload: OrganizationsCreate):
 
 @organization_router.get('/', dependencies=[Depends(is_authorized)])
 async def get_orgs():
-    perm = await organizations_repository.get_multi()
+    orgs = await organizations_repository.get_multi()
 
-    return {'status': 'success', 'results': len(perm), 'out': perm}
+    return JSONResponse(content={'organizations': jsonable_encoder(orgs)}, status_code=200)
 
 @organization_router.get('/{id}', dependencies=[Depends(is_authorized)])
 async def get_orgs(id: int):
-    perm = await organizations_repository.get_single(id=id)
+    org = await organizations_repository.get_single(id=id)
 
-    return {'status': 'success', 'results': len(perm), 'out': perm}
+    return JSONResponse(content={'organization': jsonable_encoder(org)}, status_code=200)
 
 
 @organization_router.put('/', dependencies=[Depends(is_authorized)])
 async def update_org(payload:OrganizationsUpdate):
-    perm = await organizations_repository.update(payload, id=payload.id)
+    updated_org = await organizations_repository.update(payload, id=payload.id)
 
-    return {'status': 'success', 'perm': perm}
+    return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_org)}, status_code=200)
 
 @organization_router.delete('/{id}', dependencies=[Depends(is_authorized)])
 async def delete_org(id: int):
-    perm = await organizations_repository.delete(id=id)
+    org = await organizations_repository.delete(id=id)
 
     return JSONResponse(content={'status': 'success'})
 

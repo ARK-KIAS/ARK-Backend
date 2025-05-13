@@ -1,12 +1,18 @@
 import uuid
 
+from fastapi.encoders import jsonable_encoder
 from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
 
+from src.repositories.permissions_repository import permissions_repository
 from src.schemas.redis_sessions_schema import RedisSessionsCreate, RedisSessionsUpdate, RedisSessionsAuth, RedisSessionsBase
+from src.schemas.users_schema import UsersResponse
 
+from src.repositories.organizations_repository import organizations_repository
 from src.repositories.users_repository import users_repository
 from src.repositories.redis_sessions_repository import redis_sessions_repository
+
+from src.organization_routes import is_authorized
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -33,6 +39,19 @@ async def check_auth(payload: RedisSessionsAuth):
     await redis_sessions_repository.create(create_model)
 
     return response
+
+@auth_router.get('/login/user', dependencies=[Depends(is_authorized)])
+async def is_logged(req: Request):
+    session_id = req.cookies.get("session_cookie")
+    login = await redis_sessions_repository.get_single(access_token=session_id)
+
+    user = await users_repository.get_single(id=login.user_id)
+
+    org = await organizations_repository.get_single(admin_id=user.id)
+
+    perm = await permissions_repository.get_single(id=user.permission_id)
+
+    return JSONResponse(content={'user': jsonable_encoder(user), 'org': jsonable_encoder(org), 'permission': jsonable_encoder(perm)}, status_code=200)
 
 @auth_router.delete('/logout/user')
 async def logout(req: Request):

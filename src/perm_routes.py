@@ -1,4 +1,6 @@
+from fastapi.encoders import jsonable_encoder
 from fastapi import APIRouter
+from fastapi.responses import JSONResponse, RedirectResponse, Response
 
 # from .support.controllers import support_controller, admin_controller
 from .auth_routes import auth_router
@@ -16,23 +18,23 @@ perm_router = APIRouter(prefix="/permission", tags=["permission"])
 async def add_permission(payload: PermissionsCreate):
     await permissions_repository.create(payload)
 
-    return {'status': 'success'}
+    return JSONResponse(content={'status': 'success'}, status_code=201)
 
 @perm_router.get('/')
 async def get_permission():
     perm = await permissions_repository.get_multi()
 
-    return {'status': 'success', 'results': len(perm), 'out': perm}
+    return JSONResponse(content={'permission': jsonable_encoder(perm)}, status_code=200)
 
 @perm_router.patch('/')
 async def update_permission(payload:PermissionsUpdate):
-    perm = await permissions_repository.update(payload, id=payload.id)
+    updated_perm = await permissions_repository.update(payload, id=payload.id)
 
-    return {'status': 'success', 'perm': perm}
+    return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_perm)}, status_code=200)
 
 @perm_router.delete('/')
 async def delete_permission(payload:PermissionsUpdate):
     perm = await permissions_repository.delete(id=payload.id)
 
-    return {'status': 'success', 'perm': perm}
+    return JSONResponse(content={'status': 'success'}, status_code=200)
 
