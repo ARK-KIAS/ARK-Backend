@@ -1,9 +1,6 @@
 from fastapi.encoders import jsonable_encoder
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse, RedirectResponse, Response
-
-# from .support.controllers import support_controller, admin_controller
-from .auth_routes import auth_router
 from src.schemas.permissions_schema import PermissionsCreate, PermissionsUpdate
 
 from src.repositories.permissions_repository import permissions_repository
@@ -23,7 +20,7 @@ async def get_permission():
 
     return JSONResponse(content={'permission': jsonable_encoder(perm)}, status_code=200)
 
-@perm_router.patch('/')
+@perm_router.put('/')
 async def update_permission(payload:PermissionsUpdate):
     updated_perm = await permissions_repository.update(payload, id=payload.id)
 

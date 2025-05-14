@@ -28,7 +28,6 @@ admin_router = APIRouter(prefix="/admin", tags=["admin"])
 @admin_router.post('/org/media')
 async def add_org(payload: MediaFilesCreate):
     await media_files_repository.create(payload)
-
     return JSONResponse(content={'status': 'success'})
 
 @admin_router.get('/org/media')

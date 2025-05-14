@@ -35,4 +35,3 @@ async def update_user_by_id(payload:UsersUpdate):
 async def delete_user_by_id(id: int):
     await users_repository.delete(id=id)
     return JSONResponse(content={'status': 'success'}, status_code=200)
-

@@ -16,11 +16,12 @@ async def add_org(payload: HorsesCreate):
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@horses_router.get('/', dependencies=[Depends(is_authorized)])
-async def get_orgs():
+@horses_router.get('/', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
+async def get_orgs() -> list[HorsesResponse]:
     horses = await horses_repository.get_multi()
 
-    return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
+    # return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
+    return horses
 
 @horses_router.get('/{id}', dependencies=[Depends(is_authorized)])
 async def get_orgs(id: int):
