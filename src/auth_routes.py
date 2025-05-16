@@ -26,10 +26,10 @@ async def check_auth(payload: RedisSessionsAuth):
     if auth_user is None:
         return JSONResponse(content={"message": "Auth failure, check login/password"}, status_code=401)
 
-    response = RedirectResponse("/", status_code=200) #todo
+    response = JSONResponse(content={'status': 'success'})
     users_sessions = uuid.uuid4()
 
-    response.set_cookie(key="session_cookie", value=str(users_sessions))
+    response.set_cookie(key="session_cookie", value=str(users_sessions), max_age=604800, httponly=True)
 
     payload_dict = payload.dict()
     payload_dict["user_id"] = auth_user.id
@@ -46,17 +46,19 @@ async def is_logged(req: Request):
     login = await redis_sessions_repository.get_single(access_token=session_id)
 
     user = await users_repository.get_single(id=login.user_id)
+    user_dict = user.__dict__
+    user_dict.pop("password")
 
     org = await organizations_repository.get_single(admin_id=user.id)
 
     perm = await permissions_repository.get_single(id=user.permission_id)
 
-    return JSONResponse(content={'user': jsonable_encoder(user), 'org': jsonable_encoder(org), 'permission': jsonable_encoder(perm)}, status_code=200)
+    return JSONResponse(content={'user': jsonable_encoder(user_dict), 'org': jsonable_encoder(org), 'permission': jsonable_encoder(perm)}, status_code=200)
 
 @auth_router.delete('/logout/user')
 async def logout(req: Request):
     session_id = req.cookies.get("session_cookie")
-    resp = RedirectResponse("/", status_code=200) #todo
+    resp = JSONResponse(content={'status': 'success'}) #todo
     perm = await redis_sessions_repository.delete(access_token=session_id)
     resp.delete_cookie(key="session_cookie")
     return resp

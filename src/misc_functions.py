@@ -11,28 +11,28 @@ async def is_authorized(request: Request):
     """verify that user has a valid session"""
     session_id = request.cookies.get("session_cookie")
     if not session_id:
-        raise HTTPException(status_code=401)
+        raise HTTPException(detail= "Not authorized!", status_code=401)
 
     auth = await redis_sessions_repository.get_single(access_token=session_id)
 
     if auth is None:
-        raise HTTPException(status_code=403)
+        raise HTTPException(detail= "Not authorized!", status_code=403)
     return True
 
 async def accessible(request: Request):
     session_id = request.cookies.get("session_cookie")
     if not session_id:
-        raise HTTPException(status_code=401)
+        raise HTTPException(detail= "Not authorized!", status_code=401)
 
     auth = await redis_sessions_repository.get_single(access_token=session_id)
 
     if auth is None:
-        raise HTTPException(status_code=403)
+        raise HTTPException(detail= "Not authorized!", status_code=403)
 
     user = await users_repository.get_single(id=auth.user_id)
 
     if user is None:
-        raise HTTPException(status_code=400)
+        raise HTTPException(detail= "User not found!", status_code=400)
 
     user_permission = await permissions_repository.get_single(id=user.permission_id)
 

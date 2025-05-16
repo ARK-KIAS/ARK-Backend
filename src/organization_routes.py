@@ -14,6 +14,22 @@ organization_router = APIRouter(prefix="/organization", tags=["organizations"])
 # Organization Repos ###################################################################################################
 @organization_router.post('/', dependencies=[Depends(is_authorized)])
 async def add_org(payload: OrganizationsCreate):
+    if await organizations_repository.get_single(corr_account=payload.corr_account):
+        return JSONResponse(content={'message': 'Organization with this corr account already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(email=payload.email):
+        return JSONResponse(content={'message': 'Organization with this email already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(settlement_account=payload.settlement_account):
+        return JSONResponse(content={'message': 'Organization with this settlement account already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(site_link=payload.site_link):
+        return JSONResponse(content={'message': 'Organization with this site link already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(tel=payload.tel):
+        return JSONResponse(content={'message': 'Organization with this telephone number already exists!'}, status_code=409)
+
+
     await organizations_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
@@ -33,6 +49,21 @@ async def get_orgs(id: int):
 
 @organization_router.put('/', dependencies=[Depends(is_authorized)])
 async def update_org(payload:OrganizationsUpdate):
+    if await organizations_repository.get_single(corr_account=payload.corr_account):
+        return JSONResponse(content={'message': 'Organization with this corr account already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(email=payload.email):
+        return JSONResponse(content={'message': 'Organization with this email already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(settlement_account=payload.settlement_account):
+        return JSONResponse(content={'message': 'Organization with this settlement account already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(site_link=payload.site_link):
+        return JSONResponse(content={'message': 'Organization with this site link already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(tel=payload.tel):
+        return JSONResponse(content={'message': 'Organization with this telephone number already exists!'}, status_code=409)
+
     updated_org = await organizations_repository.update(payload, id=payload.id)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_org)}, status_code=200)
