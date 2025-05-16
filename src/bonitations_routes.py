@@ -5,8 +5,8 @@ from fastapi.responses import JSONResponse, RedirectResponse, Response
 from src.schemas.users_schema import UsersCreate, UsersUpdate, UsersResponse
 from src.repositories.users_repository import users_repository
 
-race_routes = APIRouter(prefix="/races", tags=["races"])
+bonitation_router = APIRouter(prefix="/bonitations", tags=["bonitations"])
 
-@race_routes.get('/')
+@bonitation_router.get('/')
 async def add_permission():
     return JSONResponse(content={'status': 'success'}, status_code=200)

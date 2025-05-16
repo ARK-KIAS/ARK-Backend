@@ -5,7 +5,7 @@ from typing import Optional
 
 class RaceDaysBase(BaseModel):
     name: str = Field(..., max_length=50, description="Название гоночного дня")
-    date: Optional[date] = Field(None, description="Дата проведения")
+    date: Optional[datetime] = Field(None, description="Дата проведения")
     start_time: Optional[time] = Field(None, description="Время начала")
 
 
