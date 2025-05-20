@@ -49,7 +49,7 @@ async def is_logged(req: Request):
     user_dict = user.__dict__
     user_dict.pop("password")
 
-    org = await organizations_repository.get_single(admin_id=user.id)
+    org = await organizations_repository.get_single(id=user.organization_id)
 
     perm = await permissions_repository.get_single(id=user.permission_id)
 

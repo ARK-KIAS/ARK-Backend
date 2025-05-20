@@ -36,6 +36,12 @@ async def update_org(payload:HorsesUpdate):
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_horse)}, status_code=200)
 
+@horses_router.patch('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
+async def update_org(payload:HorsesUpdate):
+    updated_horse = await horses_repository.update(payload, id=payload.id)
+
+    return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_horse)}, status_code=200)
+
 @horses_router.delete('/{id}', dependencies=[Depends(is_authorized)])
 async def delete_org(id: int):
     horse = await horses_repository.delete(id=id)

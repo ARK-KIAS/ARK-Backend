@@ -54,3 +54,25 @@ async def delete_org(payload:MediaFilesUpdate):
     perm = await media_files_repository.delete(id=payload.id)
 
     return JSONResponse(content={'status': 'success'}, status_code=200)
+
+@admin_router.post('/org')
+async def add_org(payload: OrganizationsCreate):
+    if await organizations_repository.get_single(corr_account=payload.corr_account):
+        return JSONResponse(content={'message': 'Organization with this corr account already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(email=payload.email):
+        return JSONResponse(content={'message': 'Organization with this email already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(settlement_account=payload.settlement_account):
+        return JSONResponse(content={'message': 'Organization with this settlement account already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(site_link=payload.site_link):
+        return JSONResponse(content={'message': 'Organization with this site link already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(tel=payload.tel):
+        return JSONResponse(content={'message': 'Organization with this telephone number already exists!'}, status_code=409)
+
+
+    await organizations_repository.create(payload)
+
+    return JSONResponse(content={'status': 'success'}, status_code=201)

@@ -7,7 +7,7 @@ from src.datatypes.enum_organization_type import OrganizationType
 class UsersBase(BaseModel):
     email: EmailStr = Field(..., max_length=50, description="Email пользователя (уникальный идентификатор)")
     permission_id: int = Field(..., description="ID уровня доступа пользователя")
-    organization_type: OrganizationType = Field(..., description="Тип организации пользователя")
+    organization_id: int = Field(..., description="ID организации")
     given_name: str = Field(..., max_length=50, description="Имя пользователя")
     family_name: str = Field(..., max_length=50, description="Фамилия пользователя")
     middle_name: str = Field(..., max_length=50, description="Отчество пользователя (при наличии)")
@@ -23,7 +23,7 @@ class UsersCreate(UsersBase):
             "example": {
                 "email": "user@example.com",
                 "permission_id": 2,
-                "organization_type": "hippodrome",
+                "organization_id": 1,
                 "given_name": "Иван",
                 "family_name": "Иванов",
                 "middle_name": "Иванович",
@@ -44,7 +44,7 @@ class UsersUpdate(UsersBase):
                 "id": 1,
                 "email": "user@example.com",
                 "permission_id": 2,
-                "organization_type": "hippodrome",
+                "organization_id": 1,
                 "given_name": "Иван",
                 "family_name": "Иванов",
                 "middle_name": "Иванович",
@@ -64,7 +64,7 @@ class UsersResponse(UsersBase):
                 "id": 1,
                 "email": "user@example.com",
                 "permission_id": 2,
-                "organization_type": "hippodrome",
+                "organization_id": 1,
                 "given_name": "Иван",
                 "family_name": "Иванов",
                 "middle_name": "Иванович",

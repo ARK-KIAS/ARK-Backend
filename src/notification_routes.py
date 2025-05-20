@@ -31,12 +31,8 @@ async def get_all_notifications():
 
     return JSONResponse(content={'notification': jsonable_encoder(notification)}, status_code=200)
 
-@notification_router.get('/{org_id}', dependencies=[Depends(is_authorized)], response_model=NotificationsResponse)
-async def get_notifications_for_orgs(org_id: int, req: Request):
-    session_id = req.cookies.get("session_cookie")
-    auth = await redis_sessions_repository.get_single(access_token=session_id)
-
-    org = await organizations_repository.get_single(admin_id=auth.user_id)
-    nots = await notifications_repository.get_multi_filtered(user_id=auth.user_id) #todo 3 бонитировщика а уведы только админу
+@notification_router.get('/{user_id}', dependencies=[Depends(is_authorized)], response_model=NotificationsResponse)
+async def get_notifications_for_orgs(user_id: int, req: Request):
+    nots = await notifications_repository.get_multi_filtered(user_id=user_id) #todo 3 бонитировщика а уведы только админу
 
     return JSONResponse(content={'notifications': jsonable_encoder(nots)}, status_code=200)
