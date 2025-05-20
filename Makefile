@@ -14,6 +14,7 @@ build:
 migrate:
 	echo "[Make]: Running 'migrate' target in Makefile..." && \
 	cd docker-deploy && \
+	docker exec -it ${APP_CONTAINER_NAME} alembic revision --autogenerate && \
 	docker exec -it ${APP_CONTAINER_NAME} alembic upgrade head && \
 	echo "Migrator runs successfully"
 run:
