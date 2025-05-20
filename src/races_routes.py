@@ -29,9 +29,9 @@ async def get_orgs(id: int):
     return JSONResponse(content={'race': jsonable_encoder(race)}, status_code=200)
 
 
-@race_router.put('', dependencies=[Depends(is_authorized)], response_model=RacesResponse)
-async def update_org(payload:RacesUpdate):
-    updated_race = await races_repository.update(payload, id=payload.id, status_code=200)
+@race_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=RacesResponse)
+async def update_org(id: int, payload:RacesUpdate):
+    updated_race = await races_repository.update(payload, id=id, status_code=200)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_race)}, status_code=200)
 

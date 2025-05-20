@@ -47,8 +47,8 @@ async def get_orgs(id: int):
     return JSONResponse(content={'organization': jsonable_encoder(org)}, status_code=200)
 
 
-@organization_router.put('', dependencies=[Depends(is_authorized)], response_model=OrganizationsResponse)
-async def update_org(payload:OrganizationsUpdate):
+@organization_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=OrganizationsResponse)
+async def update_org(id: int, payload:OrganizationsUpdate):
     if await organizations_repository.get_single(corr_account=payload.corr_account):
         return JSONResponse(content={'message': 'Organization with this corr account already exists!'}, status_code=409)
 
@@ -64,7 +64,7 @@ async def update_org(payload:OrganizationsUpdate):
     if await organizations_repository.get_single(tel=payload.tel):
         return JSONResponse(content={'message': 'Organization with this telephone number already exists!'}, status_code=409)
 
-    updated_org = await organizations_repository.update(payload, id=payload.id)
+    updated_org = await organizations_repository.update(payload, id=id)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_org)}, status_code=200)
 

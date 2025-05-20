@@ -28,9 +28,9 @@ async def get_orgs(id: int):
     return JSONResponse(content={'specialist': jsonable_encoder(specialist)}, status_code=200)
 
 
-@specialists_router.put('', dependencies=[Depends(is_authorized)], response_model=SpecialistsResponse)
-async def update_org(payload:SpecialistsUpdate):
-    updated_specialist = await specialists_repository.update(payload, id=payload.id, status_code=200)
+@specialists_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=SpecialistsResponse)
+async def update_org(id: int, payload:SpecialistsUpdate):
+    updated_specialist = await specialists_repository.update(payload, id=id, status_code=200)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_specialist)}, status_code=200)
 

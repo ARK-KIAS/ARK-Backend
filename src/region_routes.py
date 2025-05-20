@@ -21,14 +21,14 @@ async def get_orgs():
 
     return JSONResponse(content={'regions': jsonable_encoder(region)}, status_code=200)
 
-@region_router.put('/org/region', response_model=RegionsResponse)
-async def update_org(payload:RegionsUpdate):
-    updated_region = await regions_repository.update(payload, id=payload.id)
+@region_router.put('/org/region/{id}', response_model=RegionsResponse)
+async def update_org(id: int, payload:RegionsUpdate):
+    updated_region = await regions_repository.update(payload, id=id)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_region)}, status_code=200)
 
-@region_router.delete('/org/region')
-async def delete_org(payload:RegionsUpdate):
-    perm = await regions_repository.delete(id=payload.id)
+@region_router.delete('/org/region/{id}')
+async def delete_org(id: int, payload:RegionsUpdate):
+    perm = await regions_repository.delete(id=id)
 
     return JSONResponse(content={'status': 'success'})

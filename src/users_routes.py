@@ -39,7 +39,7 @@ async def update_user_by_id(payload:UsersUpdate):
     if await users_repository.get_single(username = payload.username) is not None:
         return JSONResponse(content={'message': 'This username already taken!'}, status_code=409)
 
-    updated_user = await users_repository.update(payload, id=payload.id)
+    updated_user = await users_repository.update(payload, id=id)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_user)}, status_code=200)
 

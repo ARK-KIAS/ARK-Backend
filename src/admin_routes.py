@@ -40,12 +40,12 @@ async def get_orgs():
 
     return JSONResponse(content={'media_files': jsonable_encoder(perm)}, status_code=200)
 
-@admin_router.patch('/org/media', response_model=MediaFilesResponse)
-async def update_org(payload:MediaFilesUpdate):
+@admin_router.put('/org/media/{id}', response_model=MediaFilesResponse)
+async def update_org(id: int, payload:MediaFilesUpdate):
     if await media_files_repository.get_single(file_name=payload.file_name):
         return JSONResponse(content={'message': 'File with this name already exists!'}, status_code=409)
 
-    perm = await media_files_repository.update(payload, id=payload.id)
+    perm = await media_files_repository.update(payload, id=id)
 
     return JSONResponse(content={'media_file': jsonable_encoder(perm)}, status_code=200)
 

@@ -30,15 +30,15 @@ async def get_orgs(id: int):
     return JSONResponse(content={'horse': jsonable_encoder(horse)}, status_code=200)
 
 
-@horses_router.put('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
-async def update_org(payload:HorsesUpdate):
-    updated_horse = await horses_repository.update(payload, id=payload.id)
+@horses_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
+async def update_org(id: int, payload:HorsesUpdate):
+    updated_horse = await horses_repository.update(payload, id=id)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_horse)}, status_code=200)
 
-@horses_router.patch('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
-async def update_org(payload:HorsesUpdate):
-    updated_horse = await horses_repository.update(payload, id=payload.id)
+@horses_router.patch('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
+async def update_org(id: int, payload:HorsesUpdate):
+    updated_horse = await horses_repository.update(payload, id=id)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_horse)}, status_code=200)
 
