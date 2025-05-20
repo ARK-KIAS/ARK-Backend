@@ -1,4 +1,4 @@
-![GithubCI](https://github.com/ARK-KIAS/ARK-Backend/actions/workflows/deploy.yml/badge.svg)
+![GithubCI](https://github.com/ARK-KIAS/ARK-Backend/actions/workflows/deployMain.yml/badge.svg)
 
 # ARK Backend
 
