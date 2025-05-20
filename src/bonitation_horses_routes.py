@@ -6,11 +6,19 @@ from src.schemas.bonitation_horses_schema import BonitationHorsesCreate, Bonitat
 from src.repositories.bonitation_horses_repository import bonitation_horses_repository
 
 from .misc_functions import is_authorized
+from .repositories.bonitations_repository import bonitations_repository
+from .repositories.horses_repository import horses_repository
 
 bonitation_horses_router = APIRouter(prefix="/bonitations/horses", tags=["bonitations_horses"])
 
 @bonitation_horses_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: BonitationHorsesCreate):
+    if await horses_repository.get_single(id=payload.horse_id) is None:
+        return JSONResponse(content={'message': 'There is no horse with that ID!'}, status_code=404)
+
+    if await bonitations_repository.get_single(id=payload.bonitation_id) is None:
+        return JSONResponse(content={'message': 'There is no bonitation with that ID!'}, status_code=404)
+
     await bonitation_horses_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
@@ -29,9 +37,18 @@ async def get_orgs(id: int):
     return JSONResponse(content={'horses_photos': jsonable_encoder(bonitation_horses)}, status_code=200)
 
 
-@bonitation_horses_router.put('', dependencies=[Depends(is_authorized)], response_model=BonitationHorsesResponse)
-async def update_org(payload:BonitationHorsesUpdate):
-    bonitation_horses_photos = await bonitation_horses_repository.update(payload, id=payload.id, status_code=200)
+@bonitation_horses_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=BonitationHorsesResponse)
+async def update_org(id: int, payload:BonitationHorsesUpdate):
+    if await bonitation_horses_repository.get_single(id=id) is None:
+        return JSONResponse(content={'message': 'There is no such bonitation-horse found!'}, status_code=404)
+
+    if await horses_repository.get_single(id=payload.horse_id) is None:
+        return JSONResponse(content={'message': 'There is no horse with that ID!'}, status_code=404)
+
+    if await bonitations_repository.get_single(id=payload.bonitation_id) is None:
+        return JSONResponse(content={'message': 'There is no bonitation with that ID!'}, status_code=404)
+
+    bonitation_horses_photos = await bonitation_horses_repository.update(payload, id=id, status_code=200)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(bonitation_horses_photos)}, status_code=200)
 

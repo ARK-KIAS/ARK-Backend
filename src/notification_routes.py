@@ -19,7 +19,7 @@ async def get_authorized_user_id(id):
 
 
 # Organization Repos ###################################################################################################
-@notification_router.post('', dependencies=[Depends(is_authorized)])
+@notification_router.post('', dependencies=[Depends(is_authorized)]) #todo доделать проверки входных данных
 async def create_notification(payload: NotificationsCreate):
     await notifications_repository.create(payload)
 
