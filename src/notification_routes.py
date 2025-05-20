@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Request, Depends
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, RedirectResponse, Response
 
 from src.repositories.notifications_repository import notifications_repository
@@ -26,9 +27,9 @@ async def create_notification(payload: NotificationsCreate):
 
 @notification_router.get('/', dependencies=[Depends(is_authorized)])
 async def get_all_notifications():
-    perm = await notifications_repository.get_multi()
+    notification = await notifications_repository.get_multi()
 
-    return perm
+    return JSONResponse(content={'notification': jsonable_encoder(notification)}, status_code=200)
 
 @notification_router.get('/{org_id}', dependencies=[Depends(is_authorized)])
 async def get_notifications_for_orgs(org_id: int, req: Request):
@@ -37,4 +38,5 @@ async def get_notifications_for_orgs(org_id: int, req: Request):
 
     org = await organizations_repository.get_single(admin_id=auth.user_id)
     nots = await notifications_repository.get_multi_filtered(user_id=auth.user_id) #todo 3 бонитировщика а уведы только админу
-    return nots
+
+    return JSONResponse(content={'notifications': jsonable_encoder(nots)}, status_code=200)

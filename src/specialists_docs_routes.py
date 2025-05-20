@@ -15,11 +15,11 @@ async def add_org(payload: SpecialistDocsCreate):
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
 @specialist_docs_router.get('/', dependencies=[Depends(is_authorized)], response_model=SpecialistDocsCreate)
-async def get_orgs() -> list[SpecialistDocsResponse]:
+async def get_orgs():
     specialist_docs = await specialist_docs_repository.get_multi()
 
-    # return JSONResponse(content={'specialist_docs': jsonable_encoder(specialist_docs)}, status_code=200)
-    return specialist_docs
+    return JSONResponse(content={'specialist_docs': jsonable_encoder(specialist_docs)}, status_code=200)
+    #return specialist_docs
 
 @specialist_docs_router.get('/{id}', dependencies=[Depends(is_authorized)])
 async def get_orgs(id: int):

@@ -20,11 +20,11 @@ async def add_org(payload: RacesCreate):
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
 @race_router.get('/', dependencies=[Depends(is_authorized)], response_model=RacesCreate)
-async def get_orgs() -> list[RacesResponse]:
+async def get_orgs():
     races = await races_repository.get_multi()
 
-    # return JSONResponse(content={'races': jsonable_encoder(races)}, status_code=200)
-    return races
+    return JSONResponse(content={'races': jsonable_encoder(races)}, status_code=200)
+    #return races
 
 @race_router.get('/{id}', dependencies=[Depends(is_authorized)])
 async def get_orgs(id: int):

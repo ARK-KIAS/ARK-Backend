@@ -21,11 +21,11 @@ async def add_org(payload: HorseHistoryCreate):
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
 @history_router.get('/', dependencies=[Depends(is_authorized)], response_model=HorseHistoryCreate)
-async def get_orgs() -> list[HorseHistoryResponse]:
+async def get_orgs():
     horse_history = await horse_history_repository.get_multi()
 
-    # return JSONResponse(content={'horse_history': jsonable_encoder(horse_history)}, status_code=200)
-    return horse_history
+    return JSONResponse(content={'horse_history': jsonable_encoder(horse_history)}, status_code=200)
+    #return horse_history
 
 @history_router.get('/{id}', dependencies=[Depends(is_authorized)])
 async def get_orgs(id: int):

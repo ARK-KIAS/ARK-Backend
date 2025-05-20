@@ -20,11 +20,11 @@ async def add_org(payload: OrganizationsDocsCreate):
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
 @organization_docs_router.get('/', dependencies=[Depends(is_authorized)], response_model=OrganizationsDocsCreate)
-async def get_orgs() -> list[OrganizationsDocsResponse]:
+async def get_orgs():
     organizations_docs = await organizations_docs_repository.get_multi()
 
-    # return JSONResponse(content={'organizations_docs': jsonable_encoder(organizations_docs)}, status_code=200)
-    return organizations_docs
+    return JSONResponse(content={'organizations_docs': jsonable_encoder(organizations_docs)}, status_code=200)
+    #return organizations_docs
 
 @organization_docs_router.get('/{id}', dependencies=[Depends(is_authorized)])
 async def get_orgs(id: int):
