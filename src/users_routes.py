@@ -19,19 +19,19 @@ async def add_user(payload: UsersCreate):
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@user_router.get('/users')
+@user_router.get('/users', response_model=UsersResponse)
 async def get_users():
     users = await users_repository.get_multi()
 
     return JSONResponse(content={'users': jsonable_encoder(users)}, status_code=200)
 
-@user_router.get('/user/{id}')
+@user_router.get('/user/{id}', response_model=UsersResponse)
 async def get_user_by_id(id: int):
     user = await users_repository.get_single(id=id)
     return JSONResponse(content={'user': jsonable_encoder(user)}, status_code=200)
 
 
-@user_router.put('/user/{id}')
+@user_router.put('/user/{id}', response_model=UsersResponse)
 async def update_user_by_id(payload:UsersUpdate):
     if await users_repository.get_single(email=payload.email) is not None:
         return JSONResponse(content={'message': 'This email already exists!'}, status_code=409)

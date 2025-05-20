@@ -9,31 +9,27 @@ from .misc_functions import is_authorized
 
 horse_photos_router = APIRouter(prefix="/horses/photos", tags=["horses_photos"])
 
-@horse_photos_router.get('/')
-async def add_permission():
-    return JSONResponse(content={'status': 'success'}, status_code=200)
-
-@horse_photos_router.post('/', dependencies=[Depends(is_authorized)])
+@horse_photos_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: HorsesPhotosCreate):
     await horses_photos_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@horse_photos_router.get('/', dependencies=[Depends(is_authorized)], response_model=HorsesPhotosCreate)
+@horse_photos_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesPhotosResponse)
 async def get_orgs():
     horses_photos = await horses_photos_repository.get_multi()
 
     return JSONResponse(content={'horses_photos': jsonable_encoder(horses_photos)}, status_code=200)
     #return horses_photos
 
-@horse_photos_router.get('/{id}', dependencies=[Depends(is_authorized)])
+@horse_photos_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesPhotosResponse)
 async def get_orgs(id: int):
     horses_photos = await horses_photos_repository.get_single(id=id)
 
     return JSONResponse(content={'horses_photos': jsonable_encoder(horses_photos)}, status_code=200)
 
 
-@horse_photos_router.put('/', dependencies=[Depends(is_authorized)])
+@horse_photos_router.put('', dependencies=[Depends(is_authorized)], response_model=HorsesPhotosResponse)
 async def update_org(payload:HorsesPhotosUpdate):
     updated_horses_photos = await horses_photos_repository.update(payload, id=payload.id, status_code=200)
 

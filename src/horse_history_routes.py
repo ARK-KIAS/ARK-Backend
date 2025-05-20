@@ -10,31 +10,27 @@ from .misc_functions import is_authorized
 
 history_router = APIRouter(prefix="/history", tags=["history"])
 
-@history_router.get('/')
-async def add_permission():
-    return JSONResponse(content={'status': 'success'}, status_code=200)
-
-@history_router.post('/', dependencies=[Depends(is_authorized)])
+@history_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: HorseHistoryCreate):
     await horse_history_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@history_router.get('/', dependencies=[Depends(is_authorized)], response_model=HorseHistoryCreate)
+@history_router.get('', dependencies=[Depends(is_authorized)], response_model=HorseHistoryResponse)
 async def get_orgs():
     horse_history = await horse_history_repository.get_multi()
 
     return JSONResponse(content={'horse_history': jsonable_encoder(horse_history)}, status_code=200)
     #return horse_history
 
-@history_router.get('/{id}', dependencies=[Depends(is_authorized)])
+@history_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=HorseHistoryResponse)
 async def get_orgs(id: int):
     horse_history = await horse_history_repository.get_single(id=id)
 
     return JSONResponse(content={'race_days': jsonable_encoder(horse_history)}, status_code=200)
 
 
-@history_router.put('/', dependencies=[Depends(is_authorized)])
+@history_router.put('', dependencies=[Depends(is_authorized)], response_model=HorseHistoryResponse)
 async def update_org(payload:HorseHistoryUpdate):
     updated_horse_history = await horse_history_repository.update(payload, id=payload.id, status_code=200)
 

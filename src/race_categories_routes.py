@@ -9,31 +9,27 @@ from .misc_functions import is_authorized
 
 race_categories_router = APIRouter(prefix="/races/categories", tags=["race_categories"])
 
-@race_categories_router.get('/')
-async def add_permission():
-    return JSONResponse(content={'status': 'success'}, status_code=200)
-
-@race_categories_router.post('/', dependencies=[Depends(is_authorized)])
+@race_categories_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: RaceCategoriesCreate):
     await race_categories_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@race_categories_router.get('/', dependencies=[Depends(is_authorized)], response_model=RaceCategoriesCreate)
+@race_categories_router.get('', dependencies=[Depends(is_authorized)], response_model=RaceCategoriesResponse)
 async def get_orgs():
     race_categories = await race_categories_repository.get_multi()
 
     return JSONResponse(content={'race_categories': jsonable_encoder(race_categories)}, status_code=200)
     #return race_categories
 
-@race_categories_router.get('/{id}', dependencies=[Depends(is_authorized)])
+@race_categories_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=RaceCategoriesResponse)
 async def get_orgs(id: int):
     race_categories = await race_categories_repository.get_single(id=id)
 
     return JSONResponse(content={'race_days': jsonable_encoder(race_categories)}, status_code=200)
 
 
-@race_categories_router.put('/', dependencies=[Depends(is_authorized)])
+@race_categories_router.put('', dependencies=[Depends(is_authorized)], response_model=RaceCategoriesResponse)
 async def update_org(payload:RaceCategoriesUpdate):
     updated_race_categories = await race_categories_repository.update(payload, id=payload.id, status_code=200)
 

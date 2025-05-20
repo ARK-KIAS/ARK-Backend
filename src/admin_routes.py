@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, RedirectResponse, Response
 from src.schemas.organizations_schema import OrganizationsCreate, OrganizationsUpdate
-from src.schemas.media_files_schema import MediaFilesCreate, MediaFilesUpdate
+from src.schemas.media_files_schema import MediaFilesCreate, MediaFilesUpdate, MediaFilesResponse
 from src.schemas.regions_schema import RegionsCreate, RegionsUpdate
 from src.repositories.organizations_repository import organizations_repository
 from src.repositories.media_files_repository import media_files_repository
@@ -34,13 +34,13 @@ async def add_org(payload: MediaFilesCreate):
     await media_files_repository.create(payload)
     return JSONResponse(content={'status': 'success'}, status_code=200)
 
-@admin_router.get('/org/media')
+@admin_router.get('/org/media', response_model=MediaFilesResponse)
 async def get_orgs():
     perm = await media_files_repository.get_multi()
 
     return JSONResponse(content={'media_files': jsonable_encoder(perm)}, status_code=200)
 
-@admin_router.patch('/org/media')
+@admin_router.patch('/org/media', response_model=MediaFilesResponse)
 async def update_org(payload:MediaFilesUpdate):
     if await media_files_repository.get_single(file_name=payload.file_name):
         return JSONResponse(content={'message': 'File with this name already exists!'}, status_code=409)

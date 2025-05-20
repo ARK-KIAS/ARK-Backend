@@ -10,27 +10,27 @@ from src.repositories.bonitations_repository import bonitations_repository
 
 bonitation_router = APIRouter(prefix="/bonitations", tags=["bonitations"])
 
-@bonitation_router.post('/', dependencies=[Depends(is_authorized)])
+@bonitation_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: BonitationsCreate):
     await bonitations_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@bonitation_router.get('/', dependencies=[Depends(is_authorized)], response_model=BonitationsCreate)
+@bonitation_router.get('', dependencies=[Depends(is_authorized)], response_model=BonitationsResponse)
 async def get_orgs():
     bonitations = await bonitations_repository.get_multi()
 
     return JSONResponse(content={'bonitation': jsonable_encoder(bonitations)}, status_code=200)
     #return bonitation
 
-@bonitation_router.get('/{id}', dependencies=[Depends(is_authorized)])
+@bonitation_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=BonitationsResponse)
 async def get_orgs(id: int):
     bonitation = await bonitations_repository.get_single(id=id)
 
     return JSONResponse(content={'horses_photos': jsonable_encoder(bonitation)}, status_code=200)
 
 
-@bonitation_router.put('/', dependencies=[Depends(is_authorized)])
+@bonitation_router.put('', dependencies=[Depends(is_authorized)], response_model=BonitationsResponse)
 async def update_org(payload:BonitationsUpdate):
     bonitation = await bonitations_repository.update(payload, id=payload.id, status_code=200)
 

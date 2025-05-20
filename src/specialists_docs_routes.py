@@ -8,27 +8,27 @@ from src.misc_functions import is_authorized
 
 specialist_docs_router = APIRouter(prefix="/specialists/docs", tags=["specialists_docs"])
 
-@specialist_docs_router.post('/', dependencies=[Depends(is_authorized)])
+@specialist_docs_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: SpecialistDocsCreate):
     await specialist_docs_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@specialist_docs_router.get('/', dependencies=[Depends(is_authorized)], response_model=SpecialistDocsCreate)
+@specialist_docs_router.get('', dependencies=[Depends(is_authorized)], response_model=SpecialistDocsResponse)
 async def get_orgs():
     specialist_docs = await specialist_docs_repository.get_multi()
 
     return JSONResponse(content={'specialist_docs': jsonable_encoder(specialist_docs)}, status_code=200)
     #return specialist_docs
 
-@specialist_docs_router.get('/{id}', dependencies=[Depends(is_authorized)])
+@specialist_docs_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=SpecialistDocsResponse)
 async def get_orgs(id: int):
     specialist_docs = await specialist_docs_repository.get_single(id=id)
 
     return JSONResponse(content={'horse': jsonable_encoder(specialist_docs)}, status_code=200)
 
 
-@specialist_docs_router.put('/', dependencies=[Depends(is_authorized)])
+@specialist_docs_router.put('', dependencies=[Depends(is_authorized)], response_model=SpecialistDocsResponse)
 async def update_org(payload:SpecialistDocsUpdate):
     updated_specialist_docs = await specialist_docs_repository.update(payload, id=payload.id, status_code=200)
 

@@ -10,27 +10,27 @@ from .misc_functions import is_authorized
 
 horses_router = APIRouter(prefix="/horses", tags=["horses"])
 
-@horses_router.post('/', dependencies=[Depends(is_authorized)])
+@horses_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: HorsesCreate):
     await horses_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@horses_router.get('/', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
+@horses_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
 async def get_orgs():
     horses = await horses_repository.get_multi()
 
     return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
     #return horses
 
-@horses_router.get('/{id}', dependencies=[Depends(is_authorized)])
+@horses_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
 async def get_orgs(id: int):
     horse = await horses_repository.get_single(id=id)
 
     return JSONResponse(content={'horse': jsonable_encoder(horse)}, status_code=200)
 
 
-@horses_router.put('/', dependencies=[Depends(is_authorized)])
+@horses_router.put('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
 async def update_org(payload:HorsesUpdate):
     updated_horse = await horses_repository.update(payload, id=payload.id)
 

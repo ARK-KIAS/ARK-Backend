@@ -9,31 +9,27 @@ from .misc_functions import is_authorized
 
 race_router = APIRouter(prefix="/races", tags=["races"])
 
-@race_router.get('/')
-async def add_permission():
-    return JSONResponse(content={'status': 'success'}, status_code=200)
-
-@race_router.post('/', dependencies=[Depends(is_authorized)])
+@race_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: RacesCreate):
     await races_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@race_router.get('/', dependencies=[Depends(is_authorized)], response_model=RacesCreate)
+@race_router.get('', dependencies=[Depends(is_authorized)], response_model=RacesResponse)
 async def get_orgs():
     races = await races_repository.get_multi()
 
     return JSONResponse(content={'races': jsonable_encoder(races)}, status_code=200)
     #return races
 
-@race_router.get('/{id}', dependencies=[Depends(is_authorized)])
+@race_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=RacesResponse)
 async def get_orgs(id: int):
     race = await races_repository.get_single(id=id)
 
     return JSONResponse(content={'race': jsonable_encoder(race)}, status_code=200)
 
 
-@race_router.put('/', dependencies=[Depends(is_authorized)])
+@race_router.put('', dependencies=[Depends(is_authorized)], response_model=RacesResponse)
 async def update_org(payload:RacesUpdate):
     updated_race = await races_repository.update(payload, id=payload.id, status_code=200)
 
