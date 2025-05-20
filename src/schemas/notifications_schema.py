@@ -12,11 +12,35 @@ class NotificationsBase(BaseModel):
 
 
 class NotificationsCreate(NotificationsBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "title": "Новое сообщение",
+                "description": "У вас новое сообщение в чате",
+                "type": "general",
+                "user_id": 123
+            }
+        }
+    )
 
 
 class NotificationsUpdate(NotificationsBase):
     id: int = Field(..., description="Уникальный ID уведомления")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "title": "Новое сообщение",
+                "description": "У вас новое сообщение в чате",
+                "type": "general",
+                "user_id": 123
+            }
+        }
+    )
 
 
 class NotificationsResponse(NotificationsBase):

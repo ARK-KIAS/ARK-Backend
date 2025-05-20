@@ -17,9 +17,40 @@ class UsersCreate(UsersBase):
     username: str = Field(..., max_length=50, description="Username")
     password: str = Field(..., max_length=50, description="Password")
 
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "email": "user@example.com",
+                "permission_id": 2,
+                "organization_type": "hippodrome",
+                "given_name": "Иван",
+                "family_name": "Иванов",
+                "middle_name": "Иванович",
+                "username": "loshadka",
+                "password": "1111"
+            }
+        }
+    )
+
 
 class UsersUpdate(UsersBase):
     id: int = Field(..., description="Уникальный идентификатор пользователя в системе")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "email": "user@example.com",
+                "permission_id": 2,
+                "organization_type": "hippodrome",
+                "given_name": "Иван",
+                "family_name": "Иванов",
+                "middle_name": "Иванович",
+            }
+        }
+    )
 
 
 class UsersResponse(UsersBase):

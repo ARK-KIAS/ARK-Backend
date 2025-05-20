@@ -17,11 +17,47 @@ class HorsesRacesBase(BaseModel):
 
 
 class HorsesRacesCreate(HorsesRacesBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "race_id": 123,
+                "horse_id": 456,
+                "rider_id": 789,
+                "trainer_id": 101,
+                "time": "00:01:30.500",
+                "result_place": 2,
+                "start_place": 5,
+                "prize_money": 50000,
+                "handicap": 3,
+                "doping_control_ok": True
+            }
+        }
+    )
 
 
 class HorsesRacesUpdate(HorsesRacesBase):
     id: int = Field(..., description="Уникальный ID записи о забеге")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "race_id": 123,
+                "horse_id": 456,
+                "rider_id": 789,
+                "trainer_id": 101,
+                "time": "00:01:30.500",
+                "result_place": 2,
+                "start_place": 5,
+                "prize_money": 50000,
+                "handicap": 3,
+                "doping_control_ok": True
+            }
+        }
+    )
 
 
 class HorsesRacesResponse(HorsesRacesBase):

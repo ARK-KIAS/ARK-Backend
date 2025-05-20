@@ -11,11 +11,37 @@ class BreedsBase(BaseModel):
 
 
 class BreedsCreate(BreedsBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "name": "Арабская",
+                "patient_code": 101,
+                "usage_direction": "decorative",
+                "reg_year": 2020,
+                "category": "Верховая"
+            }
+        }
+    )
 
 
 class BreedsUpdate(BreedsBase):
     id: int = Field(..., description="Уникальный идентификатор породы")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "name": "Арабская",
+                "patient_code": 101,
+                "usage_direction": "decorative",
+                "reg_year": 2020,
+                "category": "Верховая"
+            }
+        }
+    )
 
 
 class BreedsResponse(BreedsBase):

@@ -6,11 +6,29 @@ class RegionsBase(BaseModel):
 
 
 class RegionsCreate(RegionsBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "name": "Московская область"
+            }
+        }
+    )
 
 
 class RegionsUpdate(RegionsBase):
     id: int = Field(..., description="Уникальный идентификатор региона")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "name": "Московская область"
+            }
+        }
+    )
 
 
 class RegionsResponse(RegionsBase):

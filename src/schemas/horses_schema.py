@@ -46,11 +46,63 @@ class HorsesBase(BaseModel):
 
 
 class HorsesCreate(HorsesBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "birth_region_id": 1,
+                "chip_num": 123456,
+                "sex": "male",
+                "passport_series": "AB",
+                "passport_number": "123456",
+                "passport_issuer": "ВНИИК",
+                "passport_issued_at": "2020-05-15T00:00:00",
+                "nickname": "Буцефал",
+                "suit": "вороной",
+                "father_id": 2,
+                "mother_id": 3,
+                "organization_id": 1,
+                "breed_id": 1,
+                "born_at": "2018-04-10T00:00:00",
+                "life_status": "active",
+                "rating": 4.5,
+                "height": 165,
+                "weight": 450
+            }
+        }
+    )
 
 
 class HorsesUpdate(HorsesBase):
     id: int = Field(..., description="Уникальный ID лошади")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "birth_region_id": 1,
+                "chip_num": 123456,
+                "sex": "male",
+                "passport_series": "AB",
+                "passport_number": "123456",
+                "passport_issuer": "ВНИИК",
+                "passport_issued_at": "2020-05-15T00:00:00",
+                "nickname": "Буцефал",
+                "suit": "вороной",
+                "father_id": 2,
+                "mother_id": 3,
+                "organization_id": 1,
+                "breed_id": 1,
+                "born_at": "2018-04-10T00:00:00",
+                "life_status": "active",
+                "rating": 4.5,
+                "height": 165,
+                "weight": 450
+            }
+        }
+    )
 
 
 class HorsesResponse(HorsesBase):

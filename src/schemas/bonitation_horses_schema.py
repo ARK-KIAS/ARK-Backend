@@ -7,11 +7,30 @@ class BonitationHorsesBase(BaseModel):
 
 
 class BonitationHorsesCreate(BonitationHorsesBase):
-    pass
 
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "bonitation_id": 1,
+                "horse_id": 5
+            }
+        }
+    )
 
 class BonitationHorsesUpdate(BonitationHorsesBase):
     id: int = Field(..., description="Уникальный идентификатор связи")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 123,
+                "bonitation_id": 1,
+                "horse_id": 5
+            }
+        }
+    )
 
 
 class BonitationHorsesResponse(BonitationHorsesBase):

@@ -10,12 +10,36 @@ class MediaFilesBase(BaseModel):
 
 
 class MediaFilesCreate(MediaFilesBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "bucket_name": "user-uploads",
+                "file_name": "profile_123",
+                "extension": "jpg",
+                "deleted_at": None
+            }
+        }
+    )
 
 
 class MediaFilesUpdate(MediaFilesBase):
     id: int = Field(..., description="Unique file ID")
     deleted_at: Optional[datetime] = Field(None, description="File deletion timestamp (if deleted)")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "bucket_name": "user-uploads",
+                "file_name": "profile_123",
+                "extension": "jpg",
+                "deleted_at": None
+            }
+        }
+    )
 
 
 class MediaFilesResponse(MediaFilesBase):

@@ -10,11 +10,33 @@ class RaceDaysBase(BaseModel):
 
 
 class RaceDaysCreate(RaceDaysBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "name": "Приз Антона Павленко",
+                "date": "2023-05-15",
+                "start_time": "14:30:00",
+            }
+        }
+    )
 
 
 class RaceDaysUpdate(RaceDaysBase):
     id: int = Field(..., description="Уникальный ID гоночного дня")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "name": "Приз Антона Павленко",
+                "date": "2023-05-15",
+                "start_time": "14:30:00",
+            }
+        }
+    )
 
 
 class RaceDaysResponse(RaceDaysBase):

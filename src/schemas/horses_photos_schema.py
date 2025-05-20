@@ -7,11 +7,31 @@ class HorsesPhotosBase(BaseModel):
 
 
 class HorsesPhotosCreate(HorsesPhotosBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "organization_id": 123,
+                "file_id": 456
+            }
+        }
+    )
 
 
 class HorsesPhotosUpdate(HorsesPhotosBase):
     id: int = Field(..., description="Уникальный ID записи о фото лошади")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "organization_id": 123,
+                "file_id": 456
+            }
+        }
+    )
 
 
 class HorsesPhotosResponse(HorsesPhotosBase):

@@ -34,11 +34,77 @@ class OrganizationsBase(BaseModel):
 
 
 class OrganizationsCreate(OrganizationsBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "organization_type": "breeder",
+                "admin_id": 123,
+                "name": "ООО 'Конный завод'",
+                "short_name": "Конный завод",
+                "address": "г. Москва, ул. Лошадиная, 1",
+                "mail_address": "г. Москва, ул. Лошадиная, 1",
+                "inn": "1234567890",
+                "kpp": "123456789",
+                "bik": "123456789",
+                "ogrn": "1234567890123",
+                "okved_code": "01.49",
+                "all_okved_code": "01.49, 01.50",
+                "director_name": "Иванов Иван Иванович",
+                "chief_accountant_name": "Петрова Мария Сергеевна",
+                "email": "info@horsefarm.ru",
+                "tel": "+79991234567",
+                "settlement_account": "40702810123450123456",
+                "corr_account": "30101810100000000123",
+                "logo_id": 1,
+                "region_id": 77,
+                "status": "active",
+                "site_link": "https://horsefarm.ru",
+                "okved_approved": True,
+                "land_hectares": 150.5,
+                "land_status_ok": True
+            }
+        }
+    )
 
 
 class OrganizationsUpdate(OrganizationsBase):
     id: int = Field(..., description="Уникальный ID организации")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "organization_type": "breeder",
+                "admin_id": 123,
+                "name": "ООО 'Конный завод'",
+                "short_name": "Конный завод",
+                "address": "г. Москва, ул. Лошадиная, 1",
+                "mail_address": "г. Москва, ул. Лошадиная, 1",
+                "inn": "1234567890",
+                "kpp": "123456789",
+                "bik": "123456789",
+                "ogrn": "1234567890123",
+                "okved_code": "01.49",
+                "all_okved_code": "01.49, 01.50",
+                "director_name": "Иванов Иван Иванович",
+                "chief_accountant_name": "Петрова Мария Сергеевна",
+                "email": "info@horsefarm.ru",
+                "tel": "+79991234567",
+                "settlement_account": "40702810123450123456",
+                "corr_account": "30101810100000000123",
+                "logo_id": 1,
+                "region_id": 77,
+                "status": "active",
+                "site_link": "https://horsefarm.ru",
+                "okved_approved": True,
+                "land_hectares": 150.5,
+                "land_status_ok": True
+            }
+        }
+    )
 
 
 class OrganizationsResponse(OrganizationsBase):

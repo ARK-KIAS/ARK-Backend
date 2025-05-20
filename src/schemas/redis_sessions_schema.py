@@ -16,13 +16,59 @@ class RedisSessionsAuth(RedisSessionsBase):
     username: str = Field(..., max_length=50, description="Username")
     password: str = Field(..., max_length=50, description="Password")
 
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                # "ip": "192.168.1.1",
+                "browser": "Chrome 120.0",
+                "os": "Windows 10",
+                # "geolocation": "Moscow, Russia",
+                "username": "loshadka",
+                "password": "saodnoand"
+            }
+        }
+    )
+
 class RedisSessionsCreate(RedisSessionsBase):
     user_id: int = Field(..., description="ID пользователя")
     access_token: UUID = Field(..., description="Уникальный токен доступа")
 
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "user_id": 123,
+                "access_token": "550e8400-e29b-41d4-a716-446655440000",
+                # "ip": "192.168.1.1",
+                "browser": "Chrome 120.0",
+                "os": "Windows 10",
+                # "geolocation": "Moscow, Russia",
+                "username": "loshadka",
+                "password": "saodnoand"
+            }
+        }
+    )
+
 
 class RedisSessionsUpdate(RedisSessionsBase):
     id: int = Field(..., description="Уникальный ID сессии")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "access_token": "550e8400-e29b-41d4-a716-446655440000",
+                # "ip": "192.168.1.1",
+                "browser": "Chrome 120.0",
+                "os": "Windows 10",
+                # "geolocation": "Moscow, Russia",
+                "username": "loshadka",
+                "password": "saodnoand"
+            }
+        }
+    )
 
 class RedisSessionsResponse(RedisSessionsBase):
     id: int = Field(..., description="Уникальный ID сессии")

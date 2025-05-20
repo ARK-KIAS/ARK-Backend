@@ -8,11 +8,33 @@ class SupportBase(BaseModel):
 
 
 class SupportCreate(SupportBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "category_id": 2,
+                "username": "user123",
+                "text": "Помогите с проблемой в личном кабинете"
+            }
+        }
+    )
 
 
 class SupportUpdate(SupportBase):
     id: int = Field(..., description="Уникальный ID обращения")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "category_id": 2,
+                "username": "user123",
+                "text": "Помогите с проблемой в личном кабинете"
+            }
+        }
+    )
 
 
 class SupportResponse(SupportBase):
