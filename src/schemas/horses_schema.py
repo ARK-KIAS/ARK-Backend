@@ -6,19 +6,13 @@ from src.datatypes.enum_life_status import LifeStatus
 
 
 class HorsesBase(BaseModel):
-    birth_region_id: int = Field(..., description="ID региона рождения")
     chip_num: int = Field(default=0, description="Номер чипа")
     sex: Sex = Field(default=Sex.none, description="Пол лошади")
     passport_series: str = Field(default="", description="Серия паспорта")
     passport_number: str = Field(default="", description="Номер паспорта")
     passport_issuer: str = Field(default="", description="Кем выдан паспорт")
-    passport_issued_at: datetime = Field(..., description="Дата выдачи паспорта")
     nickname: str = Field(default="", description="Кличка")
     suit: str = Field(default="", description="Масть")
-    father_id: Optional[int] = Field(..., description="ID отца")
-    mother_id: Optional[int] = Field(..., description="ID матери")
-    organization_id: int = Field(..., description="ID организации-владельца")
-    breed_id: int = Field(..., description="ID породы")
     born_at: Optional[datetime] = Field(None, description="Дата рождения")
     dead_at: Optional[datetime] = Field(None, description="Дата смерти")
     life_status: LifeStatus = Field(default=LifeStatus.none, description="Жизненный статус")
@@ -46,6 +40,12 @@ class HorsesBase(BaseModel):
 
 
 class HorsesCreate(HorsesBase):
+    birth_region_id: int = Field(..., description="ID региона рождения")
+    passport_issued_at: datetime = Field(..., description="Дата выдачи паспорта")
+    father_id: Optional[int] = Field(..., description="ID отца")
+    mother_id: Optional[int] = Field(..., description="ID матери")
+    organization_id: int = Field(..., description="ID организации-владельца")
+    breed_id: int = Field(..., description="ID породы")
 
     model_config = ConfigDict(
         from_attributes=True,

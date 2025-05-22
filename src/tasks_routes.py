@@ -48,7 +48,9 @@ async def get_orgs(id: int):
 
     horses = []
     for bh in bonitation_horses:
-        horses.append(await horses_repository.get_single(id=bh.horse_id))
+        horse_dict = (await horses_repository.get_single(id=bh.horse_id)).__dict__
+        horse_dict["is_ready"] = bh.is_ready
+        horses.append(horse_dict)
 
     bonitation_dict = bonitation.__dict__
 

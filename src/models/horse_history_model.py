@@ -9,6 +9,21 @@ class HorseHistoryModel(Base):
     __tablename__ = "horses_history"
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     horse_id: Mapped[datetime] = mapped_column(ForeignKey("horses.id")) #Date of creation
-    field_name: Mapped[String] = mapped_column(PgText, unique=True) #User email
-    updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=True, unique=False)
-    new_value: Mapped[String] = mapped_column(PgText, unique=True) #User email
+    updated_at: Mapped[datetime] = mapped_column(default=func.now())
+
+    height: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    oblique_length: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    torso_circumference: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    pastern_circumference: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    weight: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    rating_origin: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    rating_soundings: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    rating_exterior: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    rating_offspring: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    rating_donorship: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    rating_typicality: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    rating_breed: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    rating_efficiency: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    rating_adaptability: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    coolness: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
+    insemination_percent: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)

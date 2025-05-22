@@ -16,6 +16,7 @@ class BonitationsBase(BaseModel):
     org_contact_link: str = Field(..., max_length=500, description="Ссылка на соцсеть связи")
     status: Optional[BonitationStatus] = Field(None, description="Статус бонитировки")
     type: Optional[BonitationType] = Field(None, description="Тип бонитировки")
+    is_finished: bool = Field(..., description="Выполнена ли бонитировка")
 
 
 class BonitationsCreate(BonitationsBase):
@@ -35,7 +36,8 @@ class BonitationsCreate(BonitationsBase):
                 "org_contact_tel": "+79991234567",
                 "org_contact_link": "t.me/Tyapkin_S",
                 "status": "pending",
-                "type": "chipization"
+                "type": "chipization",
+                "is_finished": "True"
             }
         }
     )
@@ -60,7 +62,8 @@ class BonitationsUpdate(BonitationsBase):
                 "org_contact_tel": "+79991234567",
                 "org_contact_link": "t.me/Tyapkin_S",
                 "status": "pending",
-                "type": "chipization"
+                "type": "chipization",
+                "is_finished": "True"
             }
         }
     )
@@ -87,7 +90,8 @@ class BonitationsResponse(BonitationsBase):
                 "org_contact_tel": "+79991234567",
                 "org_contact_link": "t.me/Tyapkin_S",
                 "status": "pending",
-                "type": "chipization"
+                "type": "chipization",
+                "is_finished": "True"
             }
         }
     )
