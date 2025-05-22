@@ -13,7 +13,7 @@ from src.repositories.redis_sessions_repository import redis_sessions_repository
 from .misc_functions import is_authorized, get_authorized_user, is_inspector
 from .models.notifications_model import NotificationsModel
 
-notification_router = APIRouter(prefix="/notification", tags=["notifications"])
+notification_router = APIRouter(prefix="/notifications", tags=["notifications"])
 
 # Organization Repos ###################################################################################################
 @notification_router.post('', dependencies=[Depends(is_authorized)]) #todo доделать проверки входных данных

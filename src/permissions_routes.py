@@ -5,7 +5,7 @@ from src.schemas.permissions_schema import PermissionsCreate, PermissionsUpdate,
 
 from src.repositories.permissions_repository import permissions_repository
 
-perm_router = APIRouter(prefix="/permission", tags=["permission"])
+perm_router = APIRouter(prefix="/permissions", tags=["permission"])
 
 
 @perm_router.post('')
@@ -18,7 +18,7 @@ async def add_permission(payload: PermissionsCreate):
 async def get_permission():
     perm = await permissions_repository.get_multi()
 
-    return JSONResponse(content={'permission': jsonable_encoder(perm)}, status_code=200)
+    return JSONResponse(content={'permissions': jsonable_encoder(perm)}, status_code=200)
 
 @perm_router.put('/{id}', response_model=PermissionsResponse)
 async def update_permission(id: int, payload:PermissionsUpdate):

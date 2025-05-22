@@ -9,7 +9,7 @@ from src.repositories.redis_sessions_repository import redis_sessions_repository
 from .misc_functions import is_authorized
 
 
-organization_router = APIRouter(prefix="/organization", tags=["organizations"])
+organization_router = APIRouter(prefix="/organizations", tags=["organizations"])
 
 # Organization Repos ###################################################################################################
 @organization_router.post('', dependencies=[Depends(is_authorized)])
@@ -44,7 +44,7 @@ async def get_orgs():
 async def get_orgs(id: int):
     org = await organizations_repository.get_single(id=id)
 
-    return JSONResponse(content={'organization': jsonable_encoder(org)}, status_code=200)
+    return JSONResponse(content={'organizations': jsonable_encoder(org)}, status_code=200)
 
 
 @organization_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=OrganizationsResponse)

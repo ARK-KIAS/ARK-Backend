@@ -26,7 +26,7 @@ async def get_orgs():
 async def get_orgs(id: int):
     race = await races_repository.get_single(id=id)
 
-    return JSONResponse(content={'race': jsonable_encoder(race)}, status_code=200)
+    return JSONResponse(content={'races': jsonable_encoder(race)}, status_code=200)
 
 
 @race_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=RacesResponse)
