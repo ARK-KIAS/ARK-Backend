@@ -6,28 +6,28 @@ from src.schemas.regions_schema import RegionsCreate, RegionsUpdate, RegionsResp
 
 from src.repositories.regions_repository import regions_repository
 
-region_router = APIRouter(prefix="/region", tags=["region"])
+region_router = APIRouter(prefix="/regions", tags=["region"])
 
 # Organization Region Repos ############################################################################################
-@region_router.post('/org/region')
+@region_router.post('/org/regions')
 async def add_org(payload: RegionsCreate):
     await regions_repository.create(payload)
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@region_router.get('/org/region', response_model=RegionsResponse)
+@region_router.get('/org/regions', response_model=RegionsResponse)
 async def get_orgs():
     region = await regions_repository.get_multi()
 
     return JSONResponse(content={'regions': jsonable_encoder(region)}, status_code=200)
 
-@region_router.put('/org/region/{id}', response_model=RegionsResponse)
+@region_router.put('/org/regions/{id}', response_model=RegionsResponse)
 async def update_org(id: int, payload:RegionsUpdate):
     updated_region = await regions_repository.update(payload, id=id)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_region)}, status_code=200)
 
-@region_router.delete('/org/region/{id}')
+@region_router.delete('/org/regions/{id}')
 async def delete_org(id: int, payload:RegionsUpdate):
     perm = await regions_repository.delete(id=id)
 

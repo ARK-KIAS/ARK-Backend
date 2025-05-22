@@ -7,7 +7,7 @@ from src.repositories.horses_repository import horses_repository
 from src.schemas.horses_schema import HorsesCreate, HorsesUpdate, HorsesResponse, horses_query_model
 from src.schemas.horse_history_schema import HorseHistoryCreate
 
-from .misc_functions import is_authorized
+from .misc_functions import is_authorized, is_inspector
 from .repositories.bonitation_horses_repository import bonitation_horses_repository
 from .repositories.bonitations_repository import bonitations_repository
 from .repositories.breeds_repository import breeds_repository
@@ -73,7 +73,7 @@ async def update_org(id: int, payload:HorsesUpdate):
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_horse)}, status_code=200)
 
-@horses_router.patch('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
+@horses_router.patch('/{id}', dependencies=[Depends(is_inspector)], response_model=HorsesResponse)
 async def update_org(id: int, payload:HorseHistoryCreate):
     #Переводим пэйлоад в словарь и убираем horse_id
     payload_dict = payload.dict()

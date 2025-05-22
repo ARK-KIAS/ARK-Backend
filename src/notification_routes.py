@@ -22,7 +22,7 @@ async def create_notification(payload: NotificationsCreate):
 
     return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@notification_router.get('', dependencies=[Depends(is_inspector)], response_model=NotificationsResponse)
+@notification_router.get('', dependencies=[Depends(is_authorized)], response_model=NotificationsResponse)
 async def get_all_notifications_for_user(req: Request):
 
     user = await get_authorized_user(req)
