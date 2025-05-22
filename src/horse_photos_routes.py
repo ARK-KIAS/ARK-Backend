@@ -9,7 +9,7 @@ from .misc_functions import is_authorized
 from .repositories.media_files_repository import media_files_repository
 from .repositories.organizations_repository import organizations_repository
 
-horse_photos_router = APIRouter(prefix="/horses/photos", tags=["horses_photos"])
+horse_photos_router = APIRouter(prefix="/horses_photos", tags=["horses_photos"])
 
 @horse_photos_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: HorsesPhotosCreate):

@@ -10,7 +10,7 @@ from .repositories.horses_repository import horses_repository
 from .repositories.races_repository import races_repository
 from .repositories.specialists_repository import specialists_repository
 
-horses_races_router = APIRouter(prefix="/horses/races", tags=["horses_races"])
+horses_races_router = APIRouter(prefix="/horses_races", tags=["horses_races"])
 
 @horses_races_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: HorsesRacesCreate):

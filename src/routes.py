@@ -10,6 +10,7 @@ from .permissions_routes import perm_router
 from .races_routes import race_router
 from .region_routes import region_router
 from .specialists_routes import specialists_router
+from .tasks_routes import tasks_router
 from .users_routes import user_router
 from .admin_routes import admin_router
 from .horses_routes import horses_router
@@ -46,6 +47,7 @@ def get_apps_router():
     router.include_router(horses_races_router)
     router.include_router(horse_photos_router)
     router.include_router(bonitation_horses_router)
+    router.include_router(tasks_router)
 
 
     return router

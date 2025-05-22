@@ -1,12 +1,14 @@
 from datetime import datetime
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, create_model
+
+from src.datatypes.enum_notification_status import NotificationStatus
 from src.datatypes.enum_notification_type import NotificationType
 
 
 class NotificationsBase(BaseModel):
     title: str = Field(..., max_length=50, description="Заголовок уведомления")
     description: str = Field(..., max_length=50, description="Текст уведомления")
-    status: str = Field(..., max_length=50, description="status уведомления")
+    status: NotificationStatus = Field(..., description="Статус уведомления")
     type: NotificationType = Field(..., description="Тип уведомления")
     user_id: int = Field(..., description="ID пользователя-получателя")
 
@@ -19,7 +21,8 @@ class NotificationsCreate(NotificationsBase):
             "example": {
                 "title": "Новое сообщение",
                 "description": "У вас новое сообщение в чате",
-                "type": "general",
+                "status": "success",
+                "type": "active",
                 "user_id": 123
             }
         }
@@ -36,6 +39,7 @@ class NotificationsUpdate(NotificationsBase):
                 "id": 1,
                 "title": "Новое сообщение",
                 "description": "У вас новое сообщение в чате",
+                "status": "success",
                 "type": "general",
                 "user_id": 123
             }
@@ -55,8 +59,13 @@ class NotificationsResponse(NotificationsBase):
                 "created_at": "2023-01-01T12:00:00",
                 "title": "Новое сообщение",
                 "description": "У вас новое сообщение в чате",
+                "status": "success",
                 "type": "general",
                 "user_id": 123
             }
         }
     )
+
+query_params = {"user_id": (int, None)}
+
+notifications_query_model = create_model("NotificationQuery", **query_params)

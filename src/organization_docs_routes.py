@@ -7,7 +7,7 @@ from src.repositories.organizations_docs_repository import organizations_docs_re
 
 from .misc_functions import is_authorized
 
-organization_docs_router = APIRouter(prefix="/organization/docs", tags=["organization_docs"])
+organization_docs_router = APIRouter(prefix="/organization_docs", tags=["organization_docs"])
 
 @organization_docs_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: OrganizationsDocsCreate):

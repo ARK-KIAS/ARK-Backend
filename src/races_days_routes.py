@@ -7,7 +7,7 @@ from src.repositories.race_days_repository import race_days_repository
 
 from .misc_functions import is_authorized
 
-race_days_router = APIRouter(prefix="/races/days", tags=["race_days"])
+race_days_router = APIRouter(prefix="/races_days", tags=["race_days"])
 
 @race_days_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: RaceDaysCreate):

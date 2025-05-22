@@ -7,7 +7,7 @@ from src.repositories.race_categories_repository import race_categories_reposito
 
 from .misc_functions import is_authorized
 
-race_categories_router = APIRouter(prefix="/races/categories", tags=["race_categories"])
+race_categories_router = APIRouter(prefix="/races_categories", tags=["race_categories"])
 
 @race_categories_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: RaceCategoriesCreate):

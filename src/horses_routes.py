@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse, RedirectResponse, Response
 
 from src.repositories.redis_sessions_repository import redis_sessions_repository
 from src.repositories.horses_repository import horses_repository
-from src.schemas.horses_schema import HorsesCreate, HorsesUpdate, HorsesResponse
+from src.schemas.horses_schema import HorsesCreate, HorsesUpdate, HorsesResponse, horses_query_model
 
 from .misc_functions import is_authorized
 from .repositories.breeds_repository import breeds_repository
@@ -37,9 +37,16 @@ async def get_orgs():
 
 @horses_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
 async def get_orgs(id: int):
-    horse = await horses_repository.get_single(id=id)
+    horses = await horses_repository.get_single(id=id)
 
-    return JSONResponse(content={'horse': jsonable_encoder(horse)}, status_code=200)
+    return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
+
+@horses_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
+async def get_orgs_by_filter(params: horses_query_model = Depends()):
+    params_dict = params.dict()
+    horses = await horses_repository.get_multi_filtered(organization_id=params_dict["org_id"])
+
+    return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
 
 
 @horses_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)

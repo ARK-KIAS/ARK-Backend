@@ -11,7 +11,7 @@ class BonitationsBase(BaseModel):
     prefers_time_min: Optional[datetime] = Field(None, description="Предпочитаемое время начала (от)")
     prefers_time_max: Optional[datetime] = Field(None, description="Предпочитаемое время окончания (до)")
     comment: Optional[str] = Field(None, max_length=500, description="Комментарий от организации")
-    org_contact_name: str = Field(..., max_length=50, description="Контактное лицо организации")
+    org_contact_name: str = Field(..., max_length=250, description="Контактное лицо организации")
     org_contact_tel: str = Field(..., max_length=50, description="Телефон связи")
     org_contact_link: str = Field(..., max_length=500, description="Ссылка на соцсеть связи")
     status: Optional[BonitationStatus] = Field(None, description="Статус бонитировки")

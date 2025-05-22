@@ -9,7 +9,7 @@ from .misc_functions import is_authorized
 from .repositories.bonitations_repository import bonitations_repository
 from .repositories.horses_repository import horses_repository
 
-bonitation_horses_router = APIRouter(prefix="/bonitations/horses", tags=["bonitations_horses"])
+bonitation_horses_router = APIRouter(prefix="/bonitations_horses", tags=["bonitations_horses"])
 
 @bonitation_horses_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: BonitationHorsesCreate):

@@ -6,7 +6,7 @@ from src.schemas.specialist_docs_schema import SpecialistDocsCreate, SpecialistD
 from src.repositories.specialist_docs_repository import specialist_docs_repository
 from src.misc_functions import is_authorized
 
-specialist_docs_router = APIRouter(prefix="/specialists/docs", tags=["specialists_docs"])
+specialist_docs_router = APIRouter(prefix="/specialists_docs", tags=["specialists_docs"])
 
 @specialist_docs_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: SpecialistDocsCreate):

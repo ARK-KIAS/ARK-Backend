@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel, Field, ConfigDict, HttpUrl
+from pydantic import BaseModel, Field, ConfigDict, HttpUrl, create_model
 from typing import Optional
 from src.datatypes.enum_sex import Sex
 from src.datatypes.enum_life_status import LifeStatus
@@ -136,3 +136,7 @@ class HorsesResponse(HorsesBase):
             }
         }
     )
+
+query_params = {"org_id": (int, None)}
+
+horses_query_model = create_model("HorsesQuery", **query_params)

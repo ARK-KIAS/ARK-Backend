@@ -16,7 +16,7 @@ class BonitationsModel(Base):
     prefers_time_max: Mapped[datetime] = mapped_column(DateTime, nullable=True, unique=False)
     approved_time: Mapped[datetime] = mapped_column(DateTime, nullable=True, unique=False)
     comment: Mapped[str] = mapped_column(String(500), unique=False, nullable=True)
-    org_contact_name: Mapped[str] = mapped_column(String(50), unique=False)
+    org_contact_name: Mapped[str] = mapped_column(String(250), unique=False)
     org_contact_tel: Mapped[str] = mapped_column(String(50), unique=False)
     org_contact_link: Mapped[str] = mapped_column(String(500), unique=False)
     status: Mapped[BonitationStatus] = mapped_column(Enum(BonitationStatus), nullable=True, unique=False)
