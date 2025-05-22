@@ -10,11 +10,35 @@ class HorseOwnersBase(BaseModel):
 
 
 class HorseOwnersCreate(HorseOwnersBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "organization_id": 123,
+                "user_id": 456,
+                "horse_id": 789,
+                "percent": 50
+            }
+        }
+    )
 
 
 class HorseOwnersUpdate(HorseOwnersBase):
     id: int = Field(..., description="Уникальный идентификатор записи о владельце")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "organization_id": 123,
+                "user_id": 456,
+                "horse_id": 789,
+                "percent": 50
+            }
+        }
+    )
 
 
 class HorseOwnersResponse(HorseOwnersBase):

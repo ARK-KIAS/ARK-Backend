@@ -18,11 +18,47 @@ class RaceCategoriesBase(BaseModel):
 
 
 class RaceCategoriesCreate(RaceCategoriesBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "name": "Скачки для 3-летних чистокровных",
+                "type": "commerce",
+                "male_allowed": True,
+                "female_allowed": True,
+                "age_min": 3,
+                "age_max": 3,
+                "breed_id": 1,
+                "region_id": 1,
+                "jockey_weight_min": 50,
+                "jockey_weight_max": 70,
+            }
+        }
+    )
 
 
 class RaceCategoriesUpdate(RaceCategoriesBase):
     id: int = Field(..., description="Уникальный ID категории скачек")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "name": "Скачки для 3-летних чистокровных",
+                "type": "commerce",
+                "male_allowed": True,
+                "female_allowed": True,
+                "age_min": 3,
+                "age_max": 3,
+                "breed_id": 1,
+                "region_id": 1,
+                "jockey_weight_min": 50,
+                "jockey_weight_max": 70,
+            }
+        }
+    )
 
 
 class RaceCategoriesResponse(RaceCategoriesBase):

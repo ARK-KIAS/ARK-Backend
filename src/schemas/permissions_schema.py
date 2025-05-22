@@ -15,11 +15,45 @@ class PermissionsBase(BaseModel):
 
 
 class PermissionsCreate(PermissionsBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "name": "Admin",
+                "accounts_all": False,
+                "races_full": True,
+                "bonitation_full": False,
+                "specialist_full": False,
+                "files_full": False,
+                "hold_horses": False,
+                "create_bonitations": False,
+                "create_races": True
+            }
+        }
+    )
 
 
 class PermissionsUpdate(PermissionsBase):
     id: int = Field(..., description="Unique identifier of the permission")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "name": "Admin",
+                "accounts_all": False,
+                "races_full": True,
+                "bonitation_full": False,
+                "specialist_full": False,
+                "files_full": False,
+                "hold_horses": False,
+                "create_bonitations": False,
+                "create_races": True
+            }
+        }
+    )
 
 class PermissionsResponse(PermissionsBase):
     id: int = Field(..., description="Unique identifier of the permission")

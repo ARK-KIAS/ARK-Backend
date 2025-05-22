@@ -1,6 +1,8 @@
+from fastapi.encoders import jsonable_encoder
+
 from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
-from src.schemas.regions_schema import RegionsCreate, RegionsUpdate
+from src.schemas.regions_schema import RegionsCreate, RegionsUpdate, RegionsResponse
 
 from src.repositories.regions_repository import regions_repository
 
@@ -11,22 +13,22 @@ region_router = APIRouter(prefix="/region", tags=["region"])
 async def add_org(payload: RegionsCreate):
     await regions_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'})
+    return JSONResponse(content={'status': 'success'}, status_code=201)
 
-@region_router.get('/org/region')
+@region_router.get('/org/region', response_model=RegionsResponse)
 async def get_orgs():
-    perm = await regions_repository.get_multi()
+    region = await regions_repository.get_multi()
 
-    return {'status': 'success', 'results': len(perm), 'out': perm}
+    return JSONResponse(content={'regions': jsonable_encoder(region)}, status_code=200)
 
-@region_router.patch('/org/region')
-async def update_org(payload:RegionsUpdate):
-    perm = await regions_repository.update(payload, id=payload.id)
+@region_router.put('/org/region/{id}', response_model=RegionsResponse)
+async def update_org(id: int, payload:RegionsUpdate):
+    updated_region = await regions_repository.update(payload, id=id)
 
-    return {'status': 'success', 'perm': perm}
+    return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_region)}, status_code=200)
 
-@region_router.delete('/org/region')
-async def delete_org(payload:RegionsUpdate):
-    perm = await regions_repository.delete(id=payload.id)
+@region_router.delete('/org/region/{id}')
+async def delete_org(id: int, payload:RegionsUpdate):
+    perm = await regions_repository.delete(id=id)
 
     return JSONResponse(content={'status': 'success'})

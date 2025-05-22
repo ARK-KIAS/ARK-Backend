@@ -17,6 +17,8 @@ FROM python:${PYTHON_RELEASE:-3.11-alpine}
 COPY .. /app
 WORKDIR /app
 
+RUN mkdir -p /app/migrations/versions
+
 COPY --from=requirements-stage /tmp/requirements.txt /app/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt

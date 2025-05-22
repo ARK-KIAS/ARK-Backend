@@ -25,11 +25,55 @@ class RacesBase(BaseModel):
 
 
 class RacesCreate(RacesBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "organization_id": 123,
+                "start_time": "14:30:00",
+                "name": "Гран-при Москвы",
+                "race_day_id": 5,
+                "category_id": 2,
+                "prize_money": 500000,
+                "prize_places": 3,
+                "currency": "RUB",
+                "capacity": 12,
+                "distance": 1600,
+                "track_cover": "grass",
+                "track_status": "wet",
+                "type": "gallop",
+                "with_obstacles": False
+            }
+        }
+    )
 
 
 class RacesUpdate(RacesBase):
     id: int = Field(..., description="Уникальный ID забега")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "organization_id": 123,
+                "start_time": "14:30:00",
+                "name": "Гран-при Москвы",
+                "race_day_id": 5,
+                "category_id": 2,
+                "prize_money": 500000,
+                "prize_places": 3,
+                "currency": "RUB",
+                "capacity": 12,
+                "distance": 1600,
+                "track_cover": "grass",
+                "track_status": "wet",
+                "type": "gallop",
+                "with_obstacles": False
+            }
+        }
+    )
 
 
 class RacesResponse(RacesBase):

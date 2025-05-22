@@ -11,11 +11,11 @@ class OrganizationsModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     organization_type: Mapped[OrganizationType] = mapped_column(Enum(OrganizationType)) # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
-    admin_id: Mapped[int] = mapped_column(ForeignKey("users.id")) #User id
-    name: Mapped[str] = mapped_column(String(50), unique=False)
+    admin_id: Mapped[int] = mapped_column(Integer, unique=False) #User id
+    name: Mapped[str] = mapped_column(String(250), unique=False)
     short_name: Mapped[str] = mapped_column(String(50), unique=False)
-    address: Mapped[str] = mapped_column(String(50), unique=False)
-    mail_address: Mapped[str] = mapped_column(String(50), unique=False)
+    address: Mapped[str] = mapped_column(String(250), unique=False)
+    mail_address: Mapped[str] = mapped_column(String(250), unique=False)
     inn: Mapped[str] = mapped_column(String(10), unique=False)
     kpp: Mapped[str] = mapped_column(String(9), unique=False)
     bik: Mapped[str] = mapped_column(String(9), unique=False)
@@ -24,7 +24,7 @@ class OrganizationsModel(Base):
     all_okved_code: Mapped[str] = mapped_column(String(50), unique=False)
     director_name: Mapped[str] = mapped_column(String(50), unique=False)
     chief_accountant_name: Mapped[str] = mapped_column(String(50), unique=False)
-    email: Mapped[str] = mapped_column(String(50), unique=True)
+    email: Mapped[str] = mapped_column(String(250), unique=True)
     tel: Mapped[str] = mapped_column(String(50), unique=True)
     settlement_account: Mapped[str] = mapped_column(String(50), unique=True)
     corr_account: Mapped[str] = mapped_column(String(20), unique=True)

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import String, Integer, func, ForeignKey, DateTime
+from sqlalchemy import String, Integer, func, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base_model import Base
@@ -11,3 +11,4 @@ class BonitationHorsesModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     bonitation_id: Mapped[int] = mapped_column(ForeignKey("bonitations.id")) #Bucket name
     horse_id: Mapped[int] = mapped_column(ForeignKey("horses.id")) #Bucket name
+    is_ready: Mapped[bool] = mapped_column(Boolean)  # Bucket name

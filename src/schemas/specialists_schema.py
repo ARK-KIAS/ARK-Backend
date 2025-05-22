@@ -19,11 +19,49 @@ class SpecialistsBase(BaseModel):
 
 
 class SpecialistsCreate(SpecialistsBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "given_name": "Иван",
+                "family_name": "Петров",
+                "middle_name": "Сергеевич",
+                "qualification": "trainer",
+                "age": 35,
+                "experience_years": 10.5,
+                "license_id": 123,
+                "license_expired_at": "2025-12-31T00:00:00",
+                "weight": 75,
+                "organization_id": 1,
+                "created_by_id": 1
+            }
+        }
+    )
 
 
 class SpecialistsUpdate(SpecialistsBase):
     id: int = Field(..., description="Уникальный ID специалиста")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "given_name": "Иван",
+                "family_name": "Петров",
+                "middle_name": "Сергеевич",
+                "qualification": "trainer",
+                "age": 35,
+                "experience_years": 10.5,
+                "license_id": 123,
+                "license_expired_at": "2025-12-31T00:00:00",
+                "weight": 75,
+                "organization_id": 1,
+                "created_by_id": 1
+            }
+        }
+    )
 
 
 class SpecialistsResponse(SpecialistsBase):

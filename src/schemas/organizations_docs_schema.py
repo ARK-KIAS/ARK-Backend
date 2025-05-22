@@ -7,11 +7,31 @@ class OrganizationsDocsBase(BaseModel):
 
 
 class OrganizationsDocsCreate(OrganizationsDocsBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "organization_id": 123,
+                "file_id": 456
+            }
+        }
+    )
 
 
 class OrganizationsDocsUpdate(OrganizationsDocsBase):
     id: int = Field(..., description="Уникальный ID связи документа с организацией")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "organization_id": 123,
+                "file_id": 456
+            }
+        }
+    )
 
 
 class OrganizationsDocsResponse(OrganizationsDocsBase):

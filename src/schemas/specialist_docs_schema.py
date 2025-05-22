@@ -7,11 +7,31 @@ class SpecialistDocsBase(BaseModel):
 
 
 class SpecialistDocsCreate(SpecialistDocsBase):
-    pass
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "specialist_id": 123,
+                "file_id": 456
+            }
+        }
+    )
 
 
 class SpecialistDocsUpdate(SpecialistDocsBase):
     id: int = Field(..., description="Уникальный ID записи документа специалиста")
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "specialist_id": 123,
+                "file_id": 456
+            }
+        }
+    )
 
 
 class SpecialistDocsResponse(SpecialistDocsBase):
