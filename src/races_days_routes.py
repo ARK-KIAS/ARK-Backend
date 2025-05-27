@@ -22,14 +22,14 @@ async def add_org(payload: RaceDaysCreate):
 
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
-@race_days_router.get('', dependencies=[Depends(is_authorized)], response_model=RaceDaysResponse)
+@race_days_router.get('', response_model=RaceDaysResponse)
 async def get_orgs():
     race_days = await race_days_repository.get_multi()
 
     return JSONResponse(content={'race_days': jsonable_encoder(race_days)}, status_code=200)
     #return race_days
 
-@race_days_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=RaceDaysResponse)
+@race_days_router.get('/{id}', response_model=RaceDaysResponse)
 async def get_orgs(id: int):
     race_days = await race_days_repository.get_single(id=id)
 

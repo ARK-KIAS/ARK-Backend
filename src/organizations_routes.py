@@ -34,13 +34,13 @@ async def add_org(payload: OrganizationsCreate):
 
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
-@organization_router.get('', dependencies=[Depends(is_authorized)], response_model=OrganizationsResponse)
+@organization_router.get('', response_model=OrganizationsResponse)
 async def get_orgs():
     orgs = await organizations_repository.get_multi()
 
     return JSONResponse(content={'organizations': jsonable_encoder(orgs)}, status_code=200)
 
-@organization_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=OrganizationsResponse)
+@organization_router.get('/{id}', response_model=OrganizationsResponse)
 async def get_orgs(id: int):
     org = await organizations_repository.get_single(id=id)
 

@@ -24,14 +24,14 @@ async def add_org(payload: BonitationsCreate):
 
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
-@bonitation_router.get('', dependencies=[Depends(is_authorized)], response_model=BonitationsResponse)
+@bonitation_router.get('', response_model=BonitationsResponse)
 async def get_orgs():
     bonitations = await bonitations_repository.get_multi()
 
     return JSONResponse(content={'bonitation': jsonable_encoder(bonitations)}, status_code=200)
     #return bonitation
 
-@bonitation_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=BonitationsResponse)
+@bonitation_router.get('/{id}', response_model=BonitationsResponse)
 async def get_orgs(id: int):
     bonitation = await bonitations_repository.get_single(id=id)
 
