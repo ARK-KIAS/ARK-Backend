@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field, ConfigDict, create_model
 
 from src.datatypes.enum_notification_status import NotificationStatus
 from src.datatypes.enum_notification_type import NotificationType
+from src.schemas.query_helper import make_partial_model
 
 
 class NotificationsBase(BaseModel):
@@ -66,6 +67,4 @@ class NotificationsResponse(NotificationsBase):
         }
     )
 
-query_params = {"user_id": (int, None)}
-
-notifications_query_model = create_model("NotificationQuery", **query_params)
+NotificationsQuery = make_partial_model(NotificationsResponse)

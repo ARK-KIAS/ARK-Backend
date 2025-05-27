@@ -2,6 +2,8 @@ from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
+from src.schemas.query_helper import make_partial_model
+
 
 class MediaFilesBase(BaseModel):
     bucket_name: str = Field(..., max_length=50, description="Name of the storage bucket")
@@ -60,3 +62,5 @@ class MediaFilesResponse(MediaFilesBase):
             }
         }
     )
+
+MediaFilesQuery = make_partial_model(MediaFilesResponse)

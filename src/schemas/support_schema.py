@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 
+from src.schemas.query_helper import make_partial_model
+
 
 class SupportBase(BaseModel):
     category_id: int = Field(..., description="ID категории обращения")
@@ -51,3 +53,5 @@ class SupportResponse(SupportBase):
             }
         }
     )
+
+SupportQuery = make_partial_model(SupportResponse)

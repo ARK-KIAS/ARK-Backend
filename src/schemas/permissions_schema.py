@@ -1,6 +1,8 @@
 from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
 
+from src.schemas.query_helper import make_partial_model
+
 
 class PermissionsBase(BaseModel):
     name: str = Field(..., max_length=50, description="Name of the permission", example="Admin")
@@ -77,3 +79,5 @@ class PermissionsResponse(PermissionsBase):
             }
         }
     )
+
+PermissionsQuery = make_partial_model(PermissionsResponse)

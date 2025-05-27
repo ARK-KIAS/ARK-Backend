@@ -2,12 +2,13 @@ from fastapi.encoders import jsonable_encoder
 
 from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
-from src.schemas.race_days_schema import RaceDaysCreate, RaceDaysUpdate, RaceDaysResponse
+from src.schemas.race_days_schema import RaceDaysCreate, RaceDaysUpdate, RaceDaysResponse, RaceDaysQuery
 from src.repositories.race_days_repository import race_days_repository
 
 from .misc_functions import is_authorized
 from .repositories.races_race_days_repository import races_race_days_repository
 from .repositories.races_repository import races_repository
+from .schemas.query_helper import MiscRequest
 
 race_days_router = APIRouter(prefix="/races_days", tags=["race_days"])
 
@@ -23,11 +24,19 @@ async def add_org(payload: RaceDaysCreate):
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @race_days_router.get('', response_model=RaceDaysResponse)
-async def get_orgs():
-    race_days = await race_days_repository.get_multi()
+async def get_orgs_by_filter(params: RaceDaysQuery = Depends(), misc: MiscRequest = Depends()):
+    params_dict = params.dict()
+    filter = dict()
+    for param in params_dict.keys():
+        if params_dict[param] is not None:
+            filter[param] = params_dict[param]
 
-    return JSONResponse(content={'race_days': jsonable_encoder(race_days)}, status_code=200)
-    #return race_days
+    horses = await race_days_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
+
+    if len(horses) == 0:
+        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
+
+    return JSONResponse(content={'race_days': jsonable_encoder(horses)}, status_code=200)
 
 @race_days_router.get('/{id}', response_model=RaceDaysResponse)
 async def get_orgs(id: int):

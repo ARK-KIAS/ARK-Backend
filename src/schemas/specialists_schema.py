@@ -2,6 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 from src.datatypes.enum_specialist_qualification import SpecialistQualification
+from src.schemas.query_helper import make_partial_model
 
 
 class SpecialistsBase(BaseModel):
@@ -88,3 +89,5 @@ class SpecialistsResponse(SpecialistsBase):
             }
         }
     )
+
+SpecialistsQuery = make_partial_model(SpecialistsResponse)

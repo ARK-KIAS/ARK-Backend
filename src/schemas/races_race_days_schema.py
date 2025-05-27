@@ -2,6 +2,8 @@ from datetime import date, time, datetime
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
+from src.schemas.query_helper import make_partial_model
+
 
 class RacesRaceDaysBase(BaseModel):
     race_id: int = Field(..., description="ID скачки")
@@ -51,3 +53,5 @@ class RacesRaceDaysResponse(RacesRaceDaysBase):
             }
         }
     )
+
+RacesRaceDaysQuery = make_partial_model(RacesRaceDaysResponse)

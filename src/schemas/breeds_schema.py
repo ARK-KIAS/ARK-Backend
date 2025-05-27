@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, ConfigDict
 from src.datatypes.enum_usage_direction import UsageDirection
+from src.schemas.query_helper import make_partial_model
 
 
 class BreedsBase(BaseModel):
@@ -60,3 +61,5 @@ class BreedsResponse(BreedsBase):
             }
         }
     )
+
+BreedsQuery = make_partial_model(BreedsResponse)

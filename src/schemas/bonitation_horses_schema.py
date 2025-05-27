@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 
+from src.schemas.query_helper import make_partial_model
+
 
 class BonitationHorsesBase(BaseModel):
     bonitation_id: int = Field(..., description="ID связанной бонитировки", example=1)
@@ -50,3 +52,5 @@ class BonitationHorsesResponse(BonitationHorsesBase):
             }
         }
     )
+
+BonitationHorsesQuery = make_partial_model(BonitationHorsesResponse)

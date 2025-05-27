@@ -2,6 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 from src.datatypes.enum_race_category_type import RaceCategoryType
+from src.schemas.query_helper import make_partial_model
 
 
 class RaceCategoriesBase(BaseModel):
@@ -84,3 +85,5 @@ class RaceCategoriesResponse(RaceCategoriesBase):
             }
         }
     )
+
+RaceCategoriesQuery = make_partial_model(RaceCategoriesResponse)

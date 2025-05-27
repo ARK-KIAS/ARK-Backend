@@ -5,6 +5,7 @@ from src.datatypes.enum_currency_type import CurrencyType
 from src.datatypes.enum_track_cover import TrackCover
 from src.datatypes.enum_track_status import TrackStatus
 from src.datatypes.enum_race_type import RaceType
+from src.schemas.query_helper import make_partial_model
 
 
 class RacesBase(BaseModel):
@@ -99,3 +100,5 @@ class RacesResponse(RacesBase):
             }
         }
     )
+
+RacesQuery = make_partial_model(RacesResponse)

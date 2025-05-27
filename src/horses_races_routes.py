@@ -2,13 +2,14 @@ from fastapi.encoders import jsonable_encoder
 
 from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
-from src.schemas.horses_races_schema import HorsesRacesCreate, HorsesRacesUpdate, HorsesRacesResponse
+from src.schemas.horses_races_schema import HorsesRacesCreate, HorsesRacesUpdate, HorsesRacesResponse, HorsesRacesQuery
 from src.repositories.horses_races_repository import horses_races_repository
 
 from .misc_functions import is_authorized
 from .repositories.horses_repository import horses_repository
 from .repositories.races_repository import races_repository
 from .repositories.specialists_repository import specialists_repository
+from .schemas.query_helper import MiscRequest
 
 horses_races_router = APIRouter(prefix="/horses_races", tags=["horses_races"])
 
@@ -31,11 +32,19 @@ async def add_org(payload: HorsesRacesCreate):
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @horses_races_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesRacesResponse)
-async def get_orgs():
-    horses_races = await horses_races_repository.get_multi()
+async def get_orgs_by_filter(params: HorsesRacesQuery = Depends(), misc: MiscRequest = Depends()):
+    params_dict = params.dict()
+    filter = dict()
+    for param in params_dict.keys():
+        if params_dict[param] is not None:
+            filter[param] = params_dict[param]
 
-    return JSONResponse(content={'horses_races': jsonable_encoder(horses_races)}, status_code=200)
-    #return horses_races
+    horses = await horses_races_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
+
+    if len(horses) == 0:
+        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
+
+    return JSONResponse(content={'horses_races': jsonable_encoder(horses)}, status_code=200)
 
 @horses_races_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesRacesResponse)
 async def get_orgs(id: int):

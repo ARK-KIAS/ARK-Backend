@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field, ConfigDict, HttpUrl
 from typing import Optional
 from src.datatypes.enum_bonitation_status import BonitationStatus
 from src.datatypes.enum_bonitation_type import BonitationType
+from src.schemas.query_helper import make_partial_model
 
 
 class BonitationsBase(BaseModel):
@@ -95,3 +96,5 @@ class BonitationsResponse(BonitationsBase):
             }
         }
     )
+
+BonitationsQuery = make_partial_model(BonitationsResponse)

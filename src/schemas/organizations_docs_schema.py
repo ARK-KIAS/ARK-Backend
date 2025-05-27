@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 
+from src.schemas.query_helper import make_partial_model
+
 
 class OrganizationsDocsBase(BaseModel):
     organization_id: int = Field(..., description="ID организации, к которой относится документ")
@@ -47,3 +49,5 @@ class OrganizationsDocsResponse(OrganizationsDocsBase):
             }
         }
     )
+
+OrganizationsDocsQuery = make_partial_model(OrganizationsDocsResponse)

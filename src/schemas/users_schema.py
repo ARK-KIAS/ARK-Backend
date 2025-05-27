@@ -2,6 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 from src.datatypes.enum_organization_type import OrganizationType
+from src.schemas.query_helper import make_partial_model
 
 
 class UsersBase(BaseModel):
@@ -72,3 +73,5 @@ class UsersResponse(UsersBase):
             }
         }
     )
+
+UsersQuery = make_partial_model(UsersResponse)

@@ -3,9 +3,10 @@ from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
 
 from src.repositories.breeds_repository import breeds_repository
-from src.schemas.breeds_schema import BreedsCreate, BreedsUpdate, BreedsResponse
+from src.schemas.breeds_schema import BreedsCreate, BreedsUpdate, BreedsResponse, BreedsQuery
 
 from .misc_functions import is_authorized
+from .schemas.query_helper import MiscRequest
 
 breeds_router = APIRouter(prefix="/breeds", tags=["breeds"])
 
@@ -16,10 +17,19 @@ async def add_org(payload: BreedsCreate):
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @breeds_router.get('', dependencies=[Depends(is_authorized)], response_model=BreedsResponse)
-async def get_orgs():
-    breeds = await breeds_repository.get_multi()
+async def get_orgs_by_filter(params: BreedsQuery = Depends(), misc: MiscRequest = Depends()):
+    params_dict = params.dict()
+    filter = dict()
+    for param in params_dict.keys():
+        if params_dict[param] is not None:
+            filter[param] = params_dict[param]
 
-    return JSONResponse(content={'breeds': jsonable_encoder(breeds)}, status_code=200)
+    horses = await breeds_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
+
+    if len(horses) == 0:
+        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
+
+    return JSONResponse(content={'breeds_repository': jsonable_encoder(horses)}, status_code=200)
 
 @breeds_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=BreedsResponse)
 async def get_orgs(id: int):

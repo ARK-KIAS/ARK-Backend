@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 
+from src.schemas.query_helper import make_partial_model
+
 
 class HorsesPhotosBase(BaseModel):
     organization_id: int = Field(..., description="ID организации, загрузившей фото")
@@ -47,3 +49,5 @@ class HorsesPhotosResponse(HorsesPhotosBase):
             }
         }
     )
+
+HorsesPhotosQuery = make_partial_model(HorsesPhotosResponse)

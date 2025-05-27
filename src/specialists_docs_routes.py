@@ -2,7 +2,10 @@ from fastapi.encoders import jsonable_encoder
 
 from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
-from src.schemas.specialist_docs_schema import SpecialistDocsCreate, SpecialistDocsUpdate, SpecialistDocsResponse
+
+from src.schemas.query_helper import MiscRequest
+from src.schemas.specialist_docs_schema import SpecialistDocsCreate, SpecialistDocsUpdate, SpecialistDocsResponse, \
+    SpecialistDocsQuery
 from src.repositories.specialist_docs_repository import specialist_docs_repository
 from src.misc_functions import is_authorized
 
@@ -15,11 +18,19 @@ async def add_org(payload: SpecialistDocsCreate):
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @specialist_docs_router.get('', dependencies=[Depends(is_authorized)], response_model=SpecialistDocsResponse)
-async def get_orgs():
-    specialist_docs = await specialist_docs_repository.get_multi()
+async def get_orgs_by_filter(params: SpecialistDocsQuery = Depends(), misc: MiscRequest = Depends()):
+    params_dict = params.dict()
+    filter = dict()
+    for param in params_dict.keys():
+        if params_dict[param] is not None:
+            filter[param] = params_dict[param]
 
-    return JSONResponse(content={'specialist_docs': jsonable_encoder(specialist_docs)}, status_code=200)
-    #return specialist_docs
+    horses = await specialist_docs_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
+
+    if len(horses) == 0:
+        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
+
+    return JSONResponse(content={'specialist_docs': jsonable_encoder(horses)}, status_code=200)
 
 @specialist_docs_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=SpecialistDocsResponse)
 async def get_orgs(id: int):

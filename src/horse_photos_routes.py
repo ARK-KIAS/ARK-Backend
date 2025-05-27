@@ -2,12 +2,14 @@ from fastapi.encoders import jsonable_encoder
 
 from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
-from src.schemas.horses_photos_schema import HorsesPhotosCreate, HorsesPhotosUpdate, HorsesPhotosResponse
+from src.schemas.horses_photos_schema import HorsesPhotosCreate, HorsesPhotosUpdate, HorsesPhotosResponse, \
+    HorsesPhotosQuery
 from src.repositories.horses_photos_repository import horses_photos_repository
 
 from .misc_functions import is_authorized
 from .repositories.media_files_repository import media_files_repository
 from .repositories.organizations_repository import organizations_repository
+from .schemas.query_helper import MiscRequest
 
 horse_photos_router = APIRouter(prefix="/horses_photos", tags=["horses_photos"])
 
@@ -24,11 +26,19 @@ async def add_org(payload: HorsesPhotosCreate):
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @horse_photos_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesPhotosResponse)
-async def get_orgs():
-    horses_photos = await horses_photos_repository.get_multi()
+async def get_orgs_by_filter(params: HorsesPhotosQuery = Depends(), misc: MiscRequest = Depends()):
+    params_dict = params.dict()
+    filter = dict()
+    for param in params_dict.keys():
+        if params_dict[param] is not None:
+            filter[param] = params_dict[param]
 
-    return JSONResponse(content={'horses_photos': jsonable_encoder(horses_photos)}, status_code=200)
-    #return horses_photos
+    horses = await horses_photos_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
+
+    if len(horses) == 0:
+        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
+
+    return JSONResponse(content={'horses_photos': jsonable_encoder(horses)}, status_code=200)
 
 @horse_photos_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesPhotosResponse)
 async def get_orgs(id: int):

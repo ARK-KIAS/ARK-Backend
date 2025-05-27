@@ -4,10 +4,11 @@ from fastapi.responses import JSONResponse, RedirectResponse, Response
 
 from src.repositories.redis_sessions_repository import redis_sessions_repository
 from src.repositories.horses_repository import horses_repository
-from src.schemas.horses_schema import HorsesCreate, HorsesUpdate, HorsesResponse
+from src.schemas.horses_schema import HorsesCreate, HorsesUpdate, HorsesResponse, HorsesQuery
 from src.schemas.horse_history_schema import HorseHistoryCreate
 
 from .misc_functions import is_authorized, is_inspector
+from .schemas.query_helper import MiscRequest
 from .repositories.bonitation_horses_repository import bonitation_horses_repository
 from .repositories.bonitations_repository import bonitations_repository
 from .repositories.breeds_repository import breeds_repository
@@ -34,13 +35,6 @@ async def add_org(payload: HorsesCreate):
 
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
-@horses_router.get('', response_model=HorsesResponse)
-async def get_orgs():
-    horses = await horses_repository.get_multi()
-
-    return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
-    #return horses
-
 @horses_router.get('/{id}', response_model=HorsesResponse)
 async def get_orgs(id: int):
     horses = await horses_repository.get_single(id=id)
@@ -51,10 +45,19 @@ async def get_orgs(id: int):
     return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
 
 @horses_router.get('', response_model=HorsesResponse)
-async def get_orgs_by_filter(params: HorsesResponse = Depends()):
-    horses = await horses_repository.get_multi_filtered(filter=params.model_fields)
+async def get_orgs_by_filter(params: HorsesQuery = Depends(), misc: MiscRequest = Depends()):
+    params_dict = params.dict()
+    filter = dict()
+    for param in params_dict.keys():
+        if params_dict[param] is not None:
+            filter[param] = params_dict[param]
 
-    return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
+    horses = await horses_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
+
+    if len(horses) == 0:
+        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
+
+    return JSONResponse(content={'horses_repository': jsonable_encoder(horses)}, status_code=200)
 
 
 @horses_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)

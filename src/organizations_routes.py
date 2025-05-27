@@ -2,12 +2,13 @@ from fastapi.encoders import jsonable_encoder
 
 from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
-from src.schemas.organizations_schema import OrganizationsCreate, OrganizationsUpdate, OrganizationsResponse
+from src.schemas.organizations_schema import OrganizationsCreate, OrganizationsUpdate, OrganizationsResponse, \
+    OrganizationsQuery
 from src.repositories.organizations_repository import organizations_repository
 from src.repositories.redis_sessions_repository import redis_sessions_repository
 
 from .misc_functions import is_authorized
-
+from .schemas.query_helper import MiscRequest
 
 organization_router = APIRouter(prefix="/organizations", tags=["organizations"])
 
@@ -35,10 +36,19 @@ async def add_org(payload: OrganizationsCreate):
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @organization_router.get('', response_model=OrganizationsResponse)
-async def get_orgs():
-    orgs = await organizations_repository.get_multi()
+async def get_orgs_by_filter(params: OrganizationsQuery = Depends(), misc: MiscRequest = Depends()):
+    params_dict = params.dict()
+    filter = dict()
+    for param in params_dict.keys():
+        if params_dict[param] is not None:
+            filter[param] = params_dict[param]
 
-    return JSONResponse(content={'organizations': jsonable_encoder(orgs)}, status_code=200)
+    horses = await organizations_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
+
+    if len(horses) == 0:
+        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
+
+    return JSONResponse(content={'organizations': jsonable_encoder(horses)}, status_code=200)
 
 @organization_router.get('/{id}', response_model=OrganizationsResponse)
 async def get_orgs(id: int):
