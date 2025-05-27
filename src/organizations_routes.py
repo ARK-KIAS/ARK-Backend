@@ -30,9 +30,9 @@ async def add_org(payload: OrganizationsCreate):
         return JSONResponse(content={'message': 'Organization with this telephone number already exists!'}, status_code=409)
 
 
-    await organizations_repository.create(payload)
+    out = await organizations_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @organization_router.get('', dependencies=[Depends(is_authorized)], response_model=OrganizationsResponse)
 async def get_orgs():

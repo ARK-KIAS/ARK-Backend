@@ -26,9 +26,9 @@ async def add_org(payload: HorsesRacesCreate):
     if await specialists_repository.get_single(id=payload.trainer_id) is None:
         return JSONResponse(content={'message': 'There is no trainer with that ID!'}, status_code=404)
 
-    await horses_races_repository.create(payload)
+    out = await horses_races_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @horses_races_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesRacesResponse)
 async def get_orgs():

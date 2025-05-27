@@ -19,9 +19,9 @@ async def add_org(payload: HorsesPhotosCreate):
     if await media_files_repository.get_single(id=payload.file_id) is None:
         return JSONResponse(content={'message': 'There is no photos with that ID!'}, status_code=404)
 
-    await horses_photos_repository.create(payload)
+    out = await horses_photos_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @horse_photos_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesPhotosResponse)
 async def get_orgs():

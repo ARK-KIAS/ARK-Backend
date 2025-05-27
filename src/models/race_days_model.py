@@ -10,6 +10,7 @@ from .base_model import Base
 class RaceDaysModel(Base):
     __tablename__ = "race_days"
     id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
+    organization_id: Mapped[int] = mapped_column(ForeignKey("organizations.id"))
     name: Mapped[str] = mapped_column(String(50), unique=False)
     created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     date: Mapped[date] = mapped_column(Date, nullable=True, unique=False)

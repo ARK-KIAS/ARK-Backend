@@ -22,6 +22,7 @@ from .organization_docs_routes import organization_docs_router
 from .horses_races_routes import horses_races_router
 from .horse_photos_routes import horse_photos_router
 from .bonitation_horses_routes import bonitation_horses_router
+from .races_race_days_routes import races_race_days_router
 
 def get_apps_router():
     router = APIRouter()
@@ -48,6 +49,7 @@ def get_apps_router():
     router.include_router(horse_photos_router)
     router.include_router(bonitation_horses_router)
     router.include_router(tasks_router)
+    router.include_router(races_race_days_router)
 
 
     return router

@@ -19,9 +19,9 @@ async def add_org(payload: BonitationHorsesCreate):
     if await bonitations_repository.get_single(id=payload.bonitation_id) is None:
         return JSONResponse(content={'message': 'There is no bonitation with that ID!'}, status_code=404)
 
-    await bonitation_horses_repository.create(payload)
+    out = await bonitation_horses_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @bonitation_horses_router.get('', dependencies=[Depends(is_authorized)], response_model=BonitationHorsesResponse)
 async def get_orgs():

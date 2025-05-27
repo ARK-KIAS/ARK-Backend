@@ -10,9 +10,9 @@ perm_router = APIRouter(prefix="/permissions", tags=["permission"])
 
 @perm_router.post('')
 async def add_permission(payload: PermissionsCreate):
-    await permissions_repository.create(payload)
+    out = await permissions_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @perm_router.get('', response_model=PermissionsResponse)
 async def get_permission():

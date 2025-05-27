@@ -11,9 +11,9 @@ organization_docs_router = APIRouter(prefix="/organization_docs", tags=["organiz
 
 @organization_docs_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: OrganizationsDocsCreate):
-    await organizations_docs_repository.create(payload)
+    out = await organizations_docs_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @organization_docs_router.get('', dependencies=[Depends(is_authorized)], response_model=OrganizationsDocsResponse)
 async def get_orgs():

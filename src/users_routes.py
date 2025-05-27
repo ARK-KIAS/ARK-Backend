@@ -15,9 +15,9 @@ async def add_user(payload: UsersCreate):
     if await users_repository.get_single(username = payload.username) is not None:
         return JSONResponse(content={'message': 'This username already taken!'}, status_code=409)
 
-    await users_repository.create(payload)
+    out = await users_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @user_router.get('/users', response_model=UsersResponse)
 async def get_users():

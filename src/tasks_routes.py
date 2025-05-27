@@ -22,9 +22,9 @@ async def add_org(payload: BonitationsCreate):
     if await organizations_repository.get_single(id=payload.organization_id) is None:
         return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
 
-    await bonitations_repository.create(payload)
+    out = await bonitations_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @tasks_router.get('', dependencies=[Depends(is_inspector)], response_model=BonitationsResponse)
 async def get_orgs(req: Request):

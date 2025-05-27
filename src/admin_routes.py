@@ -31,8 +31,8 @@ async def add_org(payload: MediaFilesCreate):
     if await media_files_repository.get_single(file_name=payload.file_name):
         return JSONResponse(content={'message': 'File with this name already exists!'}, status_code=409)
 
-    await media_files_repository.create(payload)
-    return JSONResponse(content={'status': 'success'}, status_code=200)
+    out = await media_files_repository.create(payload)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=200)
 
 @admin_router.get('/org/media', response_model=MediaFilesResponse)
 async def get_orgs():
@@ -73,6 +73,6 @@ async def add_org(payload: OrganizationsCreate):
         return JSONResponse(content={'message': 'Organization with this telephone number already exists!'}, status_code=409)
 
 
-    await organizations_repository.create(payload)
+    out = await organizations_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)

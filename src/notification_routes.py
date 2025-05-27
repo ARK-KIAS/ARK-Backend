@@ -18,9 +18,9 @@ notification_router = APIRouter(prefix="/notifications", tags=["notifications"])
 # Organization Repos ###################################################################################################
 @notification_router.post('', dependencies=[Depends(is_authorized)]) #todo доделать проверки входных данных
 async def create_notification(payload: NotificationsCreate):
-    await notifications_repository.create(payload)
+    out = await notifications_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @notification_router.get('', dependencies=[Depends(is_authorized)], response_model=NotificationsResponse)
 async def get_all_notifications_for_user(req: Request):

@@ -30,9 +30,9 @@ async def add_org(payload: HorsesCreate):
     if await breeds_repository.get_single(id=payload.breed_id) is None:
         return JSONResponse(content={'message': 'There is no breed with that ID!'}, status_code=404)
 
-    await horses_repository.create(payload)
+    out = await horses_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @horses_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
 async def get_orgs():

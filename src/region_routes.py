@@ -11,9 +11,9 @@ region_router = APIRouter(prefix="/regions", tags=["region"])
 # Organization Region Repos ############################################################################################
 @region_router.post('/org/regions')
 async def add_org(payload: RegionsCreate):
-    await regions_repository.create(payload)
+    out = await regions_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @region_router.get('/org/regions', response_model=RegionsResponse)
 async def get_orgs():

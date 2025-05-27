@@ -11,9 +11,9 @@ race_categories_router = APIRouter(prefix="/races_categories", tags=["race_categ
 
 @race_categories_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: RaceCategoriesCreate):
-    await race_categories_repository.create(payload)
+    out = await race_categories_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @race_categories_router.get('', dependencies=[Depends(is_authorized)], response_model=RaceCategoriesResponse)
 async def get_orgs():

@@ -11,9 +11,9 @@ owners_router = APIRouter(prefix="/owners", tags=["owners"])
 
 @owners_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: HorseOwnersCreate):
-    await horse_owners_repository.create(payload)
+    out = await horse_owners_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @owners_router.get('', dependencies=[Depends(is_authorized)], response_model=HorseOwnersResponse)
 async def get_orgs():

@@ -10,9 +10,9 @@ specialists_router = APIRouter(prefix="/specialists", tags=["specialists"])
 
 @specialists_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: SpecialistsCreate):
-    await specialists_repository.create(payload)
+    out = await specialists_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
 @specialists_router.get('', dependencies=[Depends(is_authorized)], response_model=SpecialistsResponse)
 async def get_orgs():
