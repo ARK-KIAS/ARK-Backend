@@ -13,6 +13,11 @@ race_days_router = APIRouter(prefix="/races_days", tags=["race_days"])
 
 @race_days_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: RaceDaysCreate):
+    test = await race_days_repository.get_single(date=payload.date, organization_id=payload.organization_id)
+
+    if test is not None:
+        return JSONResponse(content={'message': 'This organization already has race on that day!'}, status_code=409)
+
     out = await race_days_repository.create(payload)
 
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
