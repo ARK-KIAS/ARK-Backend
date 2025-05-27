@@ -45,6 +45,9 @@ async def get_orgs():
 async def get_orgs(id: int):
     horses = await horses_repository.get_single(id=id)
 
+    if horses is None:
+        return JSONResponse(content={'message': 'There is no horse with that ID!'}, status_code=404)
+
     return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
 
 @horses_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)

@@ -38,14 +38,15 @@ class HorsesBase(BaseModel):
     coolness: Optional[int] = Field(None, description="Оценка резвости")
     insemination_percent: Optional[int] = Field(None, ge=0, le=100, description="Процент успешных осеменений")
 
-
-class HorsesCreate(HorsesBase):
     birth_region_id: int = Field(..., description="ID региона рождения")
     passport_issued_at: datetime = Field(..., description="Дата выдачи паспорта")
     father_id: Optional[int] = Field(..., description="ID отца")
     mother_id: Optional[int] = Field(..., description="ID матери")
     organization_id: int = Field(..., description="ID организации-владельца")
     breed_id: int = Field(..., description="ID породы")
+
+
+class HorsesCreate(HorsesBase):
 
     model_config = ConfigDict(
         from_attributes=True,

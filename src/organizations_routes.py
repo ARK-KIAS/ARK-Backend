@@ -44,6 +44,9 @@ async def get_orgs():
 async def get_orgs(id: int):
     org = await organizations_repository.get_single(id=id)
 
+    if org is None:
+        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
+
     return JSONResponse(content={'organizations': jsonable_encoder(org)}, status_code=200)
 
 

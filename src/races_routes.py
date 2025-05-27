@@ -26,6 +26,9 @@ async def get_orgs():
 async def get_orgs(id: int):
     race = await races_repository.get_single(id=id)
 
+    if race is None:
+        return JSONResponse(content={'message': 'There is no race with that ID!'}, status_code=404)
+
     return JSONResponse(content={'races': jsonable_encoder(race)}, status_code=200)
 
 

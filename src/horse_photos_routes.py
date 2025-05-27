@@ -34,6 +34,9 @@ async def get_orgs():
 async def get_orgs(id: int):
     horses_photos = await horses_photos_repository.get_single(id=id)
 
+    if horses_photos is None:
+        return JSONResponse(content={'message': 'There is no horses_photos with that ID!'}, status_code=404)
+
     return JSONResponse(content={'horses_photos': jsonable_encoder(horses_photos)}, status_code=200)
 
 

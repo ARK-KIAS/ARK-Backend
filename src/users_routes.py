@@ -28,6 +28,10 @@ async def get_users():
 @user_router.get('/user/{id}', response_model=UsersResponse)
 async def get_user_by_id(id: int):
     user = await users_repository.get_single(id=id)
+
+    if user is None:
+        return JSONResponse(content={'message': 'There is no user with that ID!'}, status_code=404)
+
     return JSONResponse(content={'user': jsonable_encoder(user)}, status_code=200)
 
 

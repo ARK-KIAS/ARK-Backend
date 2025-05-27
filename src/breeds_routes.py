@@ -25,6 +25,9 @@ async def get_orgs():
 async def get_orgs(id: int):
     breed = await breeds_repository.get_single(id=id)
 
+    if breed is None:
+        return JSONResponse(content={'message': 'There is no breed with that ID!'}, status_code=404)
+
     return JSONResponse(content={'breed': jsonable_encoder(breed)}, status_code=200)
 
 

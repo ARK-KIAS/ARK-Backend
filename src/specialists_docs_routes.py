@@ -25,6 +25,9 @@ async def get_orgs():
 async def get_orgs(id: int):
     specialist_docs = await specialist_docs_repository.get_single(id=id)
 
+    if specialist_docs is None:
+        return JSONResponse(content={'message': 'There is no specialist_docs with that ID!'}, status_code=404)
+
     return JSONResponse(content={'horse': jsonable_encoder(specialist_docs)}, status_code=200)
 
 
