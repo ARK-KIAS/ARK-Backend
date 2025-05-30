@@ -3,6 +3,8 @@ from fastapi.encoders import jsonable_encoder
 from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, RedirectResponse, Response
 
+from src.repositories.media_files_repository import media_files_repository
+from src.repositories.organizations_repository import organizations_repository
 from src.schemas.query_helper import MiscRequest
 from src.schemas.specialists_schema import SpecialistsCreate, SpecialistsUpdate, SpecialistsResponse, SpecialistsQuery
 from src.repositories.specialists_repository import specialists_repository
@@ -12,6 +14,13 @@ specialists_router = APIRouter(prefix="/specialists", tags=["specialists"])
 
 @specialists_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: SpecialistsCreate):
+    if await media_files_repository.get_single(id=payload.license_id) is None:
+        return JSONResponse(content={'message': 'There is no file with that ID!'}, status_code=404)
+
+    if (await organizations_repository.get_single(id=payload.organization_id) is None
+            or await organizations_repository.get_single(id=payload.created_by_id) is None):
+        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
+
     out = await specialists_repository.create(payload)
 
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
@@ -40,6 +49,17 @@ async def get_orgs(id: int):
 
 @specialists_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=SpecialistsResponse)
 async def update_org(id: int, payload:SpecialistsUpdate):
+    if await specialists_repository.get_single(id=id) is None:
+        return JSONResponse(content={'message': 'There is no specialist with that ID!'}, status_code=404)
+
+    if payload.license_id is not None:
+        if await media_files_repository.get_single(id=payload.license_id) is None:
+            return JSONResponse(content={'message': 'There is no file with that ID!'}, status_code=404)
+
+    if (await organizations_repository.get_single(id=payload.organization_id) is None
+            or await organizations_repository.get_single(id=payload.created_by_id) is None):
+        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
+
     updated_specialist = await specialists_repository.update(payload, id=id, status_code=200)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_specialist)}, status_code=200)

@@ -4,7 +4,7 @@ from src.schemas.query_helper import make_partial_model
 
 
 class HorsesPhotosBase(BaseModel):
-    organization_id: int = Field(..., description="ID организации, загрузившей фото")
+    horse_id: int = Field(..., description="ID организации, загрузившей фото")
     file_id: int = Field(..., description="ID файла в медиа-хранилище")
 
 
@@ -14,7 +14,7 @@ class HorsesPhotosCreate(HorsesPhotosBase):
         from_attributes=True,
         json_schema_extra={
             "example": {
-                "organization_id": 123,
+                "horse_id": 123,
                 "file_id": 456
             }
         }
@@ -29,7 +29,7 @@ class HorsesPhotosUpdate(HorsesPhotosBase):
         json_schema_extra={
             "example": {
                 "id": 1,
-                "organization_id": 123,
+                "horse_id": 123,
                 "file_id": 456
             }
         }
@@ -44,7 +44,7 @@ class HorsesPhotosResponse(HorsesPhotosBase):
         json_schema_extra={
             "example": {
                 "id": 1,
-                "organization_id": 123,
+                "horse_id": 123,
                 "file_id": 456
             }
         }

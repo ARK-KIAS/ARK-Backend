@@ -17,7 +17,7 @@ from .schemas.query_helper import MiscRequest
 notification_router = APIRouter(prefix="/notifications", tags=["notifications"])
 
 # Organization Repos ###################################################################################################
-@notification_router.post('', dependencies=[Depends(is_authorized)]) #todo доделать проверки входных данных
+@notification_router.post('', dependencies=[Depends(is_authorized)])
 async def create_notification(payload: NotificationsCreate):
     out = await notifications_repository.create(payload)
 

@@ -6,6 +6,7 @@ from src.schemas.race_days_schema import RaceDaysCreate, RaceDaysUpdate, RaceDay
 from src.repositories.race_days_repository import race_days_repository
 
 from .misc_functions import is_authorized
+from .repositories.organizations_repository import organizations_repository
 from .repositories.races_race_days_repository import races_race_days_repository
 from .repositories.races_repository import races_repository
 from .schemas.query_helper import MiscRequest
@@ -18,6 +19,9 @@ async def add_org(payload: RaceDaysCreate):
 
     if test is not None:
         return JSONResponse(content={'message': 'This organization already has race on that day!'}, status_code=409)
+
+    if await organizations_repository.get_single(id=payload.organization_id) is None:
+        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
 
     out = await race_days_repository.create(payload)
 
@@ -60,6 +64,12 @@ async def get_orgs(id: int):
 
 @race_days_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=RaceDaysResponse)
 async def update_org(id: int, payload:RaceDaysUpdate):
+    if await race_days_repository.get_single(id=id) is None:
+        return JSONResponse(content={'message': 'There is no race_days with that ID!'}, status_code=404)
+
+    if await organizations_repository.get_single(id=payload.organization_id) is None:
+        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
+
     updated_race_days = await race_days_repository.update(payload, id=id, status_code=200)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_race_days)}, status_code=200)

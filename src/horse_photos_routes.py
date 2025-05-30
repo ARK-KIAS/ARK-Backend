@@ -7,16 +7,16 @@ from src.schemas.horses_photos_schema import HorsesPhotosCreate, HorsesPhotosUpd
 from src.repositories.horses_photos_repository import horses_photos_repository
 
 from .misc_functions import is_authorized
+from .repositories.horses_repository import horses_repository
 from .repositories.media_files_repository import media_files_repository
-from .repositories.organizations_repository import organizations_repository
 from .schemas.query_helper import MiscRequest
 
 horse_photos_router = APIRouter(prefix="/horses_photos", tags=["horses_photos"])
 
 @horse_photos_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: HorsesPhotosCreate):
-    if await organizations_repository.get_single(id=payload.organization_id) is None:
-        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
+    if await horses_repository.get_single(id=payload.horse_id) is None:
+        return JSONResponse(content={'message': 'There is no horse with that ID!'}, status_code=404)
 
     if await media_files_repository.get_single(id=payload.file_id) is None:
         return JSONResponse(content={'message': 'There is no photos with that ID!'}, status_code=404)
@@ -52,8 +52,8 @@ async def update_org(id: int, payload:HorsesPhotosUpdate):
     if await horses_photos_repository.get_single(id=id) is None:
         return JSONResponse(content={'message': 'There is no horse-photo with that ID!'}, status_code=404)
 
-    if await organizations_repository.get_single(id=payload.organization_id) is None:
-        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
+    if await horses_repository.get_single(id=payload.horse_id) is None:
+        return JSONResponse(content={'message': 'There is no horse with that ID!'}, status_code=404)
 
     if await media_files_repository.get_single(id=payload.file_id) is None:
         return JSONResponse(content={'message': 'There is no photos with that ID!'}, status_code=404)

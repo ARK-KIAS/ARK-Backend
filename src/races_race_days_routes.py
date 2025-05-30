@@ -7,12 +7,20 @@ from src.schemas.races_race_days_schema import RacesRaceDaysCreate, RacesRaceDay
 from src.repositories.races_race_days_repository import races_race_days_repository
 
 from .misc_functions import is_authorized
+from .repositories.race_days_repository import race_days_repository
+from .repositories.races_repository import races_repository
 from .schemas.query_helper import MiscRequest
 
 races_race_days_router = APIRouter(prefix="/races_race_days", tags=["races_race_days"])
 
 @races_race_days_router.post('', dependencies=[Depends(is_authorized)], response_model=RacesRaceDaysResponse)
 async def add_org(payload: RacesRaceDaysCreate):
+    if await race_days_repository.get_single(id=payload.race_day_id) is None:
+        return JSONResponse(content={'message': 'There is no race_days with that ID!'}, status_code=404)
+
+    if await races_repository.get_single(id=payload.race_id) is None:
+        return JSONResponse(content={'message': 'There is no race with that ID!'}, status_code=404)
+
     out = await races_race_days_repository.create(payload)
 
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
@@ -41,6 +49,15 @@ async def get_orgs(id: int):
 
 @races_race_days_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=RacesRaceDaysResponse)
 async def update_org(id: int, payload:RacesRaceDaysUpdate):
+    if await races_race_days_repository.get_single(id=payload.id) is None:
+        return JSONResponse(content={'message': 'There is no races_race_days with that ID!'}, status_code=404)
+
+    if await race_days_repository.get_single(id=payload.race_day_id) is None:
+        return JSONResponse(content={'message': 'There is no race_days with that ID!'}, status_code=404)
+
+    if await races_repository.get_single(id=payload.race_id) is None:
+        return JSONResponse(content={'message': 'There is no race with that ID!'}, status_code=404)
+
     updated_race_days = await races_race_days_repository.update(payload, id=id, status_code=200)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_race_days)}, status_code=200)

@@ -8,6 +8,8 @@ from src.repositories.organizations_repository import organizations_repository
 from src.repositories.redis_sessions_repository import redis_sessions_repository
 
 from .misc_functions import is_authorized
+from .repositories.media_files_repository import media_files_repository
+from .repositories.regions_repository import regions_repository
 from .schemas.query_helper import MiscRequest
 
 organization_router = APIRouter(prefix="/organizations", tags=["organizations"])
@@ -29,6 +31,12 @@ async def add_org(payload: OrganizationsCreate):
 
     if await organizations_repository.get_single(tel=payload.tel):
         return JSONResponse(content={'message': 'Organization with this telephone number already exists!'}, status_code=409)
+
+    if await media_files_repository.get_single(id=payload.logo_id) is None:
+        return JSONResponse(content={'message': 'There is no file with that ID!'}, status_code=404)
+
+    if await regions_repository.get_single(id=payload.region_id) is None:
+        return JSONResponse(content={'message': 'There is no region with that ID!'}, status_code=404)
 
 
     out = await organizations_repository.create(payload)
@@ -73,6 +81,15 @@ async def update_org(id: int, payload:OrganizationsUpdate):
 
     if await organizations_repository.get_single(tel=payload.tel):
         return JSONResponse(content={'message': 'Organization with this telephone number already exists!'}, status_code=409)
+
+    if await organizations_repository.get_single(id=id) is None:
+        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
+
+    if await media_files_repository.get_single(id=payload.logo_id) is None:
+        return JSONResponse(content={'message': 'There is no file with that ID!'}, status_code=404)
+
+    if await regions_repository.get_single(id=payload.region_id) is None:
+        return JSONResponse(content={'message': 'There is no region with that ID!'}, status_code=404)
 
     updated_org = await organizations_repository.update(payload, id=id)
 

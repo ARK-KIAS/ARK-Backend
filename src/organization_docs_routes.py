@@ -5,14 +5,22 @@ from fastapi.responses import JSONResponse, RedirectResponse, Response
 from src.schemas.organizations_docs_schema import OrganizationsDocsCreate, OrganizationsDocsUpdate, \
     OrganizationsDocsResponse, OrganizationsDocsQuery
 from src.repositories.organizations_docs_repository import organizations_docs_repository
+from src.repositories.organizations_repository import organizations_repository
 
 from .misc_functions import is_authorized
+from .repositories.media_files_repository import media_files_repository
 from .schemas.query_helper import MiscRequest
 
 organization_docs_router = APIRouter(prefix="/organization_docs", tags=["organization_docs"])
 
 @organization_docs_router.post('', dependencies=[Depends(is_authorized)])
 async def add_org(payload: OrganizationsDocsCreate):
+    if await organizations_repository.get_single(id=payload.organization_id) is None:
+        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
+
+    if await media_files_repository.get_single(id=payload.file_id) is None:
+        return JSONResponse(content={'message': 'There is no file with that ID!'}, status_code=404)
+
     out = await organizations_docs_repository.create(payload)
 
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
@@ -41,6 +49,15 @@ async def get_orgs(id: int):
 
 @organization_docs_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=OrganizationsDocsResponse)
 async def update_org(id: int, payload:OrganizationsDocsUpdate):
+    if await organizations_docs_repository.get_single(id=payload.id) is None:
+        return JSONResponse(content={'message': 'There is no organization-docs with that ID!'}, status_code=404)
+
+    if await organizations_repository.get_single(id=payload.organization_id) is None:
+        return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
+
+    if await media_files_repository.get_single(id=payload.file_id) is None:
+        return JSONResponse(content={'message': 'There is no file with that ID!'}, status_code=404)
+
     updated_organizations_docs = await organizations_docs_repository.update(payload, id=id, status_code=200)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_organizations_docs)}, status_code=200)
