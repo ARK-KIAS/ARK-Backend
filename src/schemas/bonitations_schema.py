@@ -17,7 +17,6 @@ class BonitationsBase(BaseModel):
     org_contact_link: str = Field(..., max_length=500, description="Ссылка на соцсеть связи")
     status: Optional[BonitationStatus] = Field(None, description="Статус бонитировки")
     type: Optional[BonitationType] = Field(None, description="Тип бонитировки")
-    is_finished: bool = Field(..., description="Выполнена ли бонитировка")
 
 
 class BonitationsCreate(BonitationsBase):

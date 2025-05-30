@@ -6,6 +6,7 @@ from src.repositories.redis_sessions_repository import redis_sessions_repository
 from src.repositories.horses_repository import horses_repository
 from src.schemas.horses_schema import HorsesCreate, HorsesUpdate, HorsesResponse, HorsesQuery
 from src.schemas.horse_history_schema import HorseHistoryCreate
+from .datatypes.enum_bonitation_status import BonitationStatus
 
 from .misc_functions import is_authorized, is_inspector
 from .schemas.query_helper import MiscRequest
@@ -110,13 +111,13 @@ async def update_org(id: int, payload:HorseHistoryCreate):
     #Достаём всех лоашдей, из текущей бонитировки, что не прошли бонитировку - is_ready=False
     bonitation_full_horses = await bonitation_horses_repository.get_multi_filtered(bonitation_id=bonitation_horses.bonitation_id, is_ready=False)
 
-    #Если такие лошади нашлись, едем дальше, если нет, то объявлем бонитировку законченой - ["is_finished"] = True
+    #Если такие лошади нашлись, едем дальше, если нет, то объявлем бонитировку законченой - bonitation_dict["status"] = BonitationStatus.finished
     if len(bonitation_full_horses) > 0:
         return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_horse)}, status_code=200)
     else:
         bonitation = await bonitations_repository.get_single(id=bonitation_horses.bonitation_id)
         bonitation_dict = bonitation.__dict__
-        bonitation_dict["is_finished"] = True
+        bonitation_dict["status"] = BonitationStatus.finished
         bonitation_model = BonitationsUpdate(**bonitation_dict)
 
         await bonitations_repository.update(bonitation_model, id=bonitation_model.id)

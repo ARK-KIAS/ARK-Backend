@@ -21,4 +21,3 @@ class BonitationsModel(Base):
     org_contact_link: Mapped[str] = mapped_column(String(500), unique=False)
     status: Mapped[BonitationStatus] = mapped_column(Enum(BonitationStatus), nullable=True, unique=False)
     type: Mapped[BonitationType] = mapped_column(Enum(BonitationType), nullable=True, unique=False)
-    is_finished: Mapped[bool] = mapped_column(Boolean)  # Bucket name

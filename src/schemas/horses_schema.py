@@ -8,7 +8,7 @@ from src.schemas.query_helper import make_partial_model
 
 class HorsesBase(BaseModel):
     chip_num: int = Field(default=None, description="Номер чипа")
-    sex: Sex = Field(default=Sex.none, description="Пол лошади")
+    sex: Sex = Field(default=None, description="Пол лошади")
     passport_series: str = Field(default="", description="Серия паспорта")
     passport_number: str = Field(default="", description="Номер паспорта")
     passport_issuer: str = Field(default="", description="Кем выдан паспорт")
@@ -16,7 +16,7 @@ class HorsesBase(BaseModel):
     suit: str = Field(default="", description="Масть")
     born_at: Optional[datetime] = Field(None, description="Дата рождения")
     dead_at: Optional[datetime] = Field(None, description="Дата смерти")
-    life_status: LifeStatus = Field(default=LifeStatus.none, description="Жизненный статус")
+    life_status: LifeStatus = Field(default=None, description="Жизненный статус")
     rating: float = Field(default=None, description="Общий рейтинг")
 
     # Физические параметры
