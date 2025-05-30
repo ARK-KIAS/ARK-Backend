@@ -18,8 +18,8 @@ class RaceCategoriesModel(Base):
     female_allowed: Mapped[bool] = mapped_column(Boolean)
     age_min: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
     age_max: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
-    breed_id: Mapped[int] = mapped_column(ForeignKey("breeds.id"))
-    region_id: Mapped[int] = mapped_column(ForeignKey("regions.id"))
+    breed_id: Mapped[int] = mapped_column(ForeignKey("breeds.id"), nullable=True)
+    region_id: Mapped[int] = mapped_column(ForeignKey("regions.id"), nullable=True)
     jockey_weight_min: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
     jockey_weight_max: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
 

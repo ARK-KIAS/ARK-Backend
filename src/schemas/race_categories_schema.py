@@ -12,8 +12,8 @@ class RaceCategoriesBase(BaseModel):
     female_allowed: bool = Field(..., description="Разрешено участие кобыл")
     age_min: Optional[int] = Field(None, ge=0, description="Минимальный возраст лошади (лет)")
     age_max: Optional[int] = Field(None, ge=0, description="Максимальный возраст лошади (лет)")
-    breed_id: int = Field(..., description="ID породы, разрешенной к участию")
-    region_id: int = Field(..., description="ID региона проведения")
+    breed_id: Optional[int] = Field(..., description="ID породы, разрешенной к участию")
+    region_id: Optional[int] = Field(..., description="ID региона проведения")
     jockey_weight_min: Optional[int] = Field(None, ge=0, description="Минимальный вес жокея (кг)")
     jockey_weight_max: Optional[int] = Field(None, ge=0, description="Максимальный вес жокея (кг)")
 
