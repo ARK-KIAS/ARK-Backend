@@ -25,9 +25,6 @@ async def get_orgs_by_filter(params: PermissionsQuery = Depends(), misc: MiscReq
 
     horses = await permissions_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
 
-    if len(horses) == 0:
-        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
-
     return JSONResponse(content={'permissions': jsonable_encoder(horses)}, status_code=200)
 
 @perm_router.put('/{id}', response_model=PermissionsResponse)

@@ -31,9 +31,6 @@ async def get_orgs_by_filter(params: UsersQuery = Depends(), misc: MiscRequest =
 
     horses = await users_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
 
-    if len(horses) == 0:
-        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
-
     return JSONResponse(content={'users': jsonable_encoder(horses)}, status_code=200)
 
 @user_router.get('/user/{id}', response_model=UsersResponse)

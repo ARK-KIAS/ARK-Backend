@@ -41,9 +41,6 @@ async def get_orgs_by_filter(params: HorsesRacesQuery = Depends(), misc: MiscReq
 
     horses = await horses_races_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
 
-    if len(horses) == 0:
-        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
-
     return JSONResponse(content={'horses_races': jsonable_encoder(horses)}, status_code=200)
 
 @horses_races_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesRacesResponse)

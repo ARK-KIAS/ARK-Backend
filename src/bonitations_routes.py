@@ -35,9 +35,6 @@ async def get_orgs_by_filter(params: BonitationsQuery = Depends(), misc: MiscReq
 
     horses = await bonitations_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
 
-    if len(horses) == 0:
-        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
-
     return JSONResponse(content={'bonitations_repository': jsonable_encoder(horses)}, status_code=200)
 
 @bonitation_router.get('/{id}', response_model=BonitationsResponse)

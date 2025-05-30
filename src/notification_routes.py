@@ -42,7 +42,4 @@ async def get_orgs_by_filter(params: NotificationsQuery = Depends(), misc: MiscR
 
     horses = await notifications_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
 
-    if len(horses) == 0:
-        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
-
     return JSONResponse(content={'notifications': jsonable_encoder(horses)}, status_code=200)

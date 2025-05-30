@@ -26,9 +26,6 @@ async def get_orgs_by_filter(params: SpecialistsQuery = Depends(), misc: MiscReq
 
     horses = await specialists_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
 
-    if len(horses) == 0:
-        return JSONResponse(content={'message': 'Filter is too strict!'}, status_code=404)
-
     return JSONResponse(content={'specialists': jsonable_encoder(horses)}, status_code=200)
 
 @specialists_router.get('/{id}', response_model=SpecialistsResponse)
