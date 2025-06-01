@@ -8,8 +8,6 @@ from src.datatypes.enum_organization_status import OrganizationStatus
 
 class OrganizationsModel(Base):
     __tablename__ = "organizations"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
-    created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     organization_type: Mapped[OrganizationType] = mapped_column(Enum(OrganizationType)) # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum
     admin_id: Mapped[int] = mapped_column(Integer, unique=False) #User id
     name: Mapped[str] = mapped_column(String(250), unique=False)

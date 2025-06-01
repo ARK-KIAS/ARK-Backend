@@ -7,5 +7,4 @@ from .base_model import Base
 
 class RegionsModel(Base):
     __tablename__ = "regions"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     name: Mapped[str] = mapped_column(String(50), unique=True)

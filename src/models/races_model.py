@@ -11,8 +11,6 @@ from src.datatypes.enum_race_type import RaceType
 
 class RacesModel(Base):
     __tablename__ = "races"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
-    created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     start_time: Mapped[time] = mapped_column(Time, nullable=True, unique=False)
     name: Mapped[str] = mapped_column(String(100), nullable=True, unique=False)
     race_day_id: Mapped[int] = mapped_column(ForeignKey("race_days.id"))

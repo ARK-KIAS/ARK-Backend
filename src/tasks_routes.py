@@ -91,7 +91,7 @@ async def update_org(id: int, payload:BonitationsUpdate):
     if await organizations_repository.get_single(id=payload.organization_id) is None:
         return JSONResponse(content={'message': 'There is no organization with that ID!'}, status_code=404)
 
-    bonitation = await bonitations_repository.update(payload, id=id, status_code=200)
+    bonitation = await bonitations_repository.update(payload, id=id)
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(bonitation)}, status_code=200)
 

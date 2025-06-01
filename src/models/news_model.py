@@ -11,9 +11,6 @@ from ..datatypes.enum_news_type import NewsType
 
 class NewsModel(Base):
     __tablename__ = "news"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
-    created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
-    updated_at: Mapped[datetime] = mapped_column(default=func.now())  # Date of creation
     title: Mapped[str] = mapped_column(String(100), unique=False) #User email
     main_text: Mapped[Text] = mapped_column(Text, unique=False) #Text of the notification
     type: Mapped[NewsType] = mapped_column(Enum(NewsType), unique=False) # https://docs.sqlalchemy.org/en/20/core/type_basics.html#sqlalchemy.types.Enum

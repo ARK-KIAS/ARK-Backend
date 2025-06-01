@@ -7,9 +7,7 @@ from .base_model import Base
 
 class HorseHistoryModel(Base):
     __tablename__ = "horses_history"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     horse_id: Mapped[datetime] = mapped_column(ForeignKey("horses.id")) #Date of creation
-    updated_at: Mapped[datetime] = mapped_column(default=func.now())
 
     height: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)
     oblique_length: Mapped[int] = mapped_column(Integer, nullable=True, unique=False)

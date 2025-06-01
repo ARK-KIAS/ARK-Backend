@@ -88,7 +88,7 @@ async def is_inspector(request: Request):
     if user_permission is None:
         raise HTTPException(detail="Somehow user without permission!", status_code=404)
 
-    if user_permission.name == inspector_permission_name:
+    if user_permission.bonitation_full:
         return True
     else:
         raise HTTPException(detail="You are not inspector!", status_code=403)

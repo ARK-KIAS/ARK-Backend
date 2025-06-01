@@ -21,6 +21,11 @@ async def add_org(payload: BonitationHorsesCreate):
     if await bonitations_repository.get_single(id=payload.bonitation_id) is None:
         return JSONResponse(content={'message': 'There is no bonitation with that ID!'}, status_code=404)
 
+    test = await bonitation_horses_repository.get_single(bonitation_id=payload.bonitation_id, horse_id=payload.horse_id)
+
+    if test is not None:
+        return JSONResponse(content={'message': 'This horse already added to that bonitation!'}, status_code=409)
+
     out = await bonitation_horses_repository.create(payload)
 
     return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)

@@ -8,7 +8,7 @@ from src.schemas.query_helper import make_partial_model
 
 class BonitationsBase(BaseModel):
     organization_id: int = Field(..., description="ID организации-заказчика")
-    inspector_id: int = Field(..., description="ID инспектора, взявшего бонитировку")
+    inspector_id: Optional[int] = Field(..., description="ID инспектора, взявшего бонитировку")
     prefers_time_min: Optional[datetime] = Field(None, description="Предпочитаемое время начала (от)")
     prefers_time_max: Optional[datetime] = Field(None, description="Предпочитаемое время окончания (до)")
     comment: Optional[str] = Field(None, max_length=500, description="Комментарий от организации")
