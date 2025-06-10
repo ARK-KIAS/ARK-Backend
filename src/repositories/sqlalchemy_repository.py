@@ -1,5 +1,6 @@
 from typing import Type, TypeVar, Optional, Generic
 
+from dns.resolver import query
 from pydantic import BaseModel
 from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -86,3 +87,20 @@ class SqlAlchemyRepository(AbstractRepository, Generic[ModelType, CreateSchemaTy
             row = await session.execute(stmt)
             return row.scalars().all()
 
+    async def get_single_join(self, join, **filters) -> Optional[ModelType] | None:
+        async with self._session_factory() as session:
+            row = await session.execute(select(self.model).join(join).filter_by(**filters))
+            return row.scalar_one_or_none()
+
+    async def get_multi_join(
+            self,
+            join_model,
+            join,
+            order: str = "id",
+            limit: int = 100,
+            offset: int = 0
+    ) -> list[ModelType]:
+        async with self._session_factory() as session:
+            stmt = query(self.model).join(join).order_by(order).limit(limit).offset(offset)
+            row = await session.execute(stmt)
+            return row.scalars().all()

@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from .auth_routes import auth_router
 from .bonitations_routes import bonitation_router
+from .document_routes import document_router
 from .horse_history_routes import history_router
 from .notification_routes import notification_router
 from .organizations_routes import organization_router
@@ -53,6 +54,7 @@ def get_apps_router():
     router.include_router(races_race_days_router)
 
     router.include_router(news_router)
+    router.include_router(document_router)
 
 
     return router
