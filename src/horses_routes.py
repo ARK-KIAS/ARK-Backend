@@ -94,7 +94,7 @@ async def update_org(id: int, payload:HorseHistoryCreate):
     #Добавляем данные бонитировки в историю лошадей
     await horse_history_repository.create(payload)
 
-    #Достаем объект bonitation_horses для текущей лошади, если текущая лошадь уже появлялась в этой бонитировке, херачим 404
+    #Достаем объект bonitation_horses для текущей лошади, если текущая лошадь уже появлялась в этой бонитировке
     bonitation_horses = await bonitation_horses_repository.get_single(horse_id=id, is_ready=False)
 
     if bonitation_horses is None:
