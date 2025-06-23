@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 
+from src.schemas.query_helper import make_partial_model
+
 
 class SpecialistDocsBase(BaseModel):
     specialist_id: int = Field(..., description="ID специалиста, к которому относится документ")
@@ -47,3 +49,5 @@ class SpecialistDocsResponse(SpecialistDocsBase):
             }
         }
     )
+
+SpecialistDocsQuery = make_partial_model(SpecialistDocsResponse)

@@ -9,8 +9,6 @@ from .base_model import Base
 
 class SpecialistsModel(Base):
     __tablename__ = "specialists"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
-    created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     given_name: Mapped[str] = mapped_column(String(50), unique=False)
     family_name: Mapped[str] = mapped_column(String(50), unique=False)
     middle_name: Mapped[str] = mapped_column(String(50), unique=False)

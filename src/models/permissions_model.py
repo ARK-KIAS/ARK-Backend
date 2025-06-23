@@ -7,8 +7,6 @@ from .base_model import Base
 
 class PermissionsModel(Base):
     __tablename__ = "permissions"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
-    created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     name: Mapped[str] = mapped_column(String(50), unique=True) #Name of permission
     accounts_all: Mapped[bool] = mapped_column(Boolean) #Is full access to accounts
     races_full: Mapped[bool] = mapped_column(Boolean) #Is full access to races data

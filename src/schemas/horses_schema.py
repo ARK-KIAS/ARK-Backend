@@ -3,11 +3,12 @@ from pydantic import BaseModel, Field, ConfigDict, HttpUrl, create_model
 from typing import Optional
 from src.datatypes.enum_sex import Sex
 from src.datatypes.enum_life_status import LifeStatus
+from src.schemas.query_helper import make_partial_model
 
 
 class HorsesBase(BaseModel):
-    chip_num: int = Field(default=0, description="Номер чипа")
-    sex: Sex = Field(default=Sex.none, description="Пол лошади")
+    chip_num: int = Field(default=None, description="Номер чипа")
+    sex: Sex = Field(default=None, description="Пол лошади")
     passport_series: str = Field(default="", description="Серия паспорта")
     passport_number: str = Field(default="", description="Номер паспорта")
     passport_issuer: str = Field(default="", description="Кем выдан паспорт")
@@ -15,8 +16,8 @@ class HorsesBase(BaseModel):
     suit: str = Field(default="", description="Масть")
     born_at: Optional[datetime] = Field(None, description="Дата рождения")
     dead_at: Optional[datetime] = Field(None, description="Дата смерти")
-    life_status: LifeStatus = Field(default=LifeStatus.none, description="Жизненный статус")
-    rating: float = Field(default=0.0, description="Общий рейтинг")
+    life_status: LifeStatus = Field(default=None, description="Жизненный статус")
+    rating: float = Field(default=None, description="Общий рейтинг")
 
     # Физические параметры
     height: Optional[int] = Field(None, description="Высота в холке (см)")
@@ -38,14 +39,15 @@ class HorsesBase(BaseModel):
     coolness: Optional[int] = Field(None, description="Оценка резвости")
     insemination_percent: Optional[int] = Field(None, ge=0, le=100, description="Процент успешных осеменений")
 
+    birth_region_id: Optional[int] = Field(None, description="ID региона рождения")
+    passport_issued_at: Optional[datetime] = Field(None, description="Дата выдачи паспорта")
+    father_id: Optional[int] = Field(None, description="ID отца")
+    mother_id: Optional[int] = Field(None, description="ID матери")
+    organization_id: Optional[int] = Field(None, description="ID организации-владельца")
+    breed_id: Optional[int] = Field(None, description="ID породы")
+
 
 class HorsesCreate(HorsesBase):
-    birth_region_id: int = Field(..., description="ID региона рождения")
-    passport_issued_at: datetime = Field(..., description="Дата выдачи паспорта")
-    father_id: Optional[int] = Field(..., description="ID отца")
-    mother_id: Optional[int] = Field(..., description="ID матери")
-    organization_id: int = Field(..., description="ID организации-владельца")
-    breed_id: int = Field(..., description="ID породы")
 
     model_config = ConfigDict(
         from_attributes=True,
@@ -106,8 +108,8 @@ class HorsesUpdate(HorsesBase):
 
 
 class HorsesResponse(HorsesBase):
-    id: int = Field(..., description="Уникальный ID лошади")
-    created_at: datetime = Field(..., description="Дата создания записи")
+    id: int = Field(None, description="Уникальный ID лошади")
+    created_at: Optional[datetime] = Field(None, description="Дата создания записи")
 
     model_config = ConfigDict(
         from_attributes=True,
@@ -137,6 +139,4 @@ class HorsesResponse(HorsesBase):
         }
     )
 
-query_params = {"org_id": (int, None)}
-
-horses_query_model = create_model("HorsesQuery", **query_params)
+HorsesQuery = make_partial_model(HorsesResponse)

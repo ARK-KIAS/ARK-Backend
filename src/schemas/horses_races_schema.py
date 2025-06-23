@@ -2,18 +2,20 @@ from datetime import datetime, timedelta
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
+from src.schemas.query_helper import make_partial_model
+
 
 class HorsesRacesBase(BaseModel):
     race_id: int = Field(..., description="ID забега/соревнования")
     horse_id: int = Field(..., description="ID лошади-участницы")
-    rider_id: int = Field(..., description="ID жокея/наездника")
-    trainer_id: int = Field(..., description="ID тренера")
+    rider_id: Optional[int] = Field(None, description="ID жокея/наездника")
+    trainer_id: Optional[int] = Field(None, description="ID тренера")
     time: Optional[timedelta] = Field(None, description="Зафиксированное время прохождения дистанции")
     result_place: Optional[int] = Field(None, ge=1, description="Занятое место в забеге")
     start_place: Optional[int] = Field(None, ge=1, description="Стартовый номер/позиция")
     prize_money: Optional[int] = Field(None, ge=0, description="Сумма выигрыша")
     handicap: Optional[int] = Field(None, description="Гандикап (вес и т.д.)")
-    doping_control_ok: bool = Field(..., description="Прошел ли допинг-контроль")
+    doping_control_ok: Optional[bool] = Field(None, description="Прошел ли допинг-контроль")
 
 
 class HorsesRacesCreate(HorsesRacesBase):
@@ -83,3 +85,5 @@ class HorsesRacesResponse(HorsesRacesBase):
             }
         }
     )
+
+HorsesRacesQuery = make_partial_model(HorsesRacesResponse)

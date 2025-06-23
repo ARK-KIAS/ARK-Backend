@@ -4,10 +4,12 @@ from fastapi.responses import JSONResponse, RedirectResponse, Response
 
 from src.repositories.redis_sessions_repository import redis_sessions_repository
 from src.repositories.horses_repository import horses_repository
-from src.schemas.horses_schema import HorsesCreate, HorsesUpdate, HorsesResponse, horses_query_model
+from src.schemas.horses_schema import HorsesCreate, HorsesUpdate, HorsesResponse, HorsesQuery
 from src.schemas.horse_history_schema import HorseHistoryCreate
+from .datatypes.enum_bonitation_status import BonitationStatus
 
-from .misc_functions import is_authorized
+from .misc_functions import is_authorized, is_inspector
+from .schemas.query_helper import MiscRequest
 from .repositories.bonitation_horses_repository import bonitation_horses_repository
 from .repositories.bonitations_repository import bonitations_repository
 from .repositories.breeds_repository import breeds_repository
@@ -30,29 +32,30 @@ async def add_org(payload: HorsesCreate):
     if await breeds_repository.get_single(id=payload.breed_id) is None:
         return JSONResponse(content={'message': 'There is no breed with that ID!'}, status_code=404)
 
-    await horses_repository.create(payload)
+    out = await horses_repository.create(payload)
 
-    return JSONResponse(content={'status': 'success'}, status_code=201)
+    return JSONResponse(content={'status': 'success', 'output': jsonable_encoder(out)}, status_code=201)
 
-@horses_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
-async def get_orgs():
-    horses = await horses_repository.get_multi()
-
-    return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
-    #return horses
-
-@horses_router.get('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
+@horses_router.get('/{id}', response_model=HorsesResponse)
 async def get_orgs(id: int):
     horses = await horses_repository.get_single(id=id)
 
+    if horses is None:
+        return JSONResponse(content={'message': 'There is no horse with that ID!'}, status_code=404)
+
     return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
 
-@horses_router.get('', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
-async def get_orgs_by_filter(params: horses_query_model = Depends()):
+@horses_router.get('', response_model=HorsesResponse)
+async def get_orgs_by_filter(params: HorsesQuery = Depends(), misc: MiscRequest = Depends()):
     params_dict = params.dict()
-    horses = await horses_repository.get_multi_filtered(organization_id=params_dict["org_id"])
+    filter = dict()
+    for param in params_dict.keys():
+        if params_dict[param] is not None:
+            filter[param] = params_dict[param]
 
-    return JSONResponse(content={'horses': jsonable_encoder(horses)}, status_code=200)
+    horses = await horses_repository.get_multi_filtered(**filter, order=misc.order, limit=misc.limit, offset=misc.offset)
+
+    return JSONResponse(content={'horses_repository': jsonable_encoder(horses)}, status_code=200)
 
 
 @horses_router.put('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
@@ -73,7 +76,7 @@ async def update_org(id: int, payload:HorsesUpdate):
 
     return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_horse)}, status_code=200)
 
-@horses_router.patch('/{id}', dependencies=[Depends(is_authorized)], response_model=HorsesResponse)
+@horses_router.patch('/{id}', dependencies=[Depends(is_inspector)], response_model=HorsesResponse)
 async def update_org(id: int, payload:HorseHistoryCreate):
     #Переводим пэйлоад в словарь и убираем horse_id
     payload_dict = payload.dict()
@@ -91,7 +94,7 @@ async def update_org(id: int, payload:HorseHistoryCreate):
     #Добавляем данные бонитировки в историю лошадей
     await horse_history_repository.create(payload)
 
-    #Достаем объект bonitation_horses для текущей лошади, если текущая лошадь уже появлялась в этой бонитировке, херачим 404
+    #Достаем объект bonitation_horses для текущей лошади, если текущая лошадь уже появлялась в этой бонитировке
     bonitation_horses = await bonitation_horses_repository.get_single(horse_id=id, is_ready=False)
 
     if bonitation_horses is None:
@@ -108,13 +111,13 @@ async def update_org(id: int, payload:HorseHistoryCreate):
     #Достаём всех лоашдей, из текущей бонитировки, что не прошли бонитировку - is_ready=False
     bonitation_full_horses = await bonitation_horses_repository.get_multi_filtered(bonitation_id=bonitation_horses.bonitation_id, is_ready=False)
 
-    #Если такие лошади нашлись, едем дальше, если нет, то объявлем бонитировку законченой - ["is_finished"] = True
+    #Если такие лошади нашлись, едем дальше, если нет, то объявлем бонитировку законченой - bonitation_dict["status"] = BonitationStatus.finished
     if len(bonitation_full_horses) > 0:
         return JSONResponse(content={'status': 'success', 'update': jsonable_encoder(updated_horse)}, status_code=200)
     else:
         bonitation = await bonitations_repository.get_single(id=bonitation_horses.bonitation_id)
         bonitation_dict = bonitation.__dict__
-        bonitation_dict["is_finished"] = True
+        bonitation_dict["status"] = BonitationStatus.finished
         bonitation_model = BonitationsUpdate(**bonitation_dict)
 
         await bonitations_repository.update(bonitation_model, id=bonitation_model.id)

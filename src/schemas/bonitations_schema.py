@@ -3,11 +3,12 @@ from pydantic import BaseModel, Field, ConfigDict, HttpUrl
 from typing import Optional
 from src.datatypes.enum_bonitation_status import BonitationStatus
 from src.datatypes.enum_bonitation_type import BonitationType
+from src.schemas.query_helper import make_partial_model
 
 
 class BonitationsBase(BaseModel):
     organization_id: int = Field(..., description="ID организации-заказчика")
-    inspector_id: int = Field(..., description="ID инспектора, взявшего бонитировку")
+    inspector_id: Optional[int] = Field(..., description="ID инспектора, взявшего бонитировку")
     prefers_time_min: Optional[datetime] = Field(None, description="Предпочитаемое время начала (от)")
     prefers_time_max: Optional[datetime] = Field(None, description="Предпочитаемое время окончания (до)")
     comment: Optional[str] = Field(None, max_length=500, description="Комментарий от организации")
@@ -16,7 +17,6 @@ class BonitationsBase(BaseModel):
     org_contact_link: str = Field(..., max_length=500, description="Ссылка на соцсеть связи")
     status: Optional[BonitationStatus] = Field(None, description="Статус бонитировки")
     type: Optional[BonitationType] = Field(None, description="Тип бонитировки")
-    is_finished: bool = Field(..., description="Выполнена ли бонитировка")
 
 
 class BonitationsCreate(BonitationsBase):
@@ -95,3 +95,5 @@ class BonitationsResponse(BonitationsBase):
             }
         }
     )
+
+BonitationsQuery = make_partial_model(BonitationsResponse)

@@ -8,8 +8,6 @@ from .base_model import Base
 
 class RedisSessionsModel(Base):
     __tablename__ = "redis_sessions"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
-    created_at: Mapped[datetime] = mapped_column(default=func.now()) #Date of creation
     expired_at: Mapped[datetime] = mapped_column(default=func.now() + timedelta(days=settings.EXPIRED_AFTER)) #Date of expiring
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id")) #User id
     access_token: Mapped[Uuid] = mapped_column(Uuid, unique=True) #Unique access token

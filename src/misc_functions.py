@@ -1,10 +1,7 @@
-from fastapi import APIRouter, HTTPException, Request, Depends
-from fastapi.responses import JSONResponse, RedirectResponse, Response
+from fastapi import HTTPException, Request
 
 from src.repositories.permissions_repository import permissions_repository
 from src.repositories.users_repository import users_repository
-from src.schemas.organizations_schema import OrganizationsCreate, OrganizationsUpdate
-from src.repositories.organizations_repository import organizations_repository
 from src.repositories.redis_sessions_repository import redis_sessions_repository
 
 inspector_permission_name = "inspector" #Important shit! Using this to differentiate between user and inspector!
@@ -91,7 +88,7 @@ async def is_inspector(request: Request):
     if user_permission is None:
         raise HTTPException(detail="Somehow user without permission!", status_code=404)
 
-    if user_permission.name == inspector_permission_name:
+    if user_permission.bonitation_full:
         return True
     else:
         raise HTTPException(detail="You are not inspector!", status_code=403)

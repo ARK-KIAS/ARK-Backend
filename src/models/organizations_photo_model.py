@@ -8,6 +8,5 @@ from .base_model import Base
 
 class OrganizationsPhotoModel(Base):
     __tablename__ = "organizations_photo"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True) #Unique id
     organization_id: Mapped[int] = mapped_column(ForeignKey("organizations.id")) #Bucket name
     file_id: Mapped[int] = mapped_column(ForeignKey("media_files.id")) #Bucket name

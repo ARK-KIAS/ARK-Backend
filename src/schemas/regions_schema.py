@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 
+from src.schemas.query_helper import make_partial_model
+
 
 class RegionsBase(BaseModel):
     name: str = Field(..., max_length=50, description="Название региона")
@@ -43,3 +45,5 @@ class RegionsResponse(RegionsBase):
             }
         }
     )
+
+RegionsQuery = make_partial_model(RegionsResponse)

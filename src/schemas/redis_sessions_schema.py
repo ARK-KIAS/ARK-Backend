@@ -3,6 +3,8 @@ from pydantic import BaseModel, Field, ConfigDict
 from uuid import UUID
 from typing import Optional
 
+from src.schemas.query_helper import make_partial_model
+
 
 class RedisSessionsBase(BaseModel):
     # access_token: UUID = Field(..., description="Уникальный токен доступа")
@@ -94,3 +96,5 @@ class RedisSessionsResponse(RedisSessionsBase):
             }
         }
     )
+
+RedisSessionsQuery = make_partial_model(RedisSessionsResponse)

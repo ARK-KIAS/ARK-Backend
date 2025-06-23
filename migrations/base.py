@@ -23,3 +23,6 @@ from src.models.race_days_model import RaceDaysModel
 from src.models.race_categories_model import RaceCategoriesModel
 from src.models.races_model import RacesModel
 from src.models.horses_races_model import HorsesRacesModel
+from src.models.races_race_days_model import RacesRaceDaysModel
+from src.models.news_model import NewsModel
+from src.models.media_files_groups_model import MediaFilesGroupsModel

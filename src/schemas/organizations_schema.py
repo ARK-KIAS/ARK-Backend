@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field, ConfigDict, EmailStr, HttpUrl
 from typing import Optional
 from src.datatypes.enum_organization_type import OrganizationType
 from src.datatypes.enum_organization_status import OrganizationStatus
+from src.schemas.query_helper import make_partial_model
 
 
 class OrganizationsBase(BaseModel):
@@ -145,3 +146,5 @@ class OrganizationsResponse(OrganizationsBase):
             }
         }
     )
+
+OrganizationsQuery = make_partial_model(OrganizationsResponse)

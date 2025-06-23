@@ -5,10 +5,10 @@ from src.datatypes.enum_currency_type import CurrencyType
 from src.datatypes.enum_track_cover import TrackCover
 from src.datatypes.enum_track_status import TrackStatus
 from src.datatypes.enum_race_type import RaceType
+from src.schemas.query_helper import make_partial_model
 
 
 class RacesBase(BaseModel):
-    organization_id: int = Field(..., description="ID организации-организатора")
     start_time: Optional[time] = Field(None, description="Время начала забега")
     name: Optional[str] = Field(None, max_length=100, description="Название забега")
     race_day_id: int = Field(..., description="ID гоночного дня")
@@ -30,7 +30,6 @@ class RacesCreate(RacesBase):
         from_attributes=True,
         json_schema_extra={
             "example": {
-                "organization_id": 123,
                 "start_time": "14:30:00",
                 "name": "Гран-при Москвы",
                 "race_day_id": 5,
@@ -57,7 +56,6 @@ class RacesUpdate(RacesBase):
         json_schema_extra={
             "example": {
                 "id": 1,
-                "organization_id": 123,
                 "start_time": "14:30:00",
                 "name": "Гран-при Москвы",
                 "race_day_id": 5,
@@ -85,7 +83,6 @@ class RacesResponse(RacesBase):
         json_schema_extra={
             "example": {
                 "id": 1,
-                "organization_id": 123,
                 "created_at": "2023-01-01T00:00:00",
                 "start_time": "14:30:00",
                 "name": "Гран-при Москвы",
@@ -103,3 +100,5 @@ class RacesResponse(RacesBase):
             }
         }
     )
+
+RacesQuery = make_partial_model(RacesResponse)

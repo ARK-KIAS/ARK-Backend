@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
+from src.schemas.query_helper import make_partial_model
+
 
 class HorseOwnersBase(BaseModel):
     organization_id: int = Field(..., description="ID организации-владельца")
@@ -56,3 +58,5 @@ class HorseOwnersResponse(HorseOwnersBase):
             }
         }
     )
+
+HorseOwnersQuery = make_partial_model(HorseOwnersResponse)
